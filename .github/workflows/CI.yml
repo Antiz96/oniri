@@ -1,0 +1,33 @@
+name: CI
+on: pull_request
+
+jobs:
+  Test:
+    runs-on:
+      - self-hosted
+      - CI-CD
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v6
+
+      - name: Run actionlint
+        run: actionlint -ignore 'label "CI-CD" is unknown' .github/workflows/CI.yml
+
+      - name: Run codespell
+        run: codespell --enable-colors
+
+      - name: Run mdl
+        run: mdl --style .github/workflows/mdl_style.rb .
+
+      - name: Run cargo fmt
+        run: cargo fmt --check
+
+      - name: Run cargo clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Run cargo test
+        run: cargo test
+
+      - name: Run cargo build
+        run: cargo build --release
