@@ -14,7 +14,9 @@ mod socket;
 
 fn main() -> anyhow::Result<()> {
     // Show name and version if the -V / --version arg is passed
-    version::show_version();
+    if version::show_version() {
+        return Ok(());
+    }
 
     // Initialize socket connections to niri IPC
     let (event_socket, mut action_socket) = socket::initialize_socket_connections()?;
