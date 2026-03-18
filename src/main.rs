@@ -15,7 +15,7 @@ fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    // Initialize socket connections to niri IPC
+    // Initialize connections to niri IPC socket
     let (event_socket, mut action_socket) = socket::initialize_socket_connections()?;
 
     // Gather state and create an outputs map
