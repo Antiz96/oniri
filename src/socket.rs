@@ -1,4 +1,4 @@
-// Import modules
+// Import external modules
 use niri_ipc::{Request, Response, socket::Socket};
 
 pub fn initialize_socket_connections() -> anyhow::Result<(Socket, Socket)> {

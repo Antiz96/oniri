@@ -1,8 +1,8 @@
-// Import modules
+// Import external modules
 use niri_ipc::{Output, Request, socket::Socket};
 use std::collections::HashMap;
 
-// Import internal libraries
+// Import internal modules
 use crate::sizecompare::is_maximized; // https://github.com/Antiz96/oniri/issues/3
 
 // Check if there's only one window in the workspace/window(s) map & maximize it if so,

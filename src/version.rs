@@ -1,4 +1,4 @@
-// Import modules
+// Import external modules
 use std::env;
 
 // Define NAME & VERSION constants, fetched from Cargo metadata

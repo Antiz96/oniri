@@ -1,8 +1,8 @@
-// Import modules
+// Import external modules
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::collections::HashMap;
 
-// Import internal libraries
+// Import internal modules
 mod maximize;
 mod outputs; // https://github.com/Antiz96/oniri/issues/3
 mod sizecompare; // https://github.com/Antiz96/oniri/issues/3
