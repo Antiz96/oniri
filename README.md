@@ -14,11 +14,18 @@ Oniri is a tool that automatically maximizes the **on**ly window of a **niri** w
 
 ## Installation
 
-### AUR
+### Packages
 
-Arch Linux users can install the [oniri](https://aur.archlinux.org/packages/oniri) AUR package.
+[![Packaging status](https://repology.org/badge/vertical-allrepos/oniri.svg)](https://repology.org/project/oniri/versions)
 
-### From Source
+### Pre-compiled binary
+
+A pre-compiled binary for the `x86_64 (amd64)` architecture is distributed as a [release asset](https://github.com/Antiz96/oniri/releases/latest) (`oniri-<version>-amd64`).  
+You can download it, make it executable, rename it `oniri` and copy it somewhere in your `$PATH`.
+
+### Build from source
+
+Requires `rustup` and `gcc`.
 
 ```bash
 git clone https://github.com/Antiz96/oniri.git
@@ -26,7 +33,8 @@ cd oniri
 cargo build --release
 ```
 
-The built binary will be located at `./target/release/oniri`, copy it somewhere in your `$PATH`.
+The built binary will be located at `./target/release/oniri`.  
+You can copy it somewhere in your `$PATH`.
 
 ## Usage
 
