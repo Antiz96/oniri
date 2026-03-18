@@ -8,6 +8,7 @@ license = "GPL-3.0-or-later"
 
 [dependencies]
 niri-ipc = "25.11.0"
+anyhow = "1.0.102"
 
 [dev-dependencies]
 assert_cmd = "2.0.0"

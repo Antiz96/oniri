@@ -1,4 +1,6 @@
-// Import the assert_cmd and predicates modules to respectively assert on stdout/stderr and check exit codes
+// Import modules
+// assert_cmd::Command to run a command and assert on exit code & stdout/stderr
+// predicates::str::contains to predicate command output
 use assert_cmd::Command;
 use predicates::str::contains;
 
