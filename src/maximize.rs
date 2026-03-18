@@ -17,7 +17,7 @@ pub fn maximize_window_if_alone(
         if windows.len() == 1 {
             let id = windows[0];
             // https://github.com/Antiz96/oniri/issues/3
-            if !is_maximized(&state, &outputs, id) {
+            if !is_maximized(state, outputs, id) {
                 let _ = action_socket.send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
                 println!("Maximized window {}", id);
             }
