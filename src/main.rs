@@ -1,7 +1,7 @@
 // Import modules
 // niri_ipc::* to connect & gather events from niri's IPC socket and act on those
 // For niri_ipc::Output and niri_ipc::state::EventStreamState{,,Part}, see https://github.com/Antiz96/oniri/issues/3
-// std::HashMap to create maps
+// std::collections::HashMap to create maps
 use niri_ipc::{
     Event, Output, Request, Response, socket::Socket, state::EventStreamState,
     state::EventStreamStatePart,
