@@ -3,14 +3,13 @@
 // For niri_ipc::Output and niri_ipc::state::EventStreamState{,,Part}, see https://github.com/Antiz96/oniri/issues/3
 // std::collections::HashMap to create maps
 use niri_ipc::{
-    Event, Output, Request, Response, state::EventStreamState,
-    state::EventStreamStatePart,
+    Event, Output, Request, Response, state::EventStreamState, state::EventStreamStatePart,
 };
 use std::collections::HashMap;
 
 // Import internal libraries
-mod version;
 mod socket;
+mod version;
 
 fn main() -> anyhow::Result<()> {
     // Show name and version if the -V / --version arg is passed
