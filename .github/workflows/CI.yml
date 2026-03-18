@@ -20,6 +20,9 @@ jobs:
       - name: Run mdl
         run: mdl --style .github/workflows/mdl_style.rb .
 
+      - name: Run shellcheck
+        run: find . -name '*.sh' -exec shellcheck --color=always {} +
+
       - name: Run cargo fmt
         run: cargo fmt --check
 

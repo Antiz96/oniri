@@ -83,7 +83,23 @@ gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "oniri-${release_tag}.ta
 sha256sum "oniri-${release_tag}.tar.gz" > "oniri-${release_tag}.tar.gz.sha256"
 gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "oniri-${release_tag}.tar.gz.sha256"
 
-# Upload source tarball and checksum signatures
-gh release upload "v${release_tag}" "oniri-${release_tag}.tar.gz.asc" "oniri-${release_tag}.tar.gz.sha256" "oniri-${release_tag}.tar.gz.sha256.asc"
-rm -f "oniri-${release_tag}.tar.gz"*
+# Build and sign binary and checksum
+rm -rf target/ && cargo build --release
+mv target/release/oniri "target/release/oniri-${release_tag}-amd64"
+gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "target/release/oniri-${release_tag}-amd64"
+sha256sum "target/release/oniri-${release_tag}-amd64" > "target/release/oniri-${release_tag}-amd64.sha256"
+gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "target/release/oniri-${release_tag}-amd64.sha256"
+
+# Upload assets
+gh release upload "v${release_tag}" \
+	"oniri-${release_tag}.tar.gz.asc" \
+	"oniri-${release_tag}.tar.gz.sha256" \
+	"oniri-${release_tag}.tar.gz.sha256.asc" \
+	"target/release/oniri-${release_tag}-amd64" \
+	"target/release/oniri-${release_tag}-amd64.asc" \
+	"target/release/oniri-${release_tag}-amd64.sha256" \
+	"target/release/oniri-${release_tag}-amd64.sha256.asc"
+
+# Cleanup
+rm -rf "oniri-${release_tag}.tar.gz"* target/
 
