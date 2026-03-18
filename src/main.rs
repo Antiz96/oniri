@@ -1,13 +1,14 @@
 // Import modules
 // niri_ipc::* to connect & gather events from niri's IPC socket and act on those
-// For niri_ipc::Output and niri_ipc::state::EventStreamState{,,Part}, see https://github.com/Antiz96/oniri/issues/3
+// For niri_ipc::Output and niri_ipc::state::EventStreamState, see https://github.com/Antiz96/oniri/issues/3
 // std::collections::HashMap to create maps
 use niri_ipc::{
-    Event, Output, Request, Response, state::EventStreamState, state::EventStreamStatePart,
+    Event, Output, Request, state::EventStreamState, state::EventStreamStatePart
 };
 use std::collections::HashMap;
 
 // Import internal libraries
+mod outputs; // https://github.com/Antiz96/oniri/issues/3
 mod socket;
 mod version;
 
@@ -20,20 +21,10 @@ fn main() -> anyhow::Result<()> {
     // Initialize socket connections to niri IPC
     let (event_socket, mut action_socket) = socket::initialize_socket_connections()?;
 
-    // Gather the whole state and create an outputs map
-    // This is used later to workaround some limitations of the niri IPC
-    // See https://github.com/Antiz96/oniri/issues/3
+    // Gather state and create an outputs map
+    // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let mut state = EventStreamState::default();
-    let response = action_socket.send(Request::Outputs)?;
-    let output_list: HashMap<String, Output> = match response {
-        Ok(Response::Outputs(outputs)) => outputs,
-        _ => HashMap::new(),
-    };
-    let mut outputs: HashMap<String, Output> = HashMap::new();
-    for (name, output) in output_list {
-        outputs.insert(name.clone(), output);
-        println!("Registered output: {}", name);
-    }
+    let outputs = outputs::outputs_maps(&mut action_socket)?;
 
     let mut read_event = event_socket.read_events();
 
