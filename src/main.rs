@@ -62,8 +62,8 @@ fn main() -> anyhow::Result<()> {
                     &workspace_windows,
                     &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3
-                    tol_h, // https://github.com/Antiz96/oniri/issues/3
-                    tol_w, // https://github.com/Antiz96/oniri/issues/3
+                    tol_h,    // https://github.com/Antiz96/oniri/issues/3
+                    tol_w,    // https://github.com/Antiz96/oniri/issues/3
                     &mut action_socket,
                 )?;
             }
@@ -81,8 +81,8 @@ fn main() -> anyhow::Result<()> {
                     &workspace_windows,
                     &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3
-                    tol_h, // https://github.com/Antiz96/oniri/issues/3
-                    tol_w, // https://github.com/Antiz96/oniri/issues/3
+                    tol_h,    // https://github.com/Antiz96/oniri/issues/3
+                    tol_w,    // https://github.com/Antiz96/oniri/issues/3
                     &mut action_socket,
                 )?;
             }

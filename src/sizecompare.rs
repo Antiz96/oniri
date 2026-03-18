@@ -48,7 +48,6 @@ pub fn is_maximized(
     tol_w: i32,
     tol_h: i32,
 ) -> bool {
-
     let window = match state.windows.windows.get(&window_id) {
         Some(w) => w,
         None => {
