@@ -21,6 +21,7 @@ fn main() -> anyhow::Result<()> {
     let mut state = EventStreamState::default();
     let outputs = outputs::outputs_maps(&mut action_socket)?;
 
+    // Read events gathered from the IPC socket
     let mut read_event = event_socket.read_events();
 
     // Create a window(s)/workspace map
@@ -29,7 +30,9 @@ fn main() -> anyhow::Result<()> {
     // Loop over events and filter the ones about windows being opened or closed
     // Update the window(s)/workspace map when events are matched
     while let Ok(event) = read_event() {
-        state.apply(event.clone()); // https://github.com/Antiz96/oniri/issues/3
+        // Update state
+        // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
+        state.apply(event.clone());
 
         match event {
             Event::WindowOpenedOrChanged { window } => {
