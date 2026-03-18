@@ -7,7 +7,7 @@ use std::collections::HashMap;
 // Create an outputs map, used later for window/output size comparison
 // Workaround some limitations of the niri IPC
 // See https://github.com/Antiz96/oniri/issues/3
-pub fn outputs_maps ( action_socket: &mut Socket, ) -> anyhow::Result<HashMap<String, Output>> {
+pub fn outputs_maps(action_socket: &mut Socket) -> anyhow::Result<HashMap<String, Output>> {
     let response = action_socket.send(Request::Outputs)?;
 
     let outputs = match response {

@@ -1,7 +1,5 @@
 // Import modules
-use niri_ipc::{
-    Event, Output, Request, state::EventStreamState, state::EventStreamStatePart
-};
+use niri_ipc::{Event, Output, Request, state::EventStreamState, state::EventStreamStatePart};
 use std::collections::HashMap;
 
 // Import internal libraries
