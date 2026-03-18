@@ -1,5 +1,4 @@
 // Import modules
-// niri_ipc::socket::Socket to initialize connections to the niri IPC socket
 use niri_ipc::{Request, Response, socket::Socket};
 
 pub fn initialize_socket_connections() -> anyhow::Result<(Socket, Socket)> {

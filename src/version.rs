@@ -1,5 +1,4 @@
 // Import modules
-// std::env to access environment variables and cli arguments
 use std::env;
 
 // Define NAME & VERSION constants, fetched from Cargo metadata
