@@ -1,19 +1,53 @@
 // Import external modules
 use niri_ipc::{Output, state::EventStreamState};
-use std::collections::HashMap;
+use std::{collections::HashMap, env};
 
 // Hack to determine if a window is supposedly already maximized or not
 // based on a comparison between the window size and the output size.
 // This is to workaround the lack of a window "maximized" state to gather from the IPC,
 // and/or the lack of a way to set/unset the maximize state (rather than just toggling it).
 // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved.
+
+// Fetch height and width tolerances from CLI, with defaults
+pub fn set_tolerances() -> (i32, i32) {
+    let mut tol_h = 150;
+    let mut tol_w = 150;
+
+    let mut args = env::args();
+    while let Some(arg) = args.next() {
+        match arg.as_str() {
+            "-H" | "--height-tolerance" => {
+                if let Some(value) = args.next() {
+                    if let Ok(val) = value.parse::<i32>() {
+                        tol_h = val;
+                    } else {
+                        eprintln!("Invalid value for {}: {}", arg, value);
+                    }
+                }
+            }
+            "-W" | "--width-tolerance" => {
+                if let Some(value) = args.next() {
+                    if let Ok(val) = value.parse::<i32>() {
+                        tol_w = val;
+                    } else {
+                        eprintln!("Invalid value for {}: {}", arg, value);
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+
+    (tol_h, tol_w)
+}
+
 pub fn is_maximized(
     state: &EventStreamState,
     outputs: &HashMap<String, Output>,
     window_id: u64,
+    tol_w: i32,
+    tol_h: i32,
 ) -> bool {
-    let tol_w = 150;
-    let tol_h = 150;
 
     let window = match state.windows.windows.get(&window_id) {
         Some(w) => w,

@@ -23,6 +23,11 @@ fn main() -> anyhow::Result<()> {
     let mut state = EventStreamState::default();
     let outputs = outputs::outputs_maps(&mut action_socket)?;
 
+    // Set pixel tolerances for window/output size comparison
+    // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
+    let (tol_h, tol_w) = sizecompare::set_tolerances();
+    println!("Using tolerances: height={}, width={}", tol_h, tol_w);
+
     // Read events gathered from the IPC socket
     let mut read_event = event_socket.read_events();
 
@@ -57,6 +62,8 @@ fn main() -> anyhow::Result<()> {
                     &workspace_windows,
                     &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3
+                    tol_h, // https://github.com/Antiz96/oniri/issues/3
+                    tol_w, // https://github.com/Antiz96/oniri/issues/3
                     &mut action_socket,
                 )?;
             }
@@ -74,6 +81,8 @@ fn main() -> anyhow::Result<()> {
                     &workspace_windows,
                     &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3
+                    tol_h, // https://github.com/Antiz96/oniri/issues/3
+                    tol_w, // https://github.com/Antiz96/oniri/issues/3
                     &mut action_socket,
                 )?;
             }
