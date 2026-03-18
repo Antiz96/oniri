@@ -1,23 +1,18 @@
 // Import modules
 // niri_ipc::* to connect & gather events from niri's IPC socket and act on those
 // For niri_ipc::Output and niri_ipc::state::EventStreamState{,,Part}, see https://github.com/Antiz96/oniri/issues/3
-// std::env to access environment variables & arguments and std::HashMap to create maps
+// std::HashMap to create maps
 use niri_ipc::{
     Event, Output, Request, Response, socket::Socket, state::EventStreamState,
     state::EventStreamStatePart,
 };
-use std::{collections::HashMap, env};
+use std::collections::HashMap;
 
-// Define NAME & VERSION constants, fetched from Cargo metadata
-const NAME: &str = env!("CARGO_PKG_NAME");
-const VERSION: &str = env!("CARGO_PKG_VERSION");
+// Import internal libraries
+mod version;
 
 fn main() -> anyhow::Result<()> {
-    // Print name and version if the -V / --version arg is passed
-    if env::args().any(|arg| arg == "-V" || arg == "--version") {
-        println!("{} {}", NAME, VERSION);
-        return Ok(());
-    }
+    version::show_version();
 
     // Connect to niri IPC socket and start the event stream to gather events
     let mut event_socket = Socket::connect()?;
