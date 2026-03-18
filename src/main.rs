@@ -3,23 +3,21 @@
 // For niri_ipc::Output and niri_ipc::state::EventStreamState{,,Part}, see https://github.com/Antiz96/oniri/issues/3
 // std::collections::HashMap to create maps
 use niri_ipc::{
-    Event, Output, Request, Response, socket::Socket, state::EventStreamState,
+    Event, Output, Request, Response, state::EventStreamState,
     state::EventStreamStatePart,
 };
 use std::collections::HashMap;
 
 // Import internal libraries
 mod version;
+mod socket;
 
 fn main() -> anyhow::Result<()> {
+    // Show name and version if the -V / --version arg is passed
     version::show_version();
 
-    // Connect to niri IPC socket and start the event stream to gather events
-    let mut event_socket = Socket::connect()?;
-    let reply = event_socket.send(Request::EventStream)?;
-
-    // Create a separate socket connection to send actions
-    let mut action_socket = Socket::connect()?;
+    // Initialize socket connections to niri IPC
+    let (event_socket, mut action_socket) = socket::initialize_socket_connections()?;
 
     // Gather the whole state and create an outputs map
     // This is used later to workaround some limitations of the niri IPC
@@ -36,63 +34,60 @@ fn main() -> anyhow::Result<()> {
         println!("Registered output: {}", name);
     }
 
-    // Capture events
-    if matches!(reply, Ok(Response::Handled)) {
-        let mut read_event = event_socket.read_events();
+    let mut read_event = event_socket.read_events();
 
-        // Create a window(s)/workspace map
-        let mut workspace_windows: HashMap<u64, Vec<u64>> = HashMap::new();
+    // Create a window(s)/workspace map
+    let mut workspace_windows: HashMap<u64, Vec<u64>> = HashMap::new();
 
-        // Loop over events and filter the ones about windows being opened or closed
-        // Update the window(s)/workspace map when events are matched
-        while let Ok(event) = read_event() {
-            state.apply(event.clone()); // https://github.com/Antiz96/oniri/issues/3
+    // Loop over events and filter the ones about windows being opened or closed
+    // Update the window(s)/workspace map when events are matched
+    while let Ok(event) = read_event() {
+        state.apply(event.clone()); // https://github.com/Antiz96/oniri/issues/3
 
-            match event {
-                Event::WindowOpenedOrChanged { window } => {
-                    // Skip floating windows (they cannot/should not be maximized)
-                    if window.is_floating {
-                        continue;
-                    }
-                    println!("Trigger Event: Window Opened");
-                    let id = window.id;
-                    if let Some(ws) = window.workspace_id {
-                        workspace_windows.entry(ws).or_default().push(id);
-                    }
-                    // Maximize the window if it's the only one
-                    for windows in workspace_windows.values() {
-                        if windows.len() == 1 {
-                            let id = windows[0];
-                            // https://github.com/Antiz96/oniri/issues/3
-                            if !is_maximized(&state, &outputs, id) {
-                                let _ = action_socket
-                                    .send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
-                                println!("Maximized window {}", id);
-                            }
+        match event {
+            Event::WindowOpenedOrChanged { window } => {
+                // Skip floating windows (they cannot/should not be maximized)
+                if window.is_floating {
+                    continue;
+                }
+                println!("Trigger Event: Window Opened");
+                let id = window.id;
+                if let Some(ws) = window.workspace_id {
+                    workspace_windows.entry(ws).or_default().push(id);
+                }
+                // Maximize the window if it's the only one
+                for windows in workspace_windows.values() {
+                    if windows.len() == 1 {
+                        let id = windows[0];
+                        // https://github.com/Antiz96/oniri/issues/3
+                        if !is_maximized(&state, &outputs, id) {
+                            let _ = action_socket
+                                .send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
+                            println!("Maximized window {}", id);
                         }
                     }
                 }
-                Event::WindowClosed { id } => {
-                    println!("Trigger Event: Window Closed");
-                    for windows in workspace_windows.values_mut() {
-                        windows.retain(|&wid| wid != id);
-                    }
-                    // Maximize the window if it's the only one
-                    for windows in workspace_windows.values() {
-                        if windows.len() == 1 {
-                            let id = windows[0];
-                            // https://github.com/Antiz96/oniri/issues/3
-                            if !is_maximized(&state, &outputs, id) {
-                                let _ = action_socket
-                                    .send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
-                                println!("Maximized window {}", id);
-                            }
-                        }
-                    }
-                }
-                // Ignore other events
-                _ => {}
             }
+            Event::WindowClosed { id } => {
+                println!("Trigger Event: Window Closed");
+                for windows in workspace_windows.values_mut() {
+                    windows.retain(|&wid| wid != id);
+                }
+                // Maximize the window if it's the only one
+                for windows in workspace_windows.values() {
+                    if windows.len() == 1 {
+                        let id = windows[0];
+                        // https://github.com/Antiz96/oniri/issues/3
+                        if !is_maximized(&state, &outputs, id) {
+                            let _ = action_socket
+                                .send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
+                            println!("Maximized window {}", id);
+                        }
+                    }
+                }
+            }
+            // Ignore other events
+            _ => {}
         }
     }
     Ok(())
