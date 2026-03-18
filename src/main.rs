@@ -35,7 +35,7 @@ fn main() -> anyhow::Result<()> {
         // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
         state.apply(event.clone());
 
-       // Filter events
+        // Filter events
         match event {
             // Window being opened
             Event::WindowOpenedOrChanged { window } => {
@@ -55,7 +55,7 @@ fn main() -> anyhow::Result<()> {
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
                 maximize::maximize_window_if_alone(
                     &workspace_windows,
-                    &state, // https://github.com/Antiz96/oniri/issues/3
+                    &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3
                     &mut action_socket,
                 )?;
@@ -72,7 +72,7 @@ fn main() -> anyhow::Result<()> {
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
                 maximize::maximize_window_if_alone(
                     &workspace_windows,
-                    &state, // https://github.com/Antiz96/oniri/issues/3
+                    &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3
                     &mut action_socket,
                 )?;
