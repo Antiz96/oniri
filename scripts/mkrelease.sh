@@ -40,6 +40,9 @@ case "${answer}" in
 	;;
 esac
 
+# Build binary
+rm -rf target/ && cargo build --release
+
 # Bump version where necessary
 sed_pattern="${latest_tag//./\\.}" # escape dots
 sed -i "s/${sed_pattern#v}/${release_tag}/g" Cargo.toml doc/man/oniri.1.scd
@@ -83,8 +86,7 @@ gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "oniri-${release_tag}.ta
 sha256sum "oniri-${release_tag}.tar.gz" > "oniri-${release_tag}.tar.gz.sha256"
 gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "oniri-${release_tag}.tar.gz.sha256"
 
-# Build and sign binary and checksum
-rm -rf target/ && cargo build --release
+# Sign binary and checksum
 mv target/release/oniri "target/release/oniri-${release_tag}-amd64"
 gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "target/release/oniri-${release_tag}-amd64"
 sha256sum "target/release/oniri-${release_tag}-amd64" > "target/release/oniri-${release_tag}-amd64.sha256"
