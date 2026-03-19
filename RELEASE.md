@@ -4,6 +4,8 @@
 
 - `git-cliff`
 - `github-cli`
+- `gcc`
+- `rustup`
 
 ## Disable the main branch protection rule temporarily
 
