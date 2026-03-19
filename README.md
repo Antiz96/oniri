@@ -5,12 +5,13 @@
 - [Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Documentation](#documentation)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Description
 
-Oniri is a tool that automatically maximizes the **on**ly window of a **niri** workspace (whether it's the first or the last remaining one).
+Oniri is a tool that automatically maximizes the **on**ly window of a **niri** workspace.
 
 ## Installation
 
@@ -36,6 +37,12 @@ cargo build --release
 The built binary will be located at `./target/release/oniri`.  
 You can copy it somewhere in your `$PATH`.
 
+The man page can be generated with `scdoc`:
+
+```bash
+scdoc < doc/man/oniri.1.scd > doc/man/oniri.1
+```
+
 ## Usage
 
 Add the following to your niri configuration file (`~/.config/niri/config.kdl`):
@@ -43,6 +50,12 @@ Add the following to your niri configuration file (`~/.config/niri/config.kdl`):
 ```text
 spawn-at-startup "oniri"
 ```
+
+See `oniri --help` or the [oniri(1) man page](https://github.com/Antiz96/oniri/blob/main/doc/man/oniri.1.scd) for a list of options & arguments that can be passed.
+
+## Documentation
+
+See `oniri --help` and the [oniri(1) man page](https://github.com/Antiz96/oniri/blob/main/doc/man/oniri.1.scd).
 
 ## Contributing
 

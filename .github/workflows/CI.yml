@@ -20,6 +20,9 @@ jobs:
       - name: Run mdl
         run: mdl --style .github/workflows/mdl_style.rb .
 
+      - name: Run scdoc
+        run: scdoc < doc/man/oniri.1.scd > doc/man/oniri.1
+
       - name: Run shellcheck
         run: find . -name '*.sh' -exec shellcheck --color=always {} +
 
