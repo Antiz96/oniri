@@ -2,13 +2,13 @@
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 
 // Import internal modules
-mod firstonly;
-mod maximize;
-mod outputsmap; // https://github.com/Antiz96/oniri/issues/3
-mod sizecompare; // https://github.com/Antiz96/oniri/issues/3
-mod socket;
+mod first_window_only;
+mod maximize_window;
+mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
+mod size_compare; // https://github.com/Antiz96/oniri/issues/3
+mod socket_connections;
 mod version;
-mod windowsmap;
+mod windows_map;
 
 fn main() -> anyhow::Result<()> {
     // Show name and version if the -V / --version arg is passed
@@ -18,26 +18,26 @@ fn main() -> anyhow::Result<()> {
 
     // Check if the -F / --first-only arg is passed
     // Used later to determine if we only act on the first window or not
-    let first_only = firstonly::is_first_only();
+    let first_only = first_window_only::is_first_only();
     if first_only {
         println!("Running in first-only mode: only acting on the first window");
     }
 
     // Set pixel tolerances for window/output size comparison
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
-    let (tol_h, tol_w) = sizecompare::set_tolerances();
+    let (tol_h, tol_w) = size_compare::set_tolerances();
     println!("Using tolerances: height={}, width={}", tol_h, tol_w);
 
-    // Initialize connections to niri IPC socket
-    let (event_socket, mut action_socket) = socket::initialize_socket_connections()?;
+    // Initialize connections to niri IPC socket, start the event stream and gather events
+    let (event_socket, mut action_socket) = socket_connections::init_socket_connections()?;
 
     // Gather state and create an outputs map
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let mut state = EventStreamState::default();
-    let outputs = outputsmap::outputs_map(&mut action_socket)?;
+    let outputs = outputs_map::init_outputs_map(&mut action_socket)?;
 
     // Create a workspace/window(s) map and initialize it
-    let mut workspace_windows = windowsmap::windows_map(&mut action_socket)?;
+    let mut workspace_windows = windows_map::init_windows_map(&mut action_socket)?;
 
     // Read events gathered from the IPC socket
     let mut read_event = event_socket.read_events();
@@ -66,7 +66,7 @@ fn main() -> anyhow::Result<()> {
                 }
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
-                maximize::maximize_window_if_alone(
+                maximize_window::maximize_window_if_alone(
                     &workspace_windows,
                     &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3
@@ -90,7 +90,7 @@ fn main() -> anyhow::Result<()> {
                 }
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
-                maximize::maximize_window_if_alone(
+                maximize_window::maximize_window_if_alone(
                     &workspace_windows,
                     &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3

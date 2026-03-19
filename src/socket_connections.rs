@@ -1,7 +1,7 @@
 // Import external modules
 use niri_ipc::{Request, Response, socket::Socket};
 
-pub fn initialize_socket_connections() -> anyhow::Result<(Socket, Socket)> {
+pub fn init_socket_connections() -> anyhow::Result<(Socket, Socket)> {
     // Connect to niri IPC socket, start the event stream and gather events
     let mut event_socket = Socket::connect()?;
     let reply = event_socket.send(Request::EventStream)?;
