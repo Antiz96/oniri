@@ -8,7 +8,9 @@ pub fn show_help() {
     println!("See also the list of options that can be set (or passed from the CLI) below.");
     println!();
     println!("OPTIONS:");
-    println!("  -F, --first-only        Only maximize the first opened window, do not act on the last remaining one");
+    println!(
+        "  -F, --first-only        Only maximize the first opened window, do not act on the last remaining one"
+    );
     println!(
         "  -H, --height-tolerance  Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not" // https://github.com/Antiz96/oniri/issues/3
     );

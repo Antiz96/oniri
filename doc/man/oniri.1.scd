@@ -22,6 +22,7 @@ Oniri is a tool that automatically maximizes the *on*ly window of a *niri* works
 
 *-W, --width-tolerance* <number>
 	Set the width size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (https://github.com/Antiz96/oniri/issues/3).
+
 *-h, --help*
 	Display the help message.
 
