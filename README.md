@@ -15,11 +15,11 @@ Oniri is a tool that automatically maximizes the **on**ly window of a **niri** w
 
 With `oniri` started in your niri configuration file (`spawn-at-startup "oniri"` in `~/.config/niri/config.kdl`), the only window of a niri workspace gets automatically maximized, whether it's the first opened window or the last remaining one after all the other windows got closed:
 
-https://github.com/user-attachments/assets/d5eab7a2-d0c2-4fc9-b1be-1d4bc1cb8fd8
+<https://github.com/user-attachments/assets/d5eab7a2-d0c2-4fc9-b1be-1d4bc1cb8fd8>
 
 With `oniri` started in "first window only" mode in your niri configuration file (`spawn-sh-at-startup "oniri --first-only"` in `~/.config/niri/config.kdl`), only the first opened window of a niri workspace gets automatically maximized (the last remaining window after all the other windows got closed is **not** automatically maximized):
 
-https://github.com/user-attachments/assets/d97f1416-a5f0-452c-b2d4-16b6af12631f
+<https://github.com/user-attachments/assets/d97f1416-a5f0-452c-b2d4-16b6af12631f>
 
 ## Installation
 
@@ -62,7 +62,7 @@ spawn-at-startup "oniri"
 ```
 
 See `oniri --help` or the [oniri(1) man page](https://github.com/Antiz96/oniri/blob/main/doc/man/oniri.1.scd) for a list of options & arguments that can be passed.  
-Not that passing options / arguments requires to use "spawn**-sh-**at-startup" in the niri configuration file.
+Note that passing options / arguments requires to use 'spawn**-sh-**at-startup' in the niri configuration file.
 
 ## Documentation
 
