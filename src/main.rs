@@ -1,11 +1,11 @@
 // Import external modules
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
-use std::collections::HashMap;
 
 // Import internal modules
 mod firstonly;
 mod maximize;
-mod outputs; // https://github.com/Antiz96/oniri/issues/3
+mod windowsmap;
+mod outputsmap; // https://github.com/Antiz96/oniri/issues/3
 mod sizecompare; // https://github.com/Antiz96/oniri/issues/3
 mod socket;
 mod version;
@@ -34,13 +34,13 @@ fn main() -> anyhow::Result<()> {
     // Gather state and create an outputs map
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let mut state = EventStreamState::default();
-    let outputs = outputs::outputs_maps(&mut action_socket)?;
+    let outputs = outputsmap::outputs_map(&mut action_socket)?;
+
+    // Create a workspace/window(s) map and intialize it
+    let mut workspace_windows = windowsmap::windows_map(&mut action_socket)?;
 
     // Read events gathered from the IPC socket
     let mut read_event = event_socket.read_events();
-
-    // Create a workspace/window(s) map
-    let mut workspace_windows: HashMap<u64, Vec<u64>> = HashMap::new();
 
     // Loop over events
     while let Ok(event) = read_event() {
