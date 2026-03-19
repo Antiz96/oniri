@@ -31,11 +31,13 @@ Oniri is a tool that automatically maximizes the *on*ly window of a *niri* works
 
 # SEE ALSO
 
+https://niri-wm.github.io/niri
+
 https://crates.io/crates/niri-ipc
 
 # BUGS
 
-Please report bugs to the GitHub page: https://github.com/Antiz96/zaman
+Please report bugs to the GitHub page: https://github.com/Antiz96/oniri
 
 # AUTHOR
 
