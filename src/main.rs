@@ -4,11 +4,11 @@ use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 // Import internal modules
 mod firstonly;
 mod maximize;
-mod windowsmap;
 mod outputsmap; // https://github.com/Antiz96/oniri/issues/3
 mod sizecompare; // https://github.com/Antiz96/oniri/issues/3
 mod socket;
 mod version;
+mod windowsmap;
 
 fn main() -> anyhow::Result<()> {
     // Show name and version if the -V / --version arg is passed
