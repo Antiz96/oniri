@@ -1,30 +1,34 @@
 // Import external modules
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
+use std::env;
 
 // Import internal modules
-mod first_window_only;
 mod help;
 mod maximize_window;
 mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
 mod size_compare; // https://github.com/Antiz96/oniri/issues/3
 mod socket_connections;
-mod version;
 mod windows_map;
 
 fn main() -> anyhow::Result<()> {
-    // Show name and version if the -V / --version arg is passed
-    if version::show_version() {
-        return Ok(());
-    }
+    // Parse arguments
+    let args: Vec<String> = env::args().collect();
+    let has_arg = |flag: &str| args.iter().any(|arg| arg == flag);
 
     // Show help message if the -h / --help arg is passed
-    if help::show_help() {
+    if has_arg("-h") || has_arg("--help") {
+        help::show_help();
         return Ok(());
     }
 
-    // Check if the -F / --first-only arg is passed
-    // Used later to determine if we only act on the first window or not
-    let first_only = first_window_only::is_first_only();
+    // Show name and version if the -V / --version arg is passed
+    if has_arg("-V") || has_arg("--version") {
+        println!("{} {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
+        return Ok(());
+    }
+
+    // Run in "first-only" mode if the -F / --first-only arg is passed
+    let first_only = has_arg("-F") || has_arg("--first-only");
     if first_only {
         println!("Running in first-only mode: only acting on the first window");
     }
