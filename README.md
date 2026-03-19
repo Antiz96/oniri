@@ -21,6 +21,9 @@ With `oniri` started in "first window only" mode in your niri configuration file
 
 <https://github.com/user-attachments/assets/d97f1416-a5f0-452c-b2d4-16b6af12631f>
 
+**Note:** Due to current limitations of the niri IPC, "buggy" behaviors (e.g. window not being correctly maximized) *may* be expected in specific setups / edgy cases. Those limitations should *hopefully* be addressed on the niri IPC side at some point, allowing to fix those eventual "buggy" behavirs once and for all (see https://github.com/Antiz96/oniri/issues/3 for more details).  
+In the mean time, things *should* still work just fine for most "classic" setups though!
+
 ## Installation
 
 ### Packages
