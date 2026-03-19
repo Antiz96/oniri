@@ -3,6 +3,7 @@ use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 
 // Import internal modules
 mod first_window_only;
+mod help;
 mod maximize_window;
 mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
 mod size_compare; // https://github.com/Antiz96/oniri/issues/3
@@ -13,6 +14,11 @@ mod windows_map;
 fn main() -> anyhow::Result<()> {
     // Show name and version if the -V / --version arg is passed
     if version::show_version() {
+        return Ok(());
+    }
+
+    // Show help message if the -h / --help arg is passed
+    if help::show_help() {
         return Ok(());
     }
 
