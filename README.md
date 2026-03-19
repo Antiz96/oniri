@@ -43,6 +43,8 @@ The man page can be generated with `scdoc`:
 scdoc < doc/man/oniri.1.scd > doc/man/oniri.1
 ```
 
+There are also shell completions available in the `res/completions/` directory.
+
 ## Usage
 
 Add the following to your niri configuration file (`~/.config/niri/config.kdl`):
