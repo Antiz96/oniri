@@ -36,7 +36,7 @@ fn main() -> anyhow::Result<()> {
     let mut state = EventStreamState::default();
     let outputs = outputsmap::outputs_map(&mut action_socket)?;
 
-    // Create a workspace/window(s) map and intialize it
+    // Create a workspace/window(s) map and initialize it
     let mut workspace_windows = windowsmap::windows_map(&mut action_socket)?;
 
     // Read events gathered from the IPC socket

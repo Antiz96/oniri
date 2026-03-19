@@ -2,7 +2,7 @@
 use niri_ipc::{Request, Response, socket::Socket};
 use std::collections::HashMap;
 
-// Create a workspace/window(s) map and intialize it
+// Create a workspace/window(s) map and initialize it
 pub fn windows_map(
     action_socket: &mut Socket,
 ) -> anyhow::Result<HashMap<u64, Vec<u64>>> {
