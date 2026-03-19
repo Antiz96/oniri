@@ -3,6 +3,7 @@ use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::collections::HashMap;
 
 // Import internal modules
+mod firstonly;
 mod maximize;
 mod outputs; // https://github.com/Antiz96/oniri/issues/3
 mod sizecompare; // https://github.com/Antiz96/oniri/issues/3
@@ -15,6 +16,18 @@ fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
+    // Check if the -F / --first-only arg is passed
+    // Used later to determine if we only act on the first window or not
+    let first_only = firstonly::is_first_only();
+    if first_only {
+        println!("Running in first-only mode: only acting on the first window");
+    }
+
+    // Set pixel tolerances for window/output size comparison
+    // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
+    let (tol_h, tol_w) = sizecompare::set_tolerances();
+    println!("Using tolerances: height={}, width={}", tol_h, tol_w);
+
     // Initialize connections to niri IPC socket
     let (event_socket, mut action_socket) = socket::initialize_socket_connections()?;
 
@@ -22,11 +35,6 @@ fn main() -> anyhow::Result<()> {
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let mut state = EventStreamState::default();
     let outputs = outputs::outputs_maps(&mut action_socket)?;
-
-    // Set pixel tolerances for window/output size comparison
-    // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
-    let (tol_h, tol_w) = sizecompare::set_tolerances();
-    println!("Using tolerances: height={}, width={}", tol_h, tol_w);
 
     // Read events gathered from the IPC socket
     let mut read_event = event_socket.read_events();
@@ -74,6 +82,11 @@ fn main() -> anyhow::Result<()> {
                 // Update the workspace/window(s) map
                 for windows in workspace_windows.values_mut() {
                     windows.retain(|&wid| wid != id);
+                }
+
+                // Skip if the -F / --first-only arg is passed
+                if first_only {
+                    continue;
                 }
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
