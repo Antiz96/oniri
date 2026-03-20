@@ -11,7 +11,7 @@ pub fn init_socket_connections() -> anyhow::Result<(Socket, Socket)> {
 
     // Start the event stream
     let reply = event_socket.send(Request::EventStream)?;
-     if !matches!(reply, Ok(Response::Handled)) {
+    if !matches!(reply, Ok(Response::Handled)) {
         error!("Failed to start event stream: {:?}", reply);
         return Err(anyhow::anyhow!(""));
     }

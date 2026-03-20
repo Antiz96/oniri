@@ -31,7 +31,7 @@ All notable changes to this project will be documented in this file.
 
 ### Miscellaneous
 
-- Update release script to build binary before commiting ([#23](https://github.com/Antiz96/oniri/pull/23)) - ([ae674dd](https://github.com/Antiz96/oniri/commit/ae674dda35f17a6e3a04fe5f7fbf1b19527534d6)) by @Antiz96
+- Update release script to build binary before committing ([#23](https://github.com/Antiz96/oniri/pull/23)) - ([ae674dd](https://github.com/Antiz96/oniri/commit/ae674dda35f17a6e3a04fe5f7fbf1b19527534d6)) by @Antiz96
 - Update version in man page from release script ([#22](https://github.com/Antiz96/oniri/pull/22)) - ([26bdf30](https://github.com/Antiz96/oniri/commit/26bdf304fd1c4d61658baa15bc88beb30552ce87)) by @Antiz96
 - *(CHANGELOG)* Remove duplicate top level header ([#4](https://github.com/Antiz96/oniri/pull/4)) - ([6a12d2](https://github.com/Antiz96/oniri/commit/6a12d22aa18c020e0176201b1efaff357aad6259)) by @Antiz96
 - *(codebase)* Split functions into separate modules ([#5](https://github.com/Antiz96/oniri/pull/5)) - ([17b5cb1](https://github.com/Antiz96/oniri/commit/17b5cb102df2b12be9fdc325fa423067351659a2)) by @Antiz96

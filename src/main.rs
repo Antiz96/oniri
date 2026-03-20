@@ -1,5 +1,5 @@
 // Import external modules
-use log::{info, debug};
+use log::{debug, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::env;
 
