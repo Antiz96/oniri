@@ -1,4 +1,5 @@
 // Import external modules
+use log::{info, debug};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::env;
 
@@ -11,6 +12,9 @@ mod socket_connections;
 mod windows_map;
 
 fn main() -> anyhow::Result<()> {
+    // Initialize logger
+    env_logger::init();
+
     // Parse arguments
     let args: Vec<String> = env::args().collect();
     let has_arg = |flag: &str| args.iter().any(|arg| arg == flag);
@@ -30,13 +34,13 @@ fn main() -> anyhow::Result<()> {
     // Run in "first-only" mode if the -F / --first-only arg is passed
     let first_only = has_arg("-F") || has_arg("--first-only");
     if first_only {
-        println!("Running in first-only mode: only acting on the first window");
+        info!("Running in first-only mode: only acting on the first window");
     }
 
     // Set pixel tolerances for window/output size comparison
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let (tol_h, tol_w) = size_compare::set_tolerances();
-    println!("Using tolerances: height={}, width={}", tol_h, tol_w);
+    info!("Using tolerances: height={}, width={}", tol_h, tol_w);
 
     // Initialize connections to niri IPC socket, start the event stream and gather events
     let (event_socket, mut action_socket) = socket_connections::init_socket_connections()?;
@@ -67,7 +71,7 @@ fn main() -> anyhow::Result<()> {
                     continue;
                 }
 
-                println!("Trigger Event: Window Opened");
+                debug!("Trigger Event: Window Opened");
 
                 // Update the workspace/window(s) map
                 let id = window.id;
@@ -87,7 +91,7 @@ fn main() -> anyhow::Result<()> {
             }
             // Window being closed
             Event::WindowClosed { id } => {
-                println!("Trigger Event: Window Closed");
+                debug!("Trigger Event: Window Closed");
 
                 // Update the workspace/window(s) map
                 for windows in workspace_windows.values_mut() {

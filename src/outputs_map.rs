@@ -1,4 +1,5 @@
 // Import external modules
+use log::info;
 use niri_ipc::{Output, Request, Response, socket::Socket};
 use std::collections::HashMap;
 
@@ -14,7 +15,7 @@ pub fn init_outputs_map(action_socket: &mut Socket) -> anyhow::Result<HashMap<St
     };
 
     for name in outputs.keys() {
-        println!("Registered output: {}", name);
+        info!("Registered output: {}", name);
     }
 
     Ok(outputs)

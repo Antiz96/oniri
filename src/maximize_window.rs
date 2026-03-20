@@ -1,4 +1,5 @@
 // Import external modules
+use log::info;
 use niri_ipc::{Output, Request, socket::Socket};
 use std::collections::HashMap;
 
@@ -21,7 +22,7 @@ pub fn maximize_window_if_alone(
             // https://github.com/Antiz96/oniri/issues/3
             if !is_maximized(state, outputs, id, tol_h, tol_w) {
                 let _ = action_socket.send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
-                println!("Maximized window {}", id);
+                info!("Maximized window {}", id);
             }
         }
     }

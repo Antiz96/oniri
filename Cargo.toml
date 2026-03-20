@@ -9,6 +9,8 @@ license = "GPL-3.0-or-later"
 [dependencies]
 niri-ipc = "25.11.0"
 anyhow = "1.0.102"
+log = "0.4.29"
+env_logger = "0.11.9"
 
 [dev-dependencies]
 assert_cmd = "2.0.0"

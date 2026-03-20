@@ -25,7 +25,7 @@ The oniri version can be retrieved by running `oniri --version` -->
 ### Screenshots / Logs
 
 <!-- If you have any screenshots to illustrate the issue or any relevant logs, paste them below 
-For instance, running oniri directly in your terminal (e.g. `/usr/bin/oniri`) should provide useful outputs -->
+For instance, running oniri directly in your terminal with logging enabled (e.g. `RUST_LOG=DEBUG /usr/bin/oniri`) should provide useful outputs -->
 
 ```text
 Paste any relevant logs here (if you have some)

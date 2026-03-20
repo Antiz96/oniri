@@ -1,4 +1,5 @@
 // Import external modules
+use log::{debug, info, warn};
 use niri_ipc::{Output, state::EventStreamState};
 use std::{collections::HashMap, env};
 
@@ -21,7 +22,7 @@ pub fn set_tolerances() -> (i32, i32) {
                     if let Ok(val) = value.parse::<i32>() {
                         tol_h = val;
                     } else {
-                        eprintln!("Invalid value for {}: {}", arg, value);
+                        warn!("Invalid value for {}: {}", arg, value);
                     }
                 }
             }
@@ -30,7 +31,7 @@ pub fn set_tolerances() -> (i32, i32) {
                     if let Ok(val) = value.parse::<i32>() {
                         tol_w = val;
                     } else {
-                        eprintln!("Invalid value for {}: {}", arg, value);
+                        warn!("Invalid value for {}: {}", arg, value);
                     }
                 }
             }
@@ -51,13 +52,13 @@ pub fn is_maximized(
     let window = match state.windows.windows.get(&window_id) {
         Some(w) => w,
         None => {
-            println!("Window {} not found in state", window_id);
+            warn!("Window {} not found in state", window_id);
             return false;
         }
     };
 
     if window.is_floating {
-        println!("Window {} is floating, skipping", window_id);
+        info!("Window {} is floating, skipping", window_id);
         return false;
     }
 
@@ -67,7 +68,7 @@ pub fn is_maximized(
     {
         Some(ws) => ws,
         None => {
-            println!("Workspace for window {} not found", window_id);
+            warn!("Workspace for window {} not found", window_id);
             return false;
         }
     };
@@ -80,7 +81,7 @@ pub fn is_maximized(
     {
         Some(l) => l,
         None => {
-            println!(
+            warn!(
                 "Output for workspace {} not found or has no logical size",
                 workspace.id
             );
@@ -94,7 +95,7 @@ pub fn is_maximized(
     let tile_w = tile_w as i32;
     let tile_h = tile_h as i32;
 
-    println!(
+    debug!(
         "Window {}: out_w={}, out_h={}, tile_w={}, tile_h={}, tol_w={}, tol_h={}",
         window_id, out_w, out_h, tile_w, tile_h, tol_w, tol_h
     );
@@ -102,7 +103,7 @@ pub fn is_maximized(
     let width_ok = (out_w - tile_w).abs() <= tol_w;
     let height_ok = (out_h - tile_h).abs() <= tol_h;
 
-    println!(
+    debug!(
         "Window {}: width_ok={}, height_ok={}, maximized={}",
         window_id,
         width_ok,
