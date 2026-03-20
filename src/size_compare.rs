@@ -1,15 +1,15 @@
+//! Hack to determine if a window is supposedly already maximized or not
+//! based on a comparison between the window size and the output size.
+//! This is to workaround the lack of a window "maximized" state to gather from the IPC,
+//! and/or the lack of a way to set/unset the maximize state (rather than just toggling it).
+//! This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved.
+
 // Import external modules
 use log::{debug, info, warn};
 use niri_ipc::{Output, state::EventStreamState};
 use std::{collections::HashMap, env};
 
-// Hack to determine if a window is supposedly already maximized or not
-// based on a comparison between the window size and the output size.
-// This is to workaround the lack of a window "maximized" state to gather from the IPC,
-// and/or the lack of a way to set/unset the maximize state (rather than just toggling it).
-// This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved.
-
-// Fetch height and width tolerances from CLI, with defaults
+/// Fetch height and width tolerances from CLI, with defaults
 pub fn set_tolerances() -> (i32, i32) {
     let mut tol_h = 150;
     let mut tol_w = 150;
@@ -42,6 +42,8 @@ pub fn set_tolerances() -> (i32, i32) {
     (tol_h, tol_w)
 }
 
+/// Determine if the window is already maximized or not
+/// by comparing the window tile size and the output size
 pub fn is_maximized(
     state: &EventStreamState,
     outputs: &HashMap<String, Output>,

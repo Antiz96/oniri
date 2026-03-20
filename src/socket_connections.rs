@@ -1,3 +1,5 @@
+//! Initialize niri IPC socket connections and event stream
+
 // Import external modules
 use log::error;
 use niri_ipc::{Request, Response, socket::Socket};

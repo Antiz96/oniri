@@ -1,4 +1,5 @@
-// Print help message
+//! Print help message
+
 pub fn show_help() {
     println!("oniri - A tool that automatically maximizes the only window of a niri workspace");
     println!();

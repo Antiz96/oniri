@@ -1,3 +1,6 @@
+//! Check if there's only one window in the workspace/window(s) map & maximize it if so,
+//! unless it's maximized already (https://github.com/Antiz96/oniri/issues/3)
+
 // Import external modules
 use log::info;
 use niri_ipc::{Output, Request, socket::Socket};
@@ -6,8 +9,6 @@ use std::collections::HashMap;
 // Import internal modules
 use crate::size_compare::is_maximized; // https://github.com/Antiz96/oniri/issues/3
 
-// Check if there's only one window in the workspace/window(s) map & maximize it if so,
-// unless it's maximized already (https://github.com/Antiz96/oniri/issues/3)
 pub fn maximize_window_if_alone(
     workspace_windows: &HashMap<u64, Vec<u64>>,
     state: &niri_ipc::state::EventStreamState, // https://github.com/Antiz96/oniri/issues/3

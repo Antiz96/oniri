@@ -1,3 +1,9 @@
+//! Oniri - A tool that automatically maximizes the only window of a niri workspace.
+//!
+//! It relies on the niri IPC to verify if a window is the only one of a workspace,
+//! whether it's the first one opened or the last remaining ones after all the other windows got closed,
+//! and maximize it if so.
+
 // Import external modules
 use log::{debug, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
