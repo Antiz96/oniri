@@ -82,7 +82,10 @@ fn main() -> anyhow::Result<()> {
                 // Update the workspace/window(s) map
                 let id = window.id;
                 if let Some(ws) = window.workspace_id {
-                    workspace_windows.entry(ws).or_default().push(id);
+                    let entry = workspace_windows.entry(ws).or_default();
+                    if !entry.contains(&id) {
+                        entry.push(id);
+                    }
                 }
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
