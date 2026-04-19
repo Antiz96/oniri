@@ -77,10 +77,14 @@ fn main() -> anyhow::Result<()> {
                     continue;
                 }
 
-                debug!("Trigger Event: Window Opened");
+                debug!("Trigger Event: Window Opened Or Changed");
 
-                // Update the workspace/window(s) map
                 let id = window.id;
+                // Update the workspace/window(s) map
+                for windows in workspace_windows.values_mut() {
+                    windows.retain(|&wid| wid != id);
+                }
+
                 if let Some(ws) = window.workspace_id {
                     let entry = workspace_windows.entry(ws).or_default();
                     if !entry.contains(&id) {
