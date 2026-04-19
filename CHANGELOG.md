@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.0.4](https://github.com/Antiz96/oniri/releases/tag/v1.0.4) - 2026-04-19
+
+### Fixes
+
+- Properly handle workspace map cleanup and window targeting ([#31](https://github.com/Antiz96/oniri/pull/31)) - ([9151589](https://github.com/Antiz96/oniri/commit/9151589b963182b154e0cb8f9cbce35f1771c6c1)) by @1Naim
+
+### Miscellaneous
+
+- *(deps)* Update Rust crate assert_cmd to 2.2.1 ([#30](https://github.com/Antiz96/oniri/pull/30)) - ([d0b6f5b](https://github.com/Antiz96/oniri/commit/d0b6f5b68e8fb66ac42f1766a18b979fe9447a07)) by @renovate[bot]
+
 ## [v1.0.3](https://github.com/Antiz96/oniri/releases/tag/v1.0.3) - 2026-04-16
 
 ### Fixes
