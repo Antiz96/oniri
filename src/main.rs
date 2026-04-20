@@ -77,6 +77,17 @@ fn main() -> anyhow::Result<()> {
                     continue;
                 }
 
+                // On first launch, nautilus will first enter this loading state and defer
+                // maximize_window() until after the window spawns. This will cause
+                // Action::MaximizeColumn to run twice on the same window, and basically noop.
+                //
+                // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved.
+                if window.app_id.unwrap_or_default() == "org.gnome.Nautilus"
+                    && window.title.unwrap_or_default() == "Loading…"
+                {
+                    continue;
+                }
+
                 debug!("Trigger Event: Window Opened Or Changed");
 
                 let id = window.id;
