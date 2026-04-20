@@ -9,6 +9,8 @@ use log::{debug, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::env;
 
+use crate::{maximize_window::maximize_window, size_compare::is_maximized};
+
 // Import internal modules
 mod help;
 mod maximize_window;
@@ -99,18 +101,18 @@ fn main() -> anyhow::Result<()> {
                 for windows in workspace_windows.values_mut() {
                     windows.retain(|&wid| wid != id);
                 }
-                workspace_windows.entry(ws).or_default().push(id);
 
-                // Check if there's only one window in the workspace/window(s) map & maximize it if so
-                maximize_window::maximize_window_if_alone(
-                    ws,
-                    &workspace_windows,
-                    &state,   // https://github.com/Antiz96/oniri/issues/3
-                    &outputs, // https://github.com/Antiz96/oniri/issues/3
-                    tol_h,    // https://github.com/Antiz96/oniri/issues/3
-                    tol_w,    // https://github.com/Antiz96/oniri/issues/3
-                    &mut action_socket,
-                )?;
+                let windows = workspace_windows.entry(ws).or_default();
+                windows.push(id);
+
+                if windows.len() != 1 {
+                    continue;
+                }
+
+                let id = windows[0];
+                if !is_maximized(&state, &outputs, id, tol_h, tol_w) {
+                    maximize_window(&mut action_socket, &state, id)?;
+                }
             }
             // Window being closed
             Event::WindowClosed { id } => {
@@ -124,25 +126,22 @@ fn main() -> anyhow::Result<()> {
                 };
 
                 // Update the workspace/window(s) map
-                if let Some(windows) = workspace_windows.get_mut(&ws) {
-                    windows.retain(|&wid| wid != id);
-                }
+                let windows = workspace_windows.get_mut(&ws).unwrap();
+                windows.retain(|&wid| wid != id);
 
                 // Skip if the -F / --first-only arg is passed
                 if first_only {
                     continue;
                 }
 
-                // Check if there's only one window in the workspace/window(s) map & maximize it if so
-                maximize_window::maximize_window_if_alone(
-                    ws,
-                    &workspace_windows,
-                    &state,   // https://github.com/Antiz96/oniri/issues/3
-                    &outputs, // https://github.com/Antiz96/oniri/issues/3
-                    tol_h,    // https://github.com/Antiz96/oniri/issues/3
-                    tol_w,    // https://github.com/Antiz96/oniri/issues/3
-                    &mut action_socket,
-                )?;
+                if windows.len() != 1 {
+                    continue;
+                }
+
+                let id = windows[0];
+                if !is_maximized(&state, &outputs, id, tol_h, tol_w) {
+                    maximize_window(&mut action_socket, &state, id)?;
+                }
             }
             // Ignore other events
             _ => {}
