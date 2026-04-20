@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.0.5](https://github.com/Antiz96/oniri/releases/tag/v1.0.5) - 2026-04-20
+
+### Fixes
+
+- *(maximize_window)* Only iterate on workspace of the current window ([#32](https://github.com/Antiz96/oniri/pull/32)) - ([def67ce](https://github.com/Antiz96/oniri/commit/def67ce7ea0f2f145b9e9391abb055e103d6f73f)) by @1Naim
+
 ## [v1.0.4](https://github.com/Antiz96/oniri/releases/tag/v1.0.4) - 2026-04-19
 
 ### Fixes
