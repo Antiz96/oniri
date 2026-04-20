@@ -45,6 +45,11 @@ fn main() -> anyhow::Result<()> {
         info!("Running in first-only mode: only acting on the first window");
     }
 
+    let tiling_layout = has_arg("-T") || has_arg("--tiling-layout");
+    if tiling_layout {
+        info!("Running in tiling-layout mode: Opening a second window will collapse the first window");
+    }
+
     // Set pixel tolerances for window/output size comparison
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let (tol_h, tol_w) = size_compare::set_tolerances();
@@ -105,13 +110,21 @@ fn main() -> anyhow::Result<()> {
                 let windows = workspace_windows.entry(ws).or_default();
                 windows.push(id);
 
-                if windows.len() != 1 {
-                    continue;
-                }
-
-                let id = windows[0];
-                if !is_maximized(&state, &outputs, id, tol_h, tol_w) {
-                    maximize_window(&mut action_socket, &state, id)?;
+                match windows.len() {
+                    1 => {
+                        let first_window = windows[0];
+                        if !is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
+                            maximize_window(&mut action_socket, &state, first_window)?;
+                        }
+                    }
+                    2 if tiling_layout => {
+                        let first_window = windows[0];
+                        if is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
+                            // In tiling-layout mode, opening a second window should collapse the first one if it was maximized
+                            maximize_window(&mut action_socket, &state, first_window)?;
+                        }
+                    }
+                    _ => {}
                 }
             }
             // Window being closed
@@ -134,6 +147,8 @@ fn main() -> anyhow::Result<()> {
                     continue;
                 }
 
+                // We don't check for tiling_layout here, because we don't want to modify the state
+                // of the last two windows.
                 if windows.len() != 1 {
                     continue;
                 }
