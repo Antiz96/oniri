@@ -45,6 +45,7 @@ fn main() -> anyhow::Result<()> {
         info!("Running in first-only mode: only acting on the first window");
     }
 
+    // Run in "tiling-layout" mode if the -T / --tiling-layout arg is passed
     let tiling_layout = has_arg("-T") || has_arg("--tiling-layout");
     if tiling_layout {
         info!(
@@ -112,6 +113,7 @@ fn main() -> anyhow::Result<()> {
                 let windows = workspace_windows.entry(ws).or_default();
                 windows.push(id);
 
+                // Check if there's only one window in the workspace/window(s) map & maximize it if so
                 match windows.len() {
                     1 => {
                         let first_window = windows[0];
@@ -119,10 +121,11 @@ fn main() -> anyhow::Result<()> {
                             maximize_window(&mut action_socket, &state, first_window)?;
                         }
                     }
+
+                    // If running in tiling layout mode, un-maximize the first window when a second one is opened
                     2 if tiling_layout => {
                         let first_window = windows[0];
                         if is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
-                            // In tiling-layout mode, opening a second window should collapse the first one if it was maximized
                             maximize_window(&mut action_socket, &state, first_window)?;
                         }
                     }
@@ -148,8 +151,7 @@ fn main() -> anyhow::Result<()> {
                     continue;
                 }
 
-                // We don't check for tiling_layout here, because we don't want to modify the state
-                // of the last two windows.
+                // Check if there's only one window in the workspace/window(s) map & maximize it if so
                 if windows.len() != 1 {
                     continue;
                 }
