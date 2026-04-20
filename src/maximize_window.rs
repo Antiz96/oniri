@@ -20,9 +20,13 @@ pub fn maximize_window(
         return Ok(());
     };
 
-    let _ = socket.send(Request::Action(niri_ipc::Action::FocusWindow { id: window_id }));
+    let _ = socket.send(Request::Action(niri_ipc::Action::FocusWindow {
+        id: window_id,
+    }));
     let _ = socket.send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
-    let _ = socket.send(Request::Action(niri_ipc::Action::FocusWindow { id: focused_id }));
+    let _ = socket.send(Request::Action(niri_ipc::Action::FocusWindow {
+        id: focused_id,
+    }));
     info!("Maximized window {}", window_id);
     Ok(())
 }

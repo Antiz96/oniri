@@ -47,7 +47,9 @@ fn main() -> anyhow::Result<()> {
 
     let tiling_layout = has_arg("-T") || has_arg("--tiling-layout");
     if tiling_layout {
-        info!("Running in tiling-layout mode: Opening a second window will collapse the first window");
+        info!(
+            "Running in tiling-layout mode: Opening a second window will collapse the first window"
+        );
     }
 
     // Set pixel tolerances for window/output size comparison
