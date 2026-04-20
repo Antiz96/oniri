@@ -131,15 +131,14 @@ fn main() -> anyhow::Result<()> {
             Event::WindowClosed { id } => {
                 debug!("Trigger Event: Window Closed");
 
-                let Some(ws) = workspace_windows
-                    .iter()
-                    .find_map(|(&ws, windows)| windows.contains(&id).then_some(ws))
+                let Some((_, windows)) = workspace_windows
+                    .iter_mut()
+                    .find(|(_, windows)| windows.contains(&id))
                 else {
                     continue;
                 };
 
-                // Update the workspace/window(s) map
-                let windows = workspace_windows.get_mut(&ws).unwrap();
+                // Update the workspace vector
                 windows.retain(|&wid| wid != id);
 
                 // Skip if the -F / --first-only arg is passed
