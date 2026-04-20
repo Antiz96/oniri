@@ -10,6 +10,7 @@ use std::collections::HashMap;
 use crate::size_compare::is_maximized; // https://github.com/Antiz96/oniri/issues/3
 
 pub fn maximize_window_if_alone(
+    workspace_id: u64,
     workspace_windows: &HashMap<u64, Vec<u64>>,
     state: &niri_ipc::state::EventStreamState, // https://github.com/Antiz96/oniri/issues/3
     outputs: &HashMap<String, Output>,         // https://github.com/Antiz96/oniri/issues/3
@@ -17,16 +18,21 @@ pub fn maximize_window_if_alone(
     tol_w: i32,                                // https://github.com/Antiz96/oniri/issues/3
     action_socket: &mut Socket,
 ) -> anyhow::Result<()> {
-    for windows in workspace_windows.values() {
-        if windows.len() == 1 {
-            let id = windows[0];
-            // https://github.com/Antiz96/oniri/issues/3
-            if !is_maximized(state, outputs, id, tol_h, tol_w) {
-                let _ = action_socket.send(Request::Action(niri_ipc::Action::FocusWindow { id }));
-                let _ = action_socket.send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
-                info!("Maximized window {}", id);
-            }
-        }
+    let Some(windows) = workspace_windows.get(&workspace_id) else {
+        return Ok(());
+    };
+
+    if windows.len() != 1 {
+        return Ok(());
     }
+
+    let id = windows[0];
+    // https://github.com/Antiz96/oniri/issues/3
+    if !is_maximized(state, outputs, id, tol_h, tol_w) {
+        let _ = action_socket.send(Request::Action(niri_ipc::Action::FocusWindow { id }));
+        let _ = action_socket.send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
+        info!("Maximized window {}", id);
+    }
+
     Ok(())
 }

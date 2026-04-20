@@ -85,15 +85,18 @@ fn main() -> anyhow::Result<()> {
                     windows.retain(|&wid| wid != id);
                 }
 
-                if let Some(ws) = window.workspace_id {
-                    let entry = workspace_windows.entry(ws).or_default();
-                    if !entry.contains(&id) {
-                        entry.push(id);
-                    }
+                let Some(ws) = window.workspace_id else {
+                    continue;
+                };
+
+                let entry = workspace_windows.entry(ws).or_default();
+                if !entry.contains(&id) {
+                    entry.push(id);
                 }
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
                 maximize_window::maximize_window_if_alone(
+                    ws,
                     &workspace_windows,
                     &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3
@@ -106,8 +109,15 @@ fn main() -> anyhow::Result<()> {
             Event::WindowClosed { id } => {
                 debug!("Trigger Event: Window Closed");
 
+                let Some(ws) = workspace_windows
+                    .iter()
+                    .find_map(|(&ws, windows)| windows.contains(&id).then_some(ws))
+                else {
+                    continue;
+                };
+
                 // Update the workspace/window(s) map
-                for windows in workspace_windows.values_mut() {
+                if let Some(windows) = workspace_windows.get_mut(&ws) {
                     windows.retain(|&wid| wid != id);
                 }
 
@@ -118,6 +128,7 @@ fn main() -> anyhow::Result<()> {
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
                 maximize_window::maximize_window_if_alone(
+                    ws,
                     &workspace_windows,
                     &state,   // https://github.com/Antiz96/oniri/issues/3
                     &outputs, // https://github.com/Antiz96/oniri/issues/3
