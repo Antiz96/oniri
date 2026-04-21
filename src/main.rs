@@ -77,33 +77,29 @@ fn main() -> anyhow::Result<()> {
                     continue;
                 }
 
-                // On first launch, nautilus will first enter this loading state and defer
-                // maximize_window() until after the window spawns. This will cause
-                // Action::MaximizeColumn to run twice on the same window, and basically noop.
-                //
-                // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved.
-                if window.app_id.unwrap_or_default() == "org.gnome.Nautilus"
-                    && window.title.unwrap_or_default() == "Loading…"
-                {
-                    continue;
-                }
-
                 debug!("Trigger Event: Window Opened Or Changed");
 
                 let id = window.id;
-                // Update the workspace/window(s) map
-                for windows in workspace_windows.values_mut() {
-                    windows.retain(|&wid| wid != id);
-                }
-
                 let Some(ws) = window.workspace_id else {
                     continue;
                 };
 
-                let entry = workspace_windows.entry(ws).or_default();
-                if !entry.contains(&id) {
-                    entry.push(id);
+                // Workaround IPC limitation by checking if the window that triggered the event is
+                // in the same workspace.
+                //
+                // This will differentiate between WindowOpened and WindowChanged.
+                if workspace_windows
+                    .get(&ws)
+                    .is_some_and(|windows| windows.contains(&id))
+                {
+                    continue;
                 }
+
+                // Update the workspace/window(s) map
+                for windows in workspace_windows.values_mut() {
+                    windows.retain(|&wid| wid != id);
+                }
+                workspace_windows.entry(ws).or_default().push(id);
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
                 maximize_window::maximize_window_if_alone(
