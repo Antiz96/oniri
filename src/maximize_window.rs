@@ -1,38 +1,32 @@
-//! Check if there's only one window in the workspace/window(s) map & maximize it if so,
-//! unless it's maximized already (https://github.com/Antiz96/oniri/issues/3)
+//! Helper for maximizing a window, since before maximizing the window must be focused.
 
 // Import external modules
 use log::info;
-use niri_ipc::{Output, Request, socket::Socket};
-use std::collections::HashMap;
+use niri_ipc::state::EventStreamState;
+use niri_ipc::{Request, socket::Socket};
 
-// Import internal modules
-use crate::size_compare::is_maximized; // https://github.com/Antiz96/oniri/issues/3
-
-pub fn maximize_window_if_alone(
-    workspace_id: u64,
-    workspace_windows: &HashMap<u64, Vec<u64>>,
-    state: &niri_ipc::state::EventStreamState, // https://github.com/Antiz96/oniri/issues/3
-    outputs: &HashMap<String, Output>,         // https://github.com/Antiz96/oniri/issues/3
-    tol_h: i32,                                // https://github.com/Antiz96/oniri/issues/3
-    tol_w: i32,                                // https://github.com/Antiz96/oniri/issues/3
-    action_socket: &mut Socket,
+pub fn maximize_window(
+    socket: &mut Socket,
+    state: &EventStreamState,
+    window_id: u64,
 ) -> anyhow::Result<()> {
-    let Some(windows) = workspace_windows.get(&workspace_id) else {
+    // We need this information to restore focus state after maximizing @window_id
+    let Some(focused_id) = state
+        .windows
+        .windows
+        .values()
+        .find_map(|window| window.is_focused.then_some(window.id))
+    else {
         return Ok(());
     };
 
-    if windows.len() != 1 {
-        return Ok(());
-    }
-
-    let id = windows[0];
-    // https://github.com/Antiz96/oniri/issues/3
-    if !is_maximized(state, outputs, id, tol_h, tol_w) {
-        let _ = action_socket.send(Request::Action(niri_ipc::Action::FocusWindow { id }));
-        let _ = action_socket.send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
-        info!("Maximized window {}", id);
-    }
-
+    let _ = socket.send(Request::Action(niri_ipc::Action::FocusWindow {
+        id: window_id,
+    }));
+    let _ = socket.send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
+    let _ = socket.send(Request::Action(niri_ipc::Action::FocusWindow {
+        id: focused_id,
+    }));
+    info!("Maximized window {}", window_id);
     Ok(())
 }

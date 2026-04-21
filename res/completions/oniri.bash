@@ -2,6 +2,7 @@ _oniri() {
 	local arg="${2}"
 	local -a opts
 	opts=('-F --first-only
+	       -T --tiling-layout
 	       -H --height-tolerance
 	       -W --width-tolerance
 	       -h --help

@@ -9,6 +9,8 @@ use log::{debug, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::env;
 
+use crate::{maximize_window::maximize_window, size_compare::is_maximized};
+
 // Import internal modules
 mod help;
 mod maximize_window;
@@ -41,6 +43,14 @@ fn main() -> anyhow::Result<()> {
     let first_only = has_arg("-F") || has_arg("--first-only");
     if first_only {
         info!("Running in first-only mode: only acting on the first window");
+    }
+
+    // Run in "tiling-layout" mode if the -T / --tiling-layout arg is passed
+    let tiling_layout = has_arg("-T") || has_arg("--tiling-layout");
+    if tiling_layout {
+        info!(
+            "Running in tiling-layout mode: Opening a second window will collapse the first window"
+        );
     }
 
     // Set pixel tolerances for window/output size comparison
@@ -99,34 +109,42 @@ fn main() -> anyhow::Result<()> {
                 for windows in workspace_windows.values_mut() {
                     windows.retain(|&wid| wid != id);
                 }
-                workspace_windows.entry(ws).or_default().push(id);
+
+                let windows = workspace_windows.entry(ws).or_default();
+                windows.push(id);
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
-                maximize_window::maximize_window_if_alone(
-                    ws,
-                    &workspace_windows,
-                    &state,   // https://github.com/Antiz96/oniri/issues/3
-                    &outputs, // https://github.com/Antiz96/oniri/issues/3
-                    tol_h,    // https://github.com/Antiz96/oniri/issues/3
-                    tol_w,    // https://github.com/Antiz96/oniri/issues/3
-                    &mut action_socket,
-                )?;
+                match windows.len() {
+                    1 => {
+                        let first_window = windows[0];
+                        if !is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
+                            maximize_window(&mut action_socket, &state, first_window)?;
+                        }
+                    }
+
+                    // If running in tiling layout mode, un-maximize the first window when a second one is opened
+                    2 if tiling_layout => {
+                        let first_window = windows[0];
+                        if is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
+                            maximize_window(&mut action_socket, &state, first_window)?;
+                        }
+                    }
+                    _ => {}
+                }
             }
             // Window being closed
             Event::WindowClosed { id } => {
                 debug!("Trigger Event: Window Closed");
 
-                let Some(ws) = workspace_windows
-                    .iter()
-                    .find_map(|(&ws, windows)| windows.contains(&id).then_some(ws))
+                let Some((_, windows)) = workspace_windows
+                    .iter_mut()
+                    .find(|(_, windows)| windows.contains(&id))
                 else {
                     continue;
                 };
 
-                // Update the workspace/window(s) map
-                if let Some(windows) = workspace_windows.get_mut(&ws) {
-                    windows.retain(|&wid| wid != id);
-                }
+                // Update the workspace vector
+                windows.retain(|&wid| wid != id);
 
                 // Skip if the -F / --first-only arg is passed
                 if first_only {
@@ -134,15 +152,14 @@ fn main() -> anyhow::Result<()> {
                 }
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
-                maximize_window::maximize_window_if_alone(
-                    ws,
-                    &workspace_windows,
-                    &state,   // https://github.com/Antiz96/oniri/issues/3
-                    &outputs, // https://github.com/Antiz96/oniri/issues/3
-                    tol_h,    // https://github.com/Antiz96/oniri/issues/3
-                    tol_w,    // https://github.com/Antiz96/oniri/issues/3
-                    &mut action_socket,
-                )?;
+                if windows.len() != 1 {
+                    continue;
+                }
+
+                let id = windows[0];
+                if !is_maximized(&state, &outputs, id, tol_h, tol_w) {
+                    maximize_window(&mut action_socket, &state, id)?;
+                }
             }
             // Ignore other events
             _ => {}
