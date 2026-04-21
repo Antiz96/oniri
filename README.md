@@ -23,7 +23,7 @@ With `oniri` started in "first window only" mode in your niri configuration file
 
 With `oniri` started in "tiling layout" mode in your niri configuration file (`spawn-sh-at-startup "oniri --tiling-layout"` in `~/.config/niri/config.kdl`), the first window gets unmaximized when a second one is opened, mimicking the behavior of a tiling compositor:
 
-[INSERT VIDEO DEMO]
+<https://github.com/user-attachments/assets/d8ebfab0-3d88-44f9-9613-96b734b572ee>
 
 **Note:** Due to current limitations of the niri IPC, "buggy" behaviors (e.g. window not being correctly maximized) *may* be expected in specific setups / edgy cases. Those limitations should *hopefully* be addressed on the niri IPC side at some point, allowing to fix those eventual "buggy" behaviors once and for all (see <https://github.com/Antiz96/oniri/issues/3> for more details).  
 In the mean time, things *should* still work just fine for most "classic" setups though!
