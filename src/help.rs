@@ -13,6 +13,9 @@ pub fn show_help() {
         "  -F, --first-only        Only maximize the first opened window, do not act on the last remaining one"
     );
     println!(
+        "  -T, --tiling-layout     Unmaximize the first window when opening a second one, like in a tiling compositor"
+    );
+    println!(
         "  -H, --height-tolerance  Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not" // https://github.com/Antiz96/oniri/issues/3
     );
     println!(
