@@ -80,19 +80,26 @@ fn main() -> anyhow::Result<()> {
                 debug!("Trigger Event: Window Opened Or Changed");
 
                 let id = window.id;
-                // Update the workspace/window(s) map
-                for windows in workspace_windows.values_mut() {
-                    windows.retain(|&wid| wid != id);
-                }
-
                 let Some(ws) = window.workspace_id else {
                     continue;
                 };
 
-                let entry = workspace_windows.entry(ws).or_default();
-                if !entry.contains(&id) {
-                    entry.push(id);
+                // Workaround IPC limitation by checking if the window that triggered the event is
+                // in the same workspace.
+                //
+                // This will differentiate between WindowOpened and WindowChanged.
+                if workspace_windows
+                    .get(&ws)
+                    .is_some_and(|windows| windows.contains(&id))
+                {
+                    continue;
                 }
+
+                // Update the workspace/window(s) map
+                for windows in workspace_windows.values_mut() {
+                    windows.retain(|&wid| wid != id);
+                }
+                workspace_windows.entry(ws).or_default().push(id);
 
                 // Check if there's only one window in the workspace/window(s) map & maximize it if so
                 maximize_window::maximize_window_if_alone(
