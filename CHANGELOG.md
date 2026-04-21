@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.0](https://github.com/Antiz96/oniri/releases/tag/v1.1.0) - 2026-04-21
+
+### Features
+
+- General refactor and new tiling layout mode option ([#33](https://github.com/Antiz96/oniri/pull/33)) - ([d9d08c7](https://github.com/Antiz96/oniri/commit/d9d08c7be4085bc11916af17c63695c33d62d83e)) by @1Naim
+
+### Fixes
+
+- *(event)* Differentiate WindowOpened and WindowChanged ([#35](https://github.com/Antiz96/oniri/pull/35)) - ([67132a3](https://github.com/Antiz96/oniri/commit/67132a3161d7745ca78350532eaceb7a9eb68ed8)) by @1Naim
+- Skip parsing Nautilus when it is in loading state ([#34](https://github.com/Antiz96/oniri/pull/34)) - ([8526532](https://github.com/Antiz96/oniri/commit/8526532d98af47dd99204b2bba607370105e961f)) by @1Naim
+
 ## [v1.0.5](https://github.com/Antiz96/oniri/releases/tag/v1.0.5) - 2026-04-20
 
 ### Fixes
