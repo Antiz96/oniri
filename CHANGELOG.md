@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.1](https://github.com/Antiz96/oniri/releases/tag/v1.1.1) - 2026-04-25
+
+### Miscellaneous
+
+- *(deps)* Update Rust crate niri-ipc to 26.4.0 ([#36](https://github.com/Antiz96/oniri/pull/36)) - ([2e8d9a2](https://github.com/Antiz96/oniri/commit/2e8d9a272a4152788e7d9d524da21101f7080d30)) by @renovate[bot]
+
 ## [v1.1.0](https://github.com/Antiz96/oniri/releases/tag/v1.1.0) - 2026-04-21
 
 ### Features
