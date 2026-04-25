@@ -7,7 +7,7 @@ description = "A tool that automatically maximizes the only window of a niri wor
 license = "GPL-3.0-or-later"
 
 [dependencies]
-niri-ipc = "25.11.0"
+niri-ipc = "26.0.0"
 anyhow = "1.0.102"
 log = "0.4.29"
 env_logger = "0.11.9"
