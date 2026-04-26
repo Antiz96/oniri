@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.0](https://github.com/Antiz96/oniri/releases/tag/v1.2.0) - 2026-04-27
+
+### Features
+
+- Add the `-E / --edges-maximizing` option ([#38](https://github.com/Antiz96/oniri/pull/38)) - ([1bf1b10](https://github.com/Antiz96/oniri/commit/1bf1b101b1069c497632914aa8b7161e37bef477)) by @Antiz96
+
+### Documentation
+
+- *(README)* Mention additional options and features in the description ([#39](https://github.com/Antiz96/oniri/pull/39)) - ([b9e1c09](https://github.com/Antiz96/oniri/commit/b9e1c09abf4147ac0611792cc74252a10443617c)) by @Antiz96
+
+### Styling
+
+- Improve comment and logging consistency ([#40](https://github.com/Antiz96/oniri/pull/40)) - ([7cdb882](https://github.com/Antiz96/oniri/commit/7cdb8820b68dae1779108d37779d6638c228703e)) by @Antiz96
+
 ## [v1.1.1](https://github.com/Antiz96/oniri/releases/tag/v1.1.1) - 2026-04-25
 
 ### Miscellaneous

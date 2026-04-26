@@ -1,4 +1,4 @@
-oniri(1) ["Oniri 1.1.1" ["Oniri Manual"]]
+oniri(1) ["Oniri 1.2.0" ["Oniri Manual"]]
 
 # NAME
 
