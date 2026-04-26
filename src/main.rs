@@ -56,9 +56,7 @@ fn main() -> anyhow::Result<()> {
     // Run in "maximizing-to-edges" mode if the -E / --edges-maximizing arg is passed
     let edges_maximizing = has_arg("-E") || has_arg("--edges-maximizing");
     if edges_maximizing {
-        info!(
-            "Running in maximize-to-edges mode: Maximize windows to edges"
-        );
+        info!("Running in maximize-to-edges mode: Maximize windows to edges");
     }
 
     // Set pixel tolerances for window/output size comparison
@@ -126,7 +124,12 @@ fn main() -> anyhow::Result<()> {
                     1 => {
                         let first_window = windows[0];
                         if !is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
-                            maximize_window(&mut action_socket, &state, first_window, edges_maximizing)?;
+                            maximize_window(
+                                &mut action_socket,
+                                &state,
+                                first_window,
+                                edges_maximizing,
+                            )?;
                         }
                     }
 
@@ -134,7 +137,12 @@ fn main() -> anyhow::Result<()> {
                     2 if tiling_layout => {
                         let first_window = windows[0];
                         if is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
-                            maximize_window(&mut action_socket, &state, first_window, edges_maximizing)?;
+                            maximize_window(
+                                &mut action_socket,
+                                &state,
+                                first_window,
+                                edges_maximizing,
+                            )?;
                         }
                     }
                     _ => {}
