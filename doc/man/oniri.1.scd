@@ -20,6 +20,9 @@ Oniri is a tool that automatically maximizes the *on*ly window of a *niri* works
 *-T, --tiling-layout*
 	Unmaximize the first window when opening a second one, like in a tiling compositor.
 
+*-E, --edges-maximizing*
+	Maximize windows to edges.
+
 *-H, --height-tolerance* <number>
 	Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (https://github.com/Antiz96/oniri/issues/3).
 

@@ -53,6 +53,14 @@ fn main() -> anyhow::Result<()> {
         );
     }
 
+    // Run in "maximizing-to-edges" mode if the -E / --edges-maximizing arg is passed
+    let edges_maximizing = has_arg("-E") || has_arg("--edges-maximizing");
+    if edges_maximizing {
+        info!(
+            "Running in maximize-to-edges mode: Maximize windows to edges"
+        );
+    }
+
     // Set pixel tolerances for window/output size comparison
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let (tol_h, tol_w) = size_compare::set_tolerances();
@@ -118,7 +126,7 @@ fn main() -> anyhow::Result<()> {
                     1 => {
                         let first_window = windows[0];
                         if !is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
-                            maximize_window(&mut action_socket, &state, first_window)?;
+                            maximize_window(&mut action_socket, &state, first_window, edges_maximizing)?;
                         }
                     }
 
@@ -126,7 +134,7 @@ fn main() -> anyhow::Result<()> {
                     2 if tiling_layout => {
                         let first_window = windows[0];
                         if is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
-                            maximize_window(&mut action_socket, &state, first_window)?;
+                            maximize_window(&mut action_socket, &state, first_window, edges_maximizing)?;
                         }
                     }
                     _ => {}
@@ -158,7 +166,7 @@ fn main() -> anyhow::Result<()> {
 
                 let id = windows[0];
                 if !is_maximized(&state, &outputs, id, tol_h, tol_w) {
-                    maximize_window(&mut action_socket, &state, id)?;
+                    maximize_window(&mut action_socket, &state, id, edges_maximizing)?;
                 }
             }
             // Ignore other events
