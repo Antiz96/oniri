@@ -3,6 +3,7 @@ _oniri() {
 	local -a opts
 	opts=('-F --first-only
 	       -T --tiling-layout
+	       -E --edges-maximizing
 	       -H --height-tolerance
 	       -W --width-tolerance
 	       -h --help
