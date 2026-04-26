@@ -53,10 +53,10 @@ fn main() -> anyhow::Result<()> {
         );
     }
 
-    // Run in "maximizing-to-edges" mode if the -E / --edges-maximizing arg is passed
+    // Run in "edges-maximizing" mode if the -E / --edges-maximizing arg is passed
     let edges_maximizing = has_arg("-E") || has_arg("--edges-maximizing");
     if edges_maximizing {
-        info!("Running in maximize-to-edges mode: Maximize windows to edges");
+        info!("Running in edges-maximizing mode: Maximize windows to edges");
     }
 
     // Set pixel tolerances for window/output size comparison
