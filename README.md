@@ -39,11 +39,8 @@ In the mean time, things *should* still work just fine for most "classic" setups
 ### Pre-compiled binary
 
 A pre-compiled binary for the `x86_64 (amd64)` architecture is distributed as a [release asset](https://github.com/Antiz96/oniri/releases/latest) (`oniri-<version>-amd64`).  
-You can download it, make it executable, rename it `oniri` and copy it somewhere in your `$PATH`.
 
 ### Build from source
-
-Requires `rustup` and `gcc`.
 
 ```bash
 git clone https://github.com/Antiz96/oniri.git
@@ -52,7 +49,6 @@ cargo build --release
 ```
 
 The built binary will be located at `./target/release/oniri`.  
-You can copy it somewhere in your `$PATH`.
 
 The man page can be generated with `scdoc`:
 
