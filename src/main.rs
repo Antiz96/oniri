@@ -103,11 +103,14 @@ fn main() -> anyhow::Result<()> {
                 // Workaround IPC limitation by checking if the window that triggered the event is
                 // in the same workspace.
                 //
-                // This will differentiate between WindowOpened and WindowChanged.
-                if workspace_windows
-                    .get(&ws)
-                    .is_some_and(|windows| windows.contains(&id))
-                {
+                // If not, track the previous workspace to act on it (if needed), for instance if the current
+                // window is moved to another workspace and there's only one window remaining on the
+                // previous one (which should therefore be maximized).
+                let previous_ws = workspace_windows.iter().find_map(|(&tracked_ws, windows)| {
+                    windows.contains(&id).then_some(tracked_ws)
+                });
+
+                if previous_ws == Some(ws) {
                     continue;
                 }
 
@@ -119,7 +122,7 @@ fn main() -> anyhow::Result<()> {
                 let windows = workspace_windows.entry(ws).or_default();
                 windows.push(id);
 
-                // Check if there's only one window in the workspace/window(s) map & maximize it if so
+                // Check if there's only one window in the current workspace & maximize it if so
                 match windows.len() {
                     1 => {
                         let first_window = windows[0];
@@ -147,7 +150,29 @@ fn main() -> anyhow::Result<()> {
                     }
                     _ => {}
                 }
+
+                // If the window that triggered the event has been moved to another workspace, then
+		// check if there's only one window in the previous workspace & maximize it if so.
+                if let Some(old_ws) = previous_ws {
+                    if old_ws != ws {
+                        if let Some(old_windows) = workspace_windows.get(&old_ws) {
+                            if old_windows.len() == 1 {
+                                let remaining = old_windows[0];
+
+                                if !is_maximized(&state, &outputs, remaining, tol_h, tol_w) {
+                                    maximize_window(
+                                        &mut action_socket,
+                                        &state,
+                                        remaining,
+                                        edges_maximizing,
+                                    )?;
+                                }
+                            }
+                        }
+                    }
+                }
             }
+
             // Window being closed
             Event::WindowClosed { id } => {
                 debug!("Trigger Event: Window Closed");
