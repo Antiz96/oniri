@@ -106,6 +106,8 @@ fn main() -> anyhow::Result<()> {
                 // If not, track the previous workspace to act on it (if needed), for instance if the current
                 // window is moved to another workspace and there's only one window remaining on the
                 // previous one (which should therefore be maximized).
+                //
+                // This will differentiate between WindowOpened and WindowChanged.
                 let previous_ws = workspace_windows
                     .iter()
                     .find_map(|(&tracked_ws, windows)| windows.contains(&id).then_some(tracked_ws));
@@ -152,8 +154,8 @@ fn main() -> anyhow::Result<()> {
                 }
 
                 // If the window that triggered the event has been moved to another workspace, then
-                // check if there's only one window in the previous workspace & maximize it if so (unless we're running
-                // in "first-only" mode).
+                // check if there's only one window in the previous workspace & maximize it if so
+                // (unless we're running in "first-only" mode).
                 if let Some(old_ws) = previous_ws
                     && !first_only
                     && old_ws != ws
