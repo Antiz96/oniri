@@ -152,8 +152,10 @@ fn main() -> anyhow::Result<()> {
                 }
 
                 // If the window that triggered the event has been moved to another workspace, then
-                // check if there's only one window in the previous workspace & maximize it if so.
+                // check if there's only one window in the previous workspace & maximize it if so (unless we're running
+                // in "first-only" mode).
                 if let Some(old_ws) = previous_ws
+                    && !first_only
                     && old_ws != ws
                     && let Some(old_windows) = workspace_windows.get(&old_ws)
                     && old_windows.len() == 1
