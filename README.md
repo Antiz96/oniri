@@ -55,7 +55,7 @@ sha256sum target/x86_64-unknown-linux-musl/release/oniri
 
 Then, compare the `sha256` hash of the built binary to the one of the pre-compiled release binary (which is also recorded in the `oniri-<release_version>-x86_64.sha256` file in the release assets). Both hashes should be equal, indicating that the binary has been successfully reproduced.
 
-Each release assets are also cryptographically signed, with the detached signature for each asset distributed as `<asset_name>.asc` (see the [MAINTAINERS.md file](https://github.com/Antiz96/oniri/blob/main/MAINTAINERS.md) for more details).
+Each release assets are also cryptographically signed, with the detached signature for each asset distributed as `<asset_name>.asc` (see the [MAINTAINERS.md file](https://github.com/Antiz96/oniri/blob/main/MAINTAINERS.md) for a list of keys expected to emit signatures).
 
 ### Build from source
 
