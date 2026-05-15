@@ -40,7 +40,7 @@ In the mean time, things *should* still work just fine for most "classic" setups
 
 A (statically linked) pre-compiled binary for the `x86_64 (amd64)` architecture is distributed as a [release asset](https://github.com/Antiz96/oniri/releases/latest) (`oniri-<release_version>-x86_64`).
 
-The pre-compiled binary can be reproduced from source (in the sense of [reproducible builds](reproducible-builds.org)).  
+The pre-compiled binary can be reproduced from source (in the sense of [reproducible builds](https://reproducible-builds.org)).  
 The build environment is created and fully documented via [repro-env](https://github.com/kpcyrd/repro-env), and is tracked in this repository.
 
 To reproduce the pre-compiled binary for a given release, [install repro-env](https://github.com/kpcyrd/repro-env#download) and run the following:
