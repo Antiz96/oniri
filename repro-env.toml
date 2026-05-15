@@ -1,0 +1,6 @@
+[container]
+image = "docker.io/archlinux/archlinux:repro"
+
+[packages]
+system = "archlinux"
+dependencies = ["cargo", "musl", "rust-musl"]

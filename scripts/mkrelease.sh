@@ -46,7 +46,9 @@ sed -i "s/version = \"${sed_pattern#v}\"/version = \"${release_tag}\"/g" Cargo.t
 sed -i "s/${sed_pattern#v}/${release_tag}/g" doc/man/oniri.1.scd
 
 # Build binary
-rm -rf target/ && cargo build --release
+repro-env update
+rm -rf target/ && repro-env build -- cargo build --release --target x86_64-unknown-linux-musl
+podman image prune -af
 
 # Update changelog
 git-cliff -up CHANGELOG.md
@@ -88,20 +90,20 @@ sha256sum "oniri-${release_tag}.tar.gz" > "oniri-${release_tag}.tar.gz.sha256"
 gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "oniri-${release_tag}.tar.gz.sha256"
 
 # Sign binary and checksum
-mv target/release/oniri "target/release/oniri-${release_tag}-amd64"
-gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "target/release/oniri-${release_tag}-amd64"
-sha256sum "target/release/oniri-${release_tag}-amd64" > "target/release/oniri-${release_tag}-amd64.sha256"
-gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "target/release/oniri-${release_tag}-amd64.sha256"
+mv target/x86_64-unknown-linux-musl/release/oniri "target/x86_64-unknown-linux-musl/release/oniri-${release_tag}-amd64"
+gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "target/x86_64-unknown-linux-musl/release/oniri-${release_tag}-amd64"
+sha256sum "target/x86_64-unknown-linux-musl/release/oniri-${release_tag}-amd64" > "target/x86_64-unknown-linux-musl/release/oniri-${release_tag}-amd64.sha256"
+gpg --local-user D33FAA16B937F3B2 --armor --detach-sign "target/x86_64-unknown-linux-musl/release/oniri-${release_tag}-amd64.sha256"
 
 # Upload assets
 gh release upload "v${release_tag}" \
 	"oniri-${release_tag}.tar.gz.asc" \
 	"oniri-${release_tag}.tar.gz.sha256" \
 	"oniri-${release_tag}.tar.gz.sha256.asc" \
-	"target/release/oniri-${release_tag}-amd64" \
-	"target/release/oniri-${release_tag}-amd64.asc" \
-	"target/release/oniri-${release_tag}-amd64.sha256" \
-	"target/release/oniri-${release_tag}-amd64.sha256.asc"
+	"target/x86_64-unknown-linux-musl/release/oniri-${release_tag}-amd64" \
+	"target/x86_64-unknown-linux-musl/release/oniri-${release_tag}-amd64.asc" \
+	"target/x86_64-unknown-linux-musl/release/oniri-${release_tag}-amd64.sha256" \
+	"target/x86_64-unknown-linux-musl/release/oniri-${release_tag}-amd64.sha256.asc"
 
 # Cleanup
 rm -rf "oniri-${release_tag}.tar.gz"* target/
