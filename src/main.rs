@@ -153,19 +153,44 @@ fn main() -> anyhow::Result<()> {
                     _ => {}
                 }
 
-                // If the window that triggered the event has been moved to another workspace, then
-                // check if there's only one window in the previous workspace & maximize it if so
-                // (unless we're running in "first-only" mode).
+                // If the window that triggered the event has been moved to another workspace:
                 if let Some(old_ws) = previous_ws
-                    && !first_only
                     && old_ws != ws
-                    && let Some(old_windows) = workspace_windows.get(&old_ws)
-                    && old_windows.len() == 1
                 {
-                    let remaining = old_windows[0];
+                    // In tiling layout mode, un-maximize the current window
+                    // if it was previously the only window of its workspace but now isn't
+                    if tiling_layout
+                        && windows.len() > 1
+                        && let Some(&last_window) = windows.last()
+                        && workspace_windows
+                            .get(&old_ws)
+                            .is_none_or(|old_windows| old_windows.is_empty())
+                    {
+                        if is_maximized(&state, &outputs, last_window, tol_h, tol_w) {
+                            maximize_window(
+                                &mut action_socket,
+                                &state,
+                                last_window,
+                                edges_maximizing,
+                            )?;
+                        }
+                    }
+                    // If there's one window left in the previous workspace, maximize it
+                    // (unless we're running in "first-only" mode).
+                    else if !first_only
+                        && let Some(old_windows) = workspace_windows.get(&old_ws)
+                        && old_windows.len() == 1
+                    {
+                        let remaining = old_windows[0];
 
-                    if !is_maximized(&state, &outputs, remaining, tol_h, tol_w) {
-                        maximize_window(&mut action_socket, &state, remaining, edges_maximizing)?;
+                        if !is_maximized(&state, &outputs, remaining, tol_h, tol_w) {
+                            maximize_window(
+                                &mut action_socket,
+                                &state,
+                                remaining,
+                                edges_maximizing,
+                            )?;
+                        }
                     }
                 }
             }
