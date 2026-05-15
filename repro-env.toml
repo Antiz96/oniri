@@ -1,5 +1,5 @@
 [container]
-image = "docker.io/archlinux/archlinux:repro"
+image = "docker.io/archlinux/archlinux"
 
 [packages]
 system = "archlinux"
