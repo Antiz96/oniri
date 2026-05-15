@@ -37,3 +37,6 @@ jobs:
 
       - name: Run cargo build
         run: cargo build --release
+
+      - name: Cleanup
+        run: rm -rvf target/ ~/.cargo
