@@ -46,9 +46,9 @@ sed -i "s/version = \"${sed_pattern#v}\"/version = \"${release_tag}\"/g" Cargo.t
 sed -i "s/${sed_pattern#v}/${release_tag}/g" doc/man/oniri.1.scd
 
 # Build binary
+rm -rf target/
 repro-env update
-rm -rf target/ && repro-env build -- cargo build --release --target x86_64-unknown-linux-musl
-podman image prune -af
+repro-env build -- cargo build --release --target x86_64-unknown-linux-musl
 
 # Update changelog
 git-cliff -up CHANGELOG.md
@@ -107,4 +107,4 @@ gh release upload "v${release_tag}" \
 
 # Cleanup
 rm -rf "oniri-${release_tag}.tar.gz"* target/
-
+podman image prune -af
