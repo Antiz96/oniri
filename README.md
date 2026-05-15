@@ -38,7 +38,24 @@ In the mean time, things *should* still work just fine for most "classic" setups
 
 ### Pre-compiled binary
 
-A pre-compiled binary for the `x86_64 (amd64)` architecture is distributed as a [release asset](https://github.com/Antiz96/oniri/releases/latest) (`oniri-<version>-amd64`).  
+A (statically linked) pre-compiled binary for the `x86_64 (amd64)` architecture is distributed as a [release asset](https://github.com/Antiz96/oniri/releases/latest) (`oniri-<release_version>-x86_64`).
+
+The pre-compiled binary can be reproduced from source (in the sense of [reproducible builds](https://reproducible-builds.org)).  
+The build environment is created and fully documented via [repro-env](https://github.com/kpcyrd/repro-env), and is tracked in this repository.
+
+To reproduce the pre-compiled binary for a given release, [install repro-env](https://github.com/kpcyrd/repro-env#download) and run the following:
+
+```bash
+git clone https://github.com/Antiz96/oniri.git
+cd oniri
+git checkout <tag> # Where <tag> is the git tag for the targeted release, e.g. "v1.2.2"
+repro-env build -- cargo build --release --target x86_64-unknown-linux-musl
+sha256sum target/x86_64-unknown-linux-musl/release/oniri
+```
+
+Then, compare the `sha256` hash of the built binary to the one of the pre-compiled release binary (which is also recorded in the `oniri-<release_version>-x86_64.sha256` file in the release assets). Both hashes should be equal, indicating that the binary has been successfully reproduced.
+
+Each release assets are also cryptographically signed, with the detached signature for each asset distributed as `<asset_name>.asc` (see the [MAINTAINERS.md file](https://github.com/Antiz96/oniri/blob/main/MAINTAINERS.md) for a list of keys expected to emit signatures).
 
 ### Build from source
 
