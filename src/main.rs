@@ -112,10 +112,6 @@ fn main() -> anyhow::Result<()> {
                     .iter()
                     .find_map(|(&tracked_ws, windows)| windows.contains(&id).then_some(tracked_ws));
 
-                if previous_ws == Some(ws) {
-                    continue;
-                }
-
                 // Update the workspace/window(s) map
                 for windows in workspace_windows.values_mut() {
                     windows.retain(|&wid| wid != id);
