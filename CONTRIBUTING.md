@@ -70,7 +70,7 @@ By contributing to this project, you agree that your contributions will be licen
 
 ## Donations
 
-You can also support this project development (and my work in general) by making a donation via my [GitHub sponsor page](https://github.com/sponsors/Antiz96).
+You can also support this project development (and my work in general) by making a donation via my [GitHub sponsor](https://github.com/sponsors/Antiz96) or [Ko-fi](https://ko-fi.com/Antiz96) page.
 
 ## Thank you
 
