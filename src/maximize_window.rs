@@ -1,6 +1,5 @@
 //! Helper for maximizing a window, since before maximizing the window must be focused.
 
-// Import external modules
 use log::info;
 use niri_ipc::state::EventStreamState;
 use niri_ipc::{Request, socket::Socket};
