@@ -17,6 +17,7 @@ mod maximize_window;
 mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
 mod size_compare; // https://github.com/Antiz96/oniri/issues/3
 mod socket_connections;
+mod version;
 mod windows_map;
 
 fn main() -> anyhow::Result<()> {
@@ -35,7 +36,7 @@ fn main() -> anyhow::Result<()> {
 
     // Show name and version if the -V / --version arg is passed
     if has_arg("-V") || has_arg("--version") {
-        println!("{} {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
+        version::show_version();
         return Ok(());
     }
 
