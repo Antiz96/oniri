@@ -4,7 +4,6 @@
 //! and/or the lack of a way to set/unset the maximize state (rather than just toggling it).
 //! This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved.
 
-// Import external modules
 use log::{debug, info, warn};
 use niri_ipc::{Output, state::EventStreamState};
 use std::{collections::HashMap, env};

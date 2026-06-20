@@ -1,6 +1,5 @@
 //! Create a workspace/window(s) map and initialize it
 
-// Import external modules
 use niri_ipc::{Request, Response, socket::Socket};
 use std::collections::HashMap;
 

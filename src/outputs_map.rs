@@ -2,7 +2,6 @@
 //! used as a workaround for some limitations of the niri IPC
 //! This can be dropped once https://github.com/Antiz96/oniri/issues/3 is solved
 
-// Import external modules
 use log::info;
 use niri_ipc::{Output, Request, Response, socket::Socket};
 use std::collections::HashMap;

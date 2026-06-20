@@ -4,14 +4,12 @@
 //! whether it's the first one opened or the last remaining ones after all the other windows got closed,
 //! and maximize it if so.
 
-// Import external modules
 use log::{debug, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::env;
 
 use crate::{maximize_window::maximize_window, size_compare::is_maximized};
 
-// Import internal modules
 mod help;
 mod maximize_window;
 mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
