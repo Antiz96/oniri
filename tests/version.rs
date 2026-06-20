@@ -1,6 +1,5 @@
-// Import modules
-// assert_cmd::Command to run a command and assert on exit code & stdout/stderr
-// predicates::str::contains to predicate command output
+//! Test the --version argument
+
 use assert_cmd::Command;
 use predicates::str::contains;
 
