@@ -67,13 +67,13 @@ cargo build --release
 
 The built binary will be located at `./target/release/oniri`.  
 
-The man page can be generated with `scdoc`:
+The [man page](https://github.com/Antiz96/oniri/tree/main/doc/man) can be generated with `scdoc`:
 
 ```bash
 scdoc < doc/man/oniri.1.scd > doc/man/oniri.1
 ```
 
-There are also shell completions available in the `res/completions/` directory.
+There are also shell completions available in the [`res/completions/`](https://github.com/Antiz96/oniri/tree/main/res/completions) directory.
 
 ## Usage
 
