@@ -17,10 +17,10 @@ pub fn show_help() {
     );
     println!("  -E, --edges-maximizing  Maximize windows to edges");
     println!(
-        "  -H, --height-tolerance  Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not" // https://github.com/Antiz96/oniri/issues/3
+        "  -H, --height-tolerance  Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (defaults to 150)" // https://github.com/Antiz96/oniri/issues/3
     );
     println!(
-        "  -W, --width-tolerance   Set the width size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not" // https://github.com/Antiz96/oniri/issues/3
+        "  -W, --width-tolerance   Set the width size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (defaults to 150)" // https://github.com/Antiz96/oniri/issues/3
     );
     println!("  -h, --help              Display this help message");
     println!("  -V, --version           Display version information");
