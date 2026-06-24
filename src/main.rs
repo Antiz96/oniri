@@ -34,7 +34,7 @@ struct Args {
 
     #[arg(short = 'H', long, default_value_t = 150)]
     height_tolerance: i32,
-    
+
     #[arg(short = 'W', long, default_value_t = 150)]
     width_tolerance: i32,
 
