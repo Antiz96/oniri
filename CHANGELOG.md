@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.3](https://github.com/Antiz96/oniri/releases/tag/v1.2.3) - 2026-06-24
+
+### Documentation
+
+- *(man)* Link to raw man page in README ([#65](https://github.com/Antiz96/oniri/pull/65)) - ([8501b83](https://github.com/Antiz96/oniri/commit/8501b83bf66017b6dd14fb42decd9634460e912b)) by @Antiz96
+
+### Styling
+
+- *(MAINTAINERS)* Drop @ prefix ([#73](https://github.com/Antiz96/oniri/pull/73)) - ([12c726a](https://github.com/Antiz96/oniri/commit/12c726a010ee1b7466b2734a374b52a15baa44ac)) by @Antiz96
+- *(help)* Remove extra spaces ([#67](https://github.com/Antiz96/oniri/pull/67)) - ([392f50d](https://github.com/Antiz96/oniri/commit/392f50d094055b2d48fbe57950e95829e127d8a6)) by @Antiz96
+- Remove useless comments ([#70](https://github.com/Antiz96/oniri/pull/70)) - ([faf3f91](https://github.com/Antiz96/oniri/commit/faf3f91aab30f4391f7bbcfed6ab5356d021cc4f)) by @Antiz96
+
+### Miscellaneous
+
+- *(CONTRIBUTING)* Update sponsor links ([#63](https://github.com/Antiz96/oniri/pull/63)) - ([09976b0](https://github.com/Antiz96/oniri/commit/09976b050ce4a3a859e801d81ce5c156066635a0)) by @Antiz96
+- *(README)* Add links to man page and shell completions ([#72](https://github.com/Antiz96/oniri/pull/72)) - ([93aed42](https://github.com/Antiz96/oniri/commit/93aed429fef089f10f7a4c9d64c8bb96a4e990f9)) by @Antiz96
+- *(arg)* Switch to clap ([#76](https://github.com/Antiz96/oniri/pull/76)) - ([9cb63c8](https://github.com/Antiz96/oniri/commit/9cb63c8f65835cbe0a87396550f42728e68335d7)) by @Antiz96
+- *(deps)* Lock file maintenance ([#74](https://github.com/Antiz96/oniri/pull/74)) - ([3d6909a](https://github.com/Antiz96/oniri/commit/3d6909a40eb87202246dd8c2214f1d8e4370478c)) by @renovate[bot]
+- *(deps)* Update Rust crate log to 0.4.33 ([#69](https://github.com/Antiz96/oniri/pull/69)) - ([5ae5583](https://github.com/Antiz96/oniri/commit/5ae55830c60ba17d0351d994745878c58cebdf69)) by @renovate[bot]
+- *(deps)* Update actions/checkout action to v7.0.0 ([#64](https://github.com/Antiz96/oniri/pull/64)) - ([2d42739](https://github.com/Antiz96/oniri/commit/2d42739e1e02c2f6d12ef30db221b6e29993c089)) by @renovate[bot]
+- *(deps)* Lock file maintenance ([#62](https://github.com/Antiz96/oniri/pull/62)) - ([36b4595](https://github.com/Antiz96/oniri/commit/36b45953012a73e675f336ae8c902f1c420b3e28)) by @renovate[bot]
+- *(deps)* Lock file maintenance ([#61](https://github.com/Antiz96/oniri/pull/61)) - ([9226d5d](https://github.com/Antiz96/oniri/commit/9226d5d743f2588edff115cfb6210e3882eae86b)) by @renovate[bot]
+- *(deps)* Update Rust crate log to 0.4.32 ([#60](https://github.com/Antiz96/oniri/pull/60)) - ([b97f94a](https://github.com/Antiz96/oniri/commit/b97f94ad19c4ef2a0be9b2ffd834e41866edaf2a)) by @renovate[bot]
+- *(deps)* Update Rust crate log to 0.4.31 ([#59](https://github.com/Antiz96/oniri/pull/59)) - ([9200f0b](https://github.com/Antiz96/oniri/commit/9200f0be97c524741b50cd5e3f698c5dd72b8876)) by @renovate[bot]
+- *(deps)* Update Rust crate log to 0.4.30 ([#58](https://github.com/Antiz96/oniri/pull/58)) - ([13fac89](https://github.com/Antiz96/oniri/commit/13fac89737d4d56332c7e77aa0926f6717941572)) by @renovate[bot]
+- *(deps)* Lock file maintenance ([#57](https://github.com/Antiz96/oniri/pull/57)) - ([10b442c](https://github.com/Antiz96/oniri/commit/10b442c0cc5deae3a9912fb6cf07d50487874ecb)) by @renovate[bot]
+- *(release)* Miscellaneous changes to the release script ([#55](https://github.com/Antiz96/oniri/pull/55)) - ([f926dd1](https://github.com/Antiz96/oniri/commit/f926dd10ed491687521105ad49c01ec574e9b5bc)) by @Antiz96
+- Add test for the help argument ([#71](https://github.com/Antiz96/oniri/pull/71)) - ([31d32e4](https://github.com/Antiz96/oniri/commit/31d32e4ffef032b22431c0fce165b30bbd7d9ac5)) by @Antiz96
+- Move version function in a separate module ([#68](https://github.com/Antiz96/oniri/pull/68)) - ([645649c](https://github.com/Antiz96/oniri/commit/645649ca3988523c08ca200067d06ae9864cd84e)) by @Antiz96
+
 ## [v1.2.2](https://github.com/Antiz96/oniri/releases/tag/v1.2.2) - 2026-05-16
 
 ### Fixes
