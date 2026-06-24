@@ -6,43 +6,8 @@
 
 use log::{debug, info, warn};
 use niri_ipc::{Output, state::EventStreamState};
-use std::{collections::HashMap, env};
+use std::collections::HashMap;
 
-/// Fetch height and width tolerances from CLI, with defaults
-pub fn set_tolerances() -> (i32, i32) {
-    let mut tol_h = 150;
-    let mut tol_w = 150;
-
-    let mut args = env::args();
-    while let Some(arg) = args.next() {
-        match arg.as_str() {
-            "-H" | "--height-tolerance" => {
-                if let Some(value) = args.next() {
-                    if let Ok(val) = value.parse::<i32>() {
-                        tol_h = val;
-                    } else {
-                        warn!("Invalid value for {}: {}", arg, value);
-                    }
-                }
-            }
-            "-W" | "--width-tolerance" => {
-                if let Some(value) = args.next() {
-                    if let Ok(val) = value.parse::<i32>() {
-                        tol_w = val;
-                    } else {
-                        warn!("Invalid value for {}: {}", arg, value);
-                    }
-                }
-            }
-            _ => {}
-        }
-    }
-
-    (tol_h, tol_w)
-}
-
-/// Determine if the window is already maximized or not
-/// by comparing the window tile size and the output size
 pub fn is_maximized(
     state: &EventStreamState,
     outputs: &HashMap<String, Output>,

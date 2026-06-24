@@ -4,9 +4,9 @@
 //! whether it's the first one opened or the last remaining ones after all the other windows got closed,
 //! and maximize it if so.
 
+use clap::Parser;
 use log::{debug, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
-use std::env;
 
 use crate::{maximize_window::maximize_window, size_compare::is_maximized};
 
@@ -18,34 +18,60 @@ mod socket_connections;
 mod version;
 mod windows_map;
 
+// Argument parser
+#[derive(Parser)]
+#[command(disable_help_flag = true, disable_version_flag = true)]
+struct Args {
+    // Options / flags
+    #[arg(short = 'F', long)]
+    first_only: bool,
+
+    #[arg(short = 'T', long)]
+    tiling_layout: bool,
+
+    #[arg(short = 'E', long)]
+    edges_maximizing: bool,
+
+    #[arg(short = 'H', long, default_value_t = 150)]
+    height_tolerance: i32,
+    
+    #[arg(short = 'W', long, default_value_t = 150)]
+    width_tolerance: i32,
+
+    #[arg(short = 'h', long)]
+    help: bool,
+
+    #[arg(short = 'V', long)]
+    version: bool,
+}
+
 fn main() -> anyhow::Result<()> {
     // Initialize logger
     env_logger::init();
 
     // Parse arguments
-    let args: Vec<String> = env::args().collect();
-    let has_arg = |flag: &str| args.iter().any(|arg| arg == flag);
+    let args = Args::parse();
 
     // Show help message if the -h / --help arg is passed
-    if has_arg("-h") || has_arg("--help") {
+    if args.help {
         help::show_help();
         return Ok(());
     }
 
     // Show name and version if the -V / --version arg is passed
-    if has_arg("-V") || has_arg("--version") {
+    if args.version {
         version::show_version();
         return Ok(());
     }
 
     // Run in "first-only" mode if the -F / --first-only arg is passed
-    let first_only = has_arg("-F") || has_arg("--first-only");
+    let first_only = args.first_only;
     if first_only {
         info!("Running in first-only mode: only acting on the first window");
     }
 
     // Run in "tiling-layout" mode if the -T / --tiling-layout arg is passed
-    let tiling_layout = has_arg("-T") || has_arg("--tiling-layout");
+    let tiling_layout = args.tiling_layout;
     if tiling_layout {
         info!(
             "Running in tiling-layout mode: Opening a second window will collapse the first window"
@@ -53,14 +79,15 @@ fn main() -> anyhow::Result<()> {
     }
 
     // Run in "edges-maximizing" mode if the -E / --edges-maximizing arg is passed
-    let edges_maximizing = has_arg("-E") || has_arg("--edges-maximizing");
+    let edges_maximizing = args.edges_maximizing;
     if edges_maximizing {
         info!("Running in edges-maximizing mode: Maximize windows to edges");
     }
 
     // Set pixel tolerances for window/output size comparison
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
-    let (tol_h, tol_w) = size_compare::set_tolerances();
+    let tol_h = args.height_tolerance;
+    let tol_w = args.width_tolerance;
     info!("Using tolerances: height={}, width={}", tol_h, tol_w);
 
     // Initialize connections to niri IPC socket, start the event stream and gather events
