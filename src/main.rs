@@ -11,6 +11,7 @@ use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use crate::{maximize_window::maximize_window, size_compare::is_maximized};
 
 mod help;
+mod lockfile;
 mod maximize_window;
 mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
 mod size_compare; // https://github.com/Antiz96/oniri/issues/3
@@ -63,6 +64,23 @@ fn main() -> anyhow::Result<()> {
         version::show_version();
         return Ok(());
     }
+
+    // Create (if needed) and acquire lock file
+    // Exit if there's already an instance running
+    // or if there was an issue creating or acquiring the lockfile (e.g. permission issue)
+    let _lock = match lockfile::acquire_lockfile() {
+        Ok(lockfile) => lockfile,
+
+        Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => {
+            eprintln!("Another instance of oniri is already running");
+            std::process::exit(1);
+        }
+
+        Err(err) => {
+            eprintln!("Failed to acquire lockfile:\n{err}");
+            std::process::exit(1);
+        }
+    };
 
     // Run in "first-only" mode if the -F / --first-only arg is passed
     let first_only = args.first_only;
