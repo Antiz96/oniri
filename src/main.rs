@@ -7,6 +7,7 @@
 use clap::Parser;
 use log::{debug, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
+use std::collections::HashMap;
 
 use crate::{maximize_window::maximize_window, size_compare::is_maximized};
 
@@ -119,6 +120,13 @@ fn main() -> anyhow::Result<()> {
     // Create a workspace/window(s) map and initialize it
     let mut workspace_windows = windows_map::init_windows_map(&mut action_socket)?;
 
+    // Track windows that have moved workspaces until their tile size is properly recalculated
+    // in the "WindowLayoutsChanged" event
+    // This avoids comparing a window's old layout size against its new workspace output's resolution
+    // See https://github.com/Antiz96/oniri/issues/79 for details
+    // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
+    let mut moved_windows_map = HashMap::<u64, u64>::new();
+
     // Read events gathered from the IPC socket
     let mut read_event = event_socket.read_events();
 
@@ -201,39 +209,65 @@ fn main() -> anyhow::Result<()> {
                 if let Some(old_ws) = previous_ws
                     && old_ws != ws
                 {
-                    // In tiling layout mode, un-maximize the current window
-                    // if it was previously the only window of its workspace but now isn't
-                    if tiling_layout
-                        && windows.len() > 1
-                        && let Some(&last_window) = windows.last()
-                        && workspace_windows
-                            .get(&old_ws)
-                            .is_none_or(|old_windows| old_windows.is_empty())
-                    {
-                        if is_maximized(&state, &outputs, last_window, tol_h, tol_w) {
-                            maximize_window(
-                                &mut action_socket,
-                                &state,
-                                last_window,
-                                edges_maximizing,
-                            )?;
-                        }
-                    }
-                    // If there's one window left in the previous workspace, maximize it
-                    // (unless we're running in "first-only" mode).
-                    else if !first_only
-                        && let Some(old_windows) = workspace_windows.get(&old_ws)
-                        && old_windows.len() == 1
-                    {
-                        let remaining = old_windows[0];
+                    // Track windows that have moved workspaces until their tile size is properly recalculated
+                    // in the "WindowLayoutsChanged" event
+                    // This avoids comparing a window's old layout size against its new workspace output's resolution
+                    // See https://github.com/Antiz96/oniri/issues/79 for details
+                    // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
+                    moved_windows_map.insert(id, old_ws);
+                }
+            }
 
-                        if !is_maximized(&state, &outputs, remaining, tol_h, tol_w) {
-                            maximize_window(
-                                &mut action_socket,
-                                &state,
-                                remaining,
-                                edges_maximizing,
-                            )?;
+            Event::WindowLayoutsChanged { changes } => {
+                for (id, _) in changes {
+                    if let Some(old_ws) = moved_windows_map.remove(&id) {
+                        // Retrieve updated window and workspace state
+                        let Some(window) = state.windows.windows.get(&id) else {
+                            continue;
+                        };
+
+                        let Some(ws) = window.workspace_id else {
+                            continue;
+                        };
+
+                        let Some(windows) = workspace_windows.get(&ws) else {
+                            continue;
+                        };
+
+                        // In tiling layout mode, un-maximize the current window
+                        // if it was previously the only window of its workspace but now isn't
+                        if tiling_layout
+                            && windows.len() > 1
+                            && let Some(&last_window) = windows.last()
+                            && workspace_windows
+                                .get(&old_ws)
+                                .is_none_or(|old_windows| old_windows.is_empty())
+                        {
+                            if is_maximized(&state, &outputs, last_window, tol_h, tol_w) {
+                                maximize_window(
+                                    &mut action_socket,
+                                    &state,
+                                    last_window,
+                                    edges_maximizing,
+                                )?;
+                            }
+                        }
+                        // If there's one window left in the previous workspace, maximize it
+                        // (unless we're running in "first-only" mode).
+                        else if !first_only
+                            && let Some(old_windows) = workspace_windows.get(&old_ws)
+                            && old_windows.len() == 1
+                        {
+                            let remaining = old_windows[0];
+
+                            if !is_maximized(&state, &outputs, remaining, tol_h, tol_w) {
+                                maximize_window(
+                                    &mut action_socket,
+                                    &state,
+                                    remaining,
+                                    edges_maximizing,
+                                )?;
+                            }
                         }
                     }
                 }
