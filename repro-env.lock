@@ -1,5 +1,5 @@
 [container]
-image = "docker.io/archlinux/archlinux@sha256:8437bca1568e8e51ab4b275ba4bb173df1c49d9b579c6d976bf9499773319602"
+image = "docker.io/archlinux/archlinux@sha256:6738d8a4f10e2594f8b415dba3e386bb3023ba9b679c22517e7786dfe193ea1b"
 
 [[package]]
 name = "compiler-rt"
@@ -11,11 +11,11 @@ signature = "iHUEABYKAB0WIQTS6V/sAVzx+RGqqww9TFAIu1yNKQUCahMxRgAKCRA9TFAIu1yNKV/
 
 [[package]]
 name = "gcc"
-version = "16.1.1+r12+g301eb08fa2c5-1"
+version = "16.1.1+r346+g4e03491b401d-1"
 system = "archlinux"
-url = "https://archive.archlinux.org/packages/g/gcc/gcc-16.1.1+r12+g301eb08fa2c5-1-x86_64.pkg.tar.zst"
-sha256 = "80ecc89c7ca567a2c1d460803e1efa434040861f824c34d8fe7000bf27ad82c0"
-signature = "iNUEABYKAH0WIQQFx3danouXdAf+COadTFqhVCbaCgUCafS5tV8UgAAAAAAuAChpc3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MDVDNzc3NUE5RThCOTc3NDA3RkUwOEU2OUQ0QzVBQTE1NDI2REEwQQAKCRCdTFqhVCbaCuUiAQCgvoBNp3cS3853nVXfsTs+d/es9OS4BeQYBmVGWL6r0AEAlA6Udb4ZVS6Bhrn9tDrQRVWgGw/cqRgWi4boE2D3rAA="
+url = "https://archive.archlinux.org/packages/g/gcc/gcc-16.1.1+r346+g4e03491b401d-1-x86_64.pkg.tar.zst"
+sha256 = "1927406e3eaa37def65d525222a05e6b20c5c4cae388c331da85757009b9967f"
+signature = "iNUEABYKAH0WIQQFx3danouXdAf+COadTFqhVCbaCgUCaj2Vrl8UgAAAAAAuAChpc3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MDVDNzc3NUE5RThCOTc3NDA3RkUwOEU2OUQ0QzVBQTE1NDI2REEwQQAKCRCdTFqhVCbaCiRMAPwOzoy17eVv9aP5lWdHusNaejki2K2F8q/TH2u4tz3GgwD8CBzczngh7yy/5JsOZ1K0L5oKLqqF/gjCMHPW6AuOfA8="
 
 [[package]]
 name = "libedit"

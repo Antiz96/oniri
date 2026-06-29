@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.4](https://github.com/Antiz96/oniri/releases/tag/v1.2.4) - 2026-06-29
+
+### Fixes
+
+- Ensure up to date tile size when handling windows moving across outputs ([#82](https://github.com/Antiz96/oniri/pull/82)) - ([4b1abc6](https://github.com/Antiz96/oniri/commit/4b1abc6cbc8f6405f4379e2d168533d27e648252)) by @Antiz96
+- Use a lockfile to prevent multiple executions ([#80](https://github.com/Antiz96/oniri/pull/80)) - ([8fdcd8e](https://github.com/Antiz96/oniri/commit/8fdcd8e409f320dcdf147a8b037bb06c33279c54)) by @Antiz96
+
+### Miscellaneous
+
+- *(deps)* Lock file maintenance ([#81](https://github.com/Antiz96/oniri/pull/81)) - ([6dbb52f](https://github.com/Antiz96/oniri/commit/6dbb52f296d314615ecffb9d49deae3ec36dbe02)) by @renovate[bot]
+- *(deps)* Update Rust crate anyhow to 1.0.103 ([#78](https://github.com/Antiz96/oniri/pull/78)) - ([a022315](https://github.com/Antiz96/oniri/commit/a02231564805a0a41df05dce80fd0f89384af9ed)) by @renovate[bot]
+- *(deps)* Update Rust crate env_logger to 0.11.11 ([#77](https://github.com/Antiz96/oniri/pull/77)) - ([edc4d59](https://github.com/Antiz96/oniri/commit/edc4d59e8ffb3ad9ddcac5efa20cf3cd155aa156)) by @renovate[bot]
+
 ## [v1.2.3](https://github.com/Antiz96/oniri/releases/tag/v1.2.3) - 2026-06-24
 
 ### Documentation
