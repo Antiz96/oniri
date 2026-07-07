@@ -8,8 +8,11 @@ use clap::Parser;
 use log::{debug, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::collections::HashMap;
+use std::io::ErrorKind;
+use std::process;
 
-use crate::{maximize_window::maximize_window, size_compare::is_maximized};
+use crate::maximize_window::maximize_window;
+use crate::size_compare::is_maximized;
 
 mod help;
 mod lockfile;
@@ -66,22 +69,18 @@ fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    // Create (if needed) and acquire lock file
+    // Create (if needed) and acquire lockfile
     // Exit if there's already an instance running
     // or if there was an issue creating or acquiring the lockfile (e.g. permission issue)
-    let _lock = match lockfile::acquire_lockfile() {
-        Ok(lockfile) => lockfile,
-
-        Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => {
+    let _lock = lockfile::acquire_lockfile().unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::AlreadyExists {
             eprintln!("Another instance of oniri is already running");
-            std::process::exit(1);
+        } else {
+            eprintln!("Failed to acquire lockfile:\n{error}");
         }
 
-        Err(err) => {
-            eprintln!("Failed to acquire lockfile:\n{err}");
-            std::process::exit(1);
-        }
-    };
+        process::exit(1);
+    });
 
     // Run in "first-only" mode if the -F / --first-only arg is passed
     let first_only = args.first_only;

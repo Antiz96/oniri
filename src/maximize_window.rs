@@ -2,7 +2,7 @@
 
 use log::info;
 use niri_ipc::state::EventStreamState;
-use niri_ipc::{Request, socket::Socket};
+use niri_ipc::{Action, Request, socket::Socket};
 
 pub fn maximize_window(
     socket: &mut Socket,
@@ -11,7 +11,7 @@ pub fn maximize_window(
     edges_maximizing: bool,
 ) -> anyhow::Result<()> {
     if edges_maximizing {
-        let _ = socket.send(Request::Action(niri_ipc::Action::MaximizeWindowToEdges {
+        let _ = socket.send(Request::Action(Action::MaximizeWindowToEdges {
             id: Some(window_id),
         }));
         info!("Maximized window to edges {}", window_id);
@@ -26,13 +26,9 @@ pub fn maximize_window(
             return Ok(());
         };
 
-        let _ = socket.send(Request::Action(niri_ipc::Action::FocusWindow {
-            id: window_id,
-        }));
-        let _ = socket.send(Request::Action(niri_ipc::Action::MaximizeColumn {}));
-        let _ = socket.send(Request::Action(niri_ipc::Action::FocusWindow {
-            id: focused_id,
-        }));
+        let _ = socket.send(Request::Action(Action::FocusWindow { id: window_id }));
+        let _ = socket.send(Request::Action(Action::MaximizeColumn {}));
+        let _ = socket.send(Request::Action(Action::FocusWindow { id: focused_id }));
         info!("Maximized window {}", window_id);
     }
     Ok(())

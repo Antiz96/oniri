@@ -3,16 +3,12 @@
 
 use fs2::FileExt;
 use std::fs::{self, File, OpenOptions};
+use std::io::{self, Error, ErrorKind};
 
-pub fn acquire_lockfile() -> std::io::Result<File> {
+pub fn acquire_lockfile() -> io::Result<File> {
     // Create oniri cachedir (if it doesn't exist)
     let cachedir = dirs::cache_dir()
-        .ok_or_else(|| {
-            std::io::Error::new(
-                std::io::ErrorKind::NotFound,
-                "could not determine cache directory",
-            )
-        })?
+        .ok_or_else(|| Error::new(ErrorKind::NotFound, "Could not determine cache directory"))?
         .join("oniri");
     fs::create_dir_all(&cachedir)?;
 
@@ -24,14 +20,11 @@ pub fn acquire_lockfile() -> std::io::Result<File> {
         .truncate(false)
         .open(lockfile_path)?;
 
-    lockfile.try_lock_exclusive().map_err(|err| {
-        if err.kind() == std::io::ErrorKind::WouldBlock {
-            std::io::Error::new(
-                std::io::ErrorKind::AlreadyExists,
-                "oniri is already running",
-            )
+    lockfile.try_lock_exclusive().map_err(|error| {
+        if error.kind() == ErrorKind::WouldBlock {
+            Error::from(ErrorKind::AlreadyExists)
         } else {
-            err
+            error
         }
     })?;
 

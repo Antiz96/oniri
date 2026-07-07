@@ -5,9 +5,9 @@ use niri_ipc::{Request, Response, socket::Socket};
 
 pub fn init_socket_connections() -> anyhow::Result<(Socket, Socket)> {
     // Connect to niri IPC socket
-    let mut event_socket = Socket::connect().map_err(|e| {
-        error!("Failed to connect to niri IPC socket: {}", e);
-        e
+    let mut event_socket = Socket::connect().map_err(|error| {
+        error!("Failed to connect to niri IPC socket: {}", error);
+        error
     })?;
 
     // Start the event stream
@@ -18,9 +18,9 @@ pub fn init_socket_connections() -> anyhow::Result<(Socket, Socket)> {
     }
 
     // Create a separate socket connection to send actions
-    let action_socket = Socket::connect().map_err(|e| {
-        error!("Failed to connect to niri IPC socket: {}", e);
-        e
+    let action_socket = Socket::connect().map_err(|error| {
+        error!("Failed to connect to niri IPC socket: {}", error);
+        error
     })?;
 
     // Return both sockets connections so they can be called elsewhere

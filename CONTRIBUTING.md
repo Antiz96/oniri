@@ -43,7 +43,17 @@ Apart from trivial changes (like simple typo fixes), it is advised to first [ope
 
 ### Coding style
 
-When submitting code changes, try to respect the coding style and the overall way things work, as much as possible.
+When submitting code changes, try to respect the current coding style.  
+For instance:
+
+- Prefer using `unwrap_or_else` for simple fallback / error handling (unless any specific handling of the `Ok` variant warrants using a `match` expression instead).
+- Avoid calling functions through their fully qualified paths directly. Instead, import the relevant module (or type) with `use` and keep only the path components that provide meaningful context. As a *general* rule of thumb:
+   - For free functions, keep the module path only (e.g. `io::stdout()` rather than `std::io::stdout()`).
+   - For typed functions and enums, omit the module path (e.g. `HashMap::new()` rather than `std::collections::HashMap::new()` and `ErrorKind::NotFound` rather than `std::io::ErrorKind::NotFound`).
+   - As an indicator, this will often naturally end up with roughly one `::` per call / reference.
+- Use `eprintln!` for user-facing error messages.
+- Generally avoid executing processing logic from `main.rs`. Ideally, it should remain a "wrapper" around functions called from separate modules under `/src`.
+- [...]
 
 Rust code is checked with [rustfmt](https://rust-lang.github.io/rustfmt/?version=v1.9.0&search=) & [clippy](doc.rust-lang.org/cargo/commands/cargo-clippy.html).  
 Markdown syntax is checked with [markdownlint](https://github.com/markdownlint/markdownlint).
