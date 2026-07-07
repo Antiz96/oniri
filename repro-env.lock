@@ -1,5 +1,5 @@
 [container]
-image = "docker.io/archlinux/archlinux@sha256:6738d8a4f10e2594f8b415dba3e386bb3023ba9b679c22517e7786dfe193ea1b"
+image = "docker.io/archlinux/archlinux@sha256:c55c7078209215a70ef283a137f9f1f5783c7d298dd1cb38caf96a592bc47017"
 
 [[package]]
 name = "compiler-rt"
@@ -82,18 +82,26 @@ sha256 = "193b040c7174637ebcb7449914017e4b300089884a659d00bce59888744dc184"
 signature = "iQJLBAABCgA1FiEEiee5MxxK59f699MFwTIpOVS75K0FAmm/In4XHHNwdXB5a2luQGFyY2hsaW51eC5vcmcACgkQwTIpOVS75K11JBAAtrp8Ovvj6VJOhuR/QKfUDDCpWbcvh+wyqSwXIgRGBR3+m5+HcHkaTUGxtodWpCjiEJeM303SGTgPVsSKlUpNzK/emqhRpKX6pETNvFCjGYZGplvBhdh/LNRf/OMzU2Ld16woc4RUYKciV1LDohB1XVMHpG//QkTHcLOJT4G57NJoS9t0JumxPdZUwEbVrYG56wEMIIVABfY2zb2iFCrjkr1N8GlTCnI8HXpsq0E4yMkhIZ/a1dkFEDmWgFX8g+7JaVVbMFGDaJMGBIM/9bI7Ydc9JtXFbC6aRizF86ZfZdlK3xj0/WAFaqDoj1/O3aToaTqYic/qgPeOqo/nBOyyMxPU9dpz3RBOD9poSiLhjvhERyMSGwuGeAt8D2EGsrUjhJvydF84WfF0ZhlIZIWh1pW+Rf/CPzMeeM3eipLv58HTj5v70JSJuinTM0oIHWoIhsyZPz39dW0UJ+Qqi455f8h8Nj3a/UZfwElNqwLFkV4Qjt9qSRy8twaBNlQuh04PpRhSktRiXNKqc4Ldvcuo/9rhxdByORyfaelYL7OvyX5DyZqmlr1MmtREu4mHU2wN0znRfGinGdVNcqFtFScaABM2tnG8ZE1fOngHg6+P7cFzYYNN8PRaNUHGmSEmbHOoC3k236GmWbCTbDfcZcLauORmJg5GxxoW64PO53CdBRs="
 
 [[package]]
-name = "rust"
-version = "1:1.96.0-1"
+name = "pinentry"
+version = "1.3.3-1"
 system = "archlinux"
-url = "https://archive.archlinux.org/packages/r/rust/rust-1:1.96.0-1-x86_64.pkg.tar.zst"
+url = "https://archive.archlinux.org/packages/p/pinentry/pinentry-1.3.3-1-x86_64.pkg.tar.zst"
+sha256 = "16dfcc18fc60f8c654687970a9b7253ce17a987c44119fe2ee37c760460fc557"
+signature = "iQIzBAABCgAdFiEELjbYYgIhSC/EXLfyqRdkdZMmtEAFAmpNFIsACgkQqRdkdZMmtECkFg/+N/LQJjxoohrMJRpdSAJRQ1kDA+wPdN07Uvln8xVm2L9gtdZafxVeKUGF1UsVgowuFUofbuAnC/knEkhJBmo3/kZqfcOjv17L7C0IXAGpmbNyRwyljiY0fsdtjUHyElS41MhKkuu9fxwDEte/B+MHpYxVhYCsIpPnNG/zWcq/Vvd6CpxHma/ms5g/mB0wDl3+YnZNmkXo0BEK0YIHrJXyyf0NQDK6j3CRJfgd7TiQJDNIMDKCI7peal5Os7pdkKiq3VpV19oN44oEWXZQukI/YvJ67qv+UKmVmO1DET4AfAfiaHzjIT6n6RDltNx3DalrT9m6npIeCeD7UtoyQWmhFAJL0hrFXjjEZAhnPU8eyOKsDs5ZGBfPSWsFT63F1mQ78uMf2417QhoLRa9+JWcpa7KJkLEPNmjc4ui+CuvTY03wNrjl9JSdCGkQ9jVQB4S2VT++CDwZ8+fDI8mvFJXySMAU8AeV0ITyj+ENTH9z8RoJ8IdfI45gVrmNgLoar2Q0L3zI8tUwdwxBL8YUlkyh9gCdxE9q1RndD6BR4+dbdBqLwKn9LeDGHVRwlcvRbquNzIcxpXryZT8kGWIPht5MtUVD9+yct6ZNhnM8nnsgRphJxl1HgRW+UzaMaX3extB2s8dxXShLsdzLni2MQtLZVwz6JdXtxgzhbEzGw4yTB2Q="
+
+[[package]]
+name = "rust"
+version = "1:1.96.1-1"
+system = "archlinux"
+url = "https://archive.archlinux.org/packages/r/rust/rust-1:1.96.1-1-x86_64.pkg.tar.zst"
 provides = ["cargo"]
-sha256 = "adb3c70e4502e314297d3ec18eed73468d579f71ca16744d49537798a86a813c"
-signature = "iHUEABYKAB0WIQSDvIiJNRtd67toQW64rAhgDxCM3wUCahlHLwAKCRC4rAhgDxCM3z4KAP0bQq9Np3OklfJiPOeGyfPStLiQLl2dSD5yH2cp7u0fFQEAuI0KxPvlm6ZKtkE4PiSWhNPgyFYNBzkXdLcwTRBjMAk="
+sha256 = "daedccc8efa5633faf642f3ef5d8b8a93bfa1f0ffddc6d933b78278bd6f31443"
+signature = "iHUEABYKAB0WIQSDvIiJNRtd67toQW64rAhgDxCM3wUCakQUBQAKCRC4rAhgDxCM31QtAP98gXOpUojCEQQjzXMEnAJ3FVCdLkrp+OTLKz37Vn6VHQD+OtB14SC3rKELKEvdVd77lP7O/UiveU1N0BiT2i5yRgY="
 
 [[package]]
 name = "rust-musl"
-version = "1:1.96.0-1"
+version = "1:1.96.1-1"
 system = "archlinux"
-url = "https://archive.archlinux.org/packages/r/rust-musl/rust-musl-1:1.96.0-1-x86_64.pkg.tar.zst"
-sha256 = "3d70be0e73c7830bad45818d59abd7460d83ee1cc997a732b0dda9dc9f20bd22"
-signature = "iHUEABYKAB0WIQSDvIiJNRtd67toQW64rAhgDxCM3wUCahlHMQAKCRC4rAhgDxCM36WPAQC+ENCi/0JUHFgbmhB9csnPM4bKKqhwaiA6L15eX+MfvwEAuVLNwGe1eBQE0Xec7RAVMnzOh5alGsfs1ZraSH76MwM="
+url = "https://archive.archlinux.org/packages/r/rust-musl/rust-musl-1:1.96.1-1-x86_64.pkg.tar.zst"
+sha256 = "0f27c3d208031ad5cb73ccb374736890ec81d996dbb26e49ad040eb61b76669c"
+signature = "iHUEABYKAB0WIQSDvIiJNRtd67toQW64rAhgDxCM3wUCakQUBgAKCRC4rAhgDxCM357ZAP9qGqiLepF2gJXTch3pOWgAL2Xzn4E4GJVL5ed5EBlWTAEAl2QifQuZREUKQTwZqgo6TqSQwl1FzNqS4OqH/cT9Ywg="

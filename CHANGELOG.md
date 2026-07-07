@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.5](https://github.com/Antiz96/oniri/releases/tag/v1.2.5) - 2026-07-07
+
+### Miscellaneous
+
+- *(deps)* Lock file maintenance ([#83](https://github.com/Antiz96/oniri/pull/83)) - ([21c6037](https://github.com/Antiz96/oniri/commit/21c60370f3ba7b0d20c039059f9e8ed1cb312542)) by @renovate[bot]
+- Code refactoring ([#84](https://github.com/Antiz96/oniri/pull/84)) - ([0bf1ee6](https://github.com/Antiz96/oniri/commit/0bf1ee647f581aeda36fa87c9e8031921a8e2f97)) by @Antiz96
+
 ## [v1.2.4](https://github.com/Antiz96/oniri/releases/tag/v1.2.4) - 2026-06-29
 
 ### Fixes
