@@ -55,7 +55,8 @@ For instance:
 - Generally avoid executing processing logic from `main.rs`. Ideally, it should remain a "wrapper" around functions called from separate modules under `/src`.
 - [...]
 
-Rust code is checked with [rustfmt](https://rust-lang.github.io/rustfmt/?version=v1.9.0&search=) & [clippy](doc.rust-lang.org/cargo/commands/cargo-clippy.html).  
+Rust code is checked with [rustfmt](https://rust-lang.github.io/rustfmt/) & [clippy](doc.rust-lang.org/cargo/commands/cargo-clippy.html).  
+Bash code is checked with [shellcheck](https://www.shellcheck.net/).  
 Markdown syntax is checked with [markdownlint](https://github.com/markdownlint/markdownlint).
 
 ### Commit message format
