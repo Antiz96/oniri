@@ -5,7 +5,7 @@
 //! and maximize it if so.
 
 use clap::Parser;
-use log::{debug, info};
+use log::{debug, error, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::collections::HashMap;
 use std::io::ErrorKind;
@@ -74,9 +74,9 @@ fn main() -> anyhow::Result<()> {
     // or if there was an issue creating or acquiring the lockfile (e.g. permission issue)
     let _lock = lockfile::acquire_lockfile().unwrap_or_else(|error| {
         if error.kind() == ErrorKind::AlreadyExists {
-            eprintln!("Another instance of oniri is already running");
+            error!("Another instance of oniri is already running");
         } else {
-            eprintln!("Failed to acquire lockfile:\n{error}");
+            error!("Failed to acquire lockfile:\n{error}");
         }
 
         process::exit(1);
