@@ -18,13 +18,13 @@ pub fn is_maximized(
     let window = match state.windows.windows.get(&window_id) {
         Some(w) => w,
         None => {
-            warn!("Window {} not found in state", window_id);
+            warn!("Window {window_id} not found in state");
             return false;
         }
     };
 
     if window.is_floating {
-        info!("Window {} is floating, skipping", window_id);
+        info!("Window {window_id} is floating, skipping");
         return false;
     }
 
@@ -34,7 +34,7 @@ pub fn is_maximized(
     {
         Some(ws) => ws,
         None => {
-            warn!("Workspace for window {} not found", window_id);
+            warn!("Workspace for window {window_id} not found");
             return false;
         }
     };
@@ -62,18 +62,14 @@ pub fn is_maximized(
     let tile_h = tile_h as i32;
 
     debug!(
-        "Window {}: out_w={}, out_h={}, tile_w={}, tile_h={}, tol_w={}, tol_h={}",
-        window_id, out_w, out_h, tile_w, tile_h, tol_w, tol_h
+        "Window {window_id}: out_w={out_w}, out_h={out_h}, tile_w={tile_w}, tile_h={tile_h}, tol_w={tol_w}, tol_h={tol_h}"
     );
 
     let width_ok = (out_w - tile_w).abs() <= tol_w;
     let height_ok = (out_h - tile_h).abs() <= tol_h;
 
     debug!(
-        "Window {}: width_ok={}, height_ok={}, maximized={}",
-        window_id,
-        width_ok,
-        height_ok,
+        "Window {window_id}: width_ok={width_ok}, height_ok={height_ok}, maximized={}",
         width_ok && height_ok
     );
 

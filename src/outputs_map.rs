@@ -15,7 +15,7 @@ pub fn init_outputs_map(action_socket: &mut Socket) -> anyhow::Result<HashMap<St
     };
 
     for name in outputs.keys() {
-        info!("Registered output: {}", name);
+        info!("Registered output: {name}");
     }
 
     Ok(outputs)
