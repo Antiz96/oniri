@@ -76,7 +76,7 @@ fn main() -> anyhow::Result<()> {
         if error.kind() == ErrorKind::AlreadyExists {
             error!("Another instance of oniri is already running");
         } else {
-            error!("Failed to acquire lockfile:\n{error}");
+            error!("Failed to acquire lockfile: {error}");
         }
 
         process::exit(1);
