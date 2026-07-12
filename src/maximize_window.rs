@@ -14,7 +14,7 @@ pub fn maximize_window(
         let _ = socket.send(Request::Action(Action::MaximizeWindowToEdges {
             id: Some(window_id),
         }));
-        info!("Maximized window to edges {}", window_id);
+        info!("Maximized window to edges {window_id}");
     } else {
         // We need this information to restore focus state after maximizing @window_id
         let Some(focused_id) = state
@@ -29,7 +29,7 @@ pub fn maximize_window(
         let _ = socket.send(Request::Action(Action::FocusWindow { id: window_id }));
         let _ = socket.send(Request::Action(Action::MaximizeColumn {}));
         let _ = socket.send(Request::Action(Action::FocusWindow { id: focused_id }));
-        info!("Maximized window {}", window_id);
+        info!("Maximized window {window_id}");
     }
     Ok(())
 }

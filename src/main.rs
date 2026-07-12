@@ -106,7 +106,7 @@ fn main() -> anyhow::Result<()> {
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let tol_h = args.height_tolerance;
     let tol_w = args.width_tolerance;
-    info!("Using tolerances: height={}, width={}", tol_h, tol_w);
+    info!("Using tolerances: height={tol_h}, width={tol_w}");
 
     // Initialize connections to niri IPC socket, start the event stream and gather events
     let (event_socket, mut action_socket) = socket_connections::init_socket_connections()?;

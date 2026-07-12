@@ -7,7 +7,7 @@ use std::process;
 pub fn init_socket_connections() -> anyhow::Result<(Socket, Socket)> {
     // Connect to niri IPC socket
     let mut event_socket = Socket::connect().unwrap_or_else(|error| {
-        error!("Failed to connect to niri IPC socket:\n{}", error);
+        error!("Failed to connect to niri IPC socket:\n{error}");
         process::exit(2);
     });
 
@@ -20,7 +20,7 @@ pub fn init_socket_connections() -> anyhow::Result<(Socket, Socket)> {
 
     // Create a separate socket connection to send actions
     let action_socket = Socket::connect().unwrap_or_else(|error| {
-        error!("Failed to connect to niri IPC socket:\n{}", error);
+        error!("Failed to connect to niri IPC socket:\n{error}");
         process::exit(2);
     });
 
