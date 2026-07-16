@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.6](https://github.com/Antiz96/oniri/releases/tag/v1.2.6) - 2026-07-16
+
+### Documentation
+
+- Update CONTRIBUTING.md ([#85](https://github.com/Antiz96/oniri/pull/85)) - ([c46edf7](https://github.com/Antiz96/oniri/commit/c46edf7262cdd8aea6ca70cd536c8df56dbfb410)) by @Antiz96
+
+### Miscellaneous
+
+- *(deps)* Update Rust crate clap to 4.6.2 ([#90](https://github.com/Antiz96/oniri/pull/90)) - ([d8ca0f8](https://github.com/Antiz96/oniri/commit/d8ca0f87f3b62d2632b9c563c05d59aecb18bbdf)) by @renovate[bot]
+- *(deps)* Lock file maintenance ([#89](https://github.com/Antiz96/oniri/pull/89)) - ([64a9ebc](https://github.com/Antiz96/oniri/commit/64a9ebcf4ee9aadb7624fcbf9c515c9a2b43edcf)) by @renovate[bot]
+- Drop useless line breaks ([#88](https://github.com/Antiz96/oniri/pull/88)) - ([7f3bba2](https://github.com/Antiz96/oniri/commit/7f3bba292b50fa5d89ee92baf96a648db7143d9c)) by @Antiz96
+- Use more modern variable calling method ([#87](https://github.com/Antiz96/oniri/pull/87)) - ([24d6d07](https://github.com/Antiz96/oniri/commit/24d6d073a1e9e36def7dceb2f2bdba4bd3432cd7)) by @Antiz96
+- Use error log and exit prematurely on socket connection error ([#86](https://github.com/Antiz96/oniri/pull/86)) - ([ad0a593](https://github.com/Antiz96/oniri/commit/ad0a593464d2c842d3441159f41538c1cacd879d)) by @Antiz96
+
 ## [v1.2.5](https://github.com/Antiz96/oniri/releases/tag/v1.2.5) - 2026-07-07
 
 ### Miscellaneous
