@@ -39,4 +39,4 @@ jobs:
         run: cargo build --release
 
       - name: Cleanup
-        run: rm -rvf target/ ~/.cargo
+        run: rm -rvf doc/man/oniri.1 target/ ~/.cargo
