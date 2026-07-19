@@ -307,8 +307,8 @@ fn main() -> anyhow::Result<()> {
 
                 // If running in "fill-screen-space" mode, nudge the focus to close any empty space
                 // left by closed windows (if needed)
-                if fill_screen_space && !closed_window_was_leftmost {
-                    nudge_focus(&mut action_socket, windows.len())?;
+                if fill_screen_space && !closed_window_was_leftmost && windows.len() > 1 {
+                    nudge_focus(&mut action_socket)?;
                 }
 
                 // Skip if running in "first only" mode

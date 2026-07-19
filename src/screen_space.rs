@@ -19,11 +19,7 @@ pub fn is_leftmost(state: &EventStreamState, window_id: u64) -> bool {
     column == 1
 }
 
-pub fn nudge_focus(socket: &mut Socket, remaining_windows: usize) -> anyhow::Result<()> {
-    if remaining_windows <= 1 {
-        return Ok(());
-    }
-
+pub fn nudge_focus(socket: &mut Socket) -> anyhow::Result<()> {
     let _ = socket.send(Request::Action(Action::FocusColumnLeft {}));
     let _ = socket.send(Request::Action(Action::FocusColumnRight {}));
 
