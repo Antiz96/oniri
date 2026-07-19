@@ -4,6 +4,7 @@ _oniri() {
 	opts=('-F --first-only
 	       -T --tiling-layout
 	       -E --edges-maximizing
+	       -R --reclaim-space
 	       -H --height-tolerance
 	       -W --width-tolerance
 	       -h --help

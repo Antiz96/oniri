@@ -12,12 +12,14 @@ use std::io::ErrorKind;
 use std::process;
 
 use crate::maximize_window::maximize_window;
+use crate::screen_space::nudge_focus;
 use crate::size_compare::is_maximized;
 
 mod help;
 mod lockfile;
 mod maximize_window;
 mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
+mod screen_space;
 mod size_compare; // https://github.com/Antiz96/oniri/issues/3
 mod socket_connections;
 mod version;
@@ -36,6 +38,9 @@ struct Args {
 
     #[arg(short = 'E', long)]
     edges_maximizing: bool,
+
+    #[arg(short = 'R', long)]
+    reclaim_space: bool,
 
     #[arg(short = 'H', long, default_value_t = 150)]
     height_tolerance: i32,
@@ -102,6 +107,14 @@ fn main() -> anyhow::Result<()> {
         info!("Running in edges-maximizing mode: Maximize windows to edges");
     }
 
+    // Run in "fill-screen-space" mode if the -S / --fill-screen-space arg is passed
+    let reclaim_space = args.reclaim_space;
+    if reclaim_space {
+        info!(
+            "Running in fill-screen-space mode: Fill empty screen space left by closed windows with remaining windows"
+        );
+    }
+
     // Set pixel tolerances for window/output size comparison
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let tol_h = args.height_tolerance;
@@ -131,6 +144,12 @@ fn main() -> anyhow::Result<()> {
 
     // Loop over events
     while let Ok(event) = read_event() {
+        // Check if the closing window sits in the leftmost column, before state.apply()
+        // below removes it from the state and this information becomes unreachable (used for the
+        // fill-screen-space mode).
+        let closed_window_was_leftmost =
+            matches!(&event, Event::WindowClosed { id } if screen_space::is_leftmost(&state, *id));
+
         // Update state
         // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
         state.apply(event.clone());
@@ -286,7 +305,13 @@ fn main() -> anyhow::Result<()> {
                 // Update the workspace vector
                 windows.retain(|&wid| wid != id);
 
-                // Skip if the -F / --first-only arg is passed
+                // If running in "fill-screen-space" mode, nudge the focus to close any empty space
+                // left by closed windows (if needed)
+                if reclaim_space && !closed_window_was_leftmost && windows.len() > 1 {
+                    nudge_focus(&mut action_socket)?;
+                }
+
+                // Skip if running in "first only" mode
                 if first_only {
                     continue;
                 }

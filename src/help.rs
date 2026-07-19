@@ -16,6 +16,7 @@ pub fn show_help() {
         "  -T, --tiling-layout     Unmaximize the first window when opening a second one, like in a tiling compositor"
     );
     println!("  -E, --edges-maximizing  Maximize windows to edges");
+    println!("  -R, --reclaim-space     Reclaim empty screen space left by closed windows");
     println!(
         "  -H, --height-tolerance  Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (defaults to 150)" // https://github.com/Antiz96/oniri/issues/3
     );
