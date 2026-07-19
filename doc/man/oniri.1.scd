@@ -23,6 +23,9 @@ Oniri is a tool that automatically maximizes the *on*ly window of a *niri* works
 *-E, --edges-maximizing*
 	Maximize windows to edges.
 
+*-S, --fill-screen-space*
+	Fill empty screen space left by closed windows.
+
 *-H, --height-tolerance* <number>
 	Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (https://github.com/Antiz96/oniri/issues/3).
 	Defaults to 150.
