@@ -6,20 +6,10 @@ use niri_ipc::state::EventStreamState;
 use niri_ipc::{Action, Request, socket::Socket};
 
 pub fn is_leftmost_column(state: &EventStreamState, window_id: u64) -> bool {
-    let Some(window) = state.windows.windows.get(&window_id) else {
-        return false;
-    };
-    let Some((column, _)) = window.layout.pos_in_scrolling_layout else {
-        return false;
-    };
+    let window = state.windows.windows.get(&window_id).expect("Window ID not found in state");
+    let (column, _) = window.layout.pos_in_scrolling_layout.expect("Window has no position in scrolling layout");
 
-    state
-        .windows
-        .windows
-        .values()
-        .filter(|other| other.workspace_id == window.workspace_id)
-        .filter_map(|other| other.layout.pos_in_scrolling_layout)
-        .all(|(other_column, _)| other_column >= column)
+    column == 1
 }
 
 pub fn fill_gap(
