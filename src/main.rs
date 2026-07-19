@@ -39,8 +39,8 @@ struct Args {
     #[arg(short = 'E', long)]
     edges_maximizing: bool,
 
-    #[arg(short = 'S', long)]
-    fill_screen_space: bool,
+    #[arg(short = 'R', long)]
+    reclaim_space: bool,
 
     #[arg(short = 'H', long, default_value_t = 150)]
     height_tolerance: i32,
@@ -108,8 +108,8 @@ fn main() -> anyhow::Result<()> {
     }
 
     // Run in "fill-screen-space" mode if the -S / --fill-screen-space arg is passed
-    let fill_screen_space = args.fill_screen_space;
-    if fill_screen_space {
+    let reclaim_space = args.reclaim_space;
+    if reclaim_space {
         info!(
             "Running in fill-screen-space mode: Fill empty screen space left by closed windows with remaining windows"
         );
@@ -307,7 +307,7 @@ fn main() -> anyhow::Result<()> {
 
                 // If running in "fill-screen-space" mode, nudge the focus to close any empty space
                 // left by closed windows (if needed)
-                if fill_screen_space && !closed_window_was_leftmost && windows.len() > 1 {
+                if reclaim_space && !closed_window_was_leftmost && windows.len() > 1 {
                     nudge_focus(&mut action_socket)?;
                 }
 
