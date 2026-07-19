@@ -20,8 +20,12 @@ pub fn is_leftmost(state: &EventStreamState, window_id: u64) -> bool {
 }
 
 pub fn nudge_focus(socket: &mut Socket) -> anyhow::Result<()> {
-    let _ = socket.send(Request::Action(Action::FocusColumnLeft {}));
-    let _ = socket.send(Request::Action(Action::FocusColumnRight {}));
+    socket
+        .send(Request::Action(Action::FocusColumnLeft {}))?
+        .map_err(anyhow::Error::msg)?;
+    socket
+        .send(Request::Action(Action::FocusColumnRight {}))?
+        .map_err(anyhow::Error::msg)?;
 
     info!("Nudged focus to fill gap left by closed window");
 

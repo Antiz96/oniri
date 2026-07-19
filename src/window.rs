@@ -1,4 +1,4 @@
-//! Helper for maximizing a window, since before maximizing the window must be focused.
+//! Helper for maximizing a window
 
 use log::info;
 use niri_ipc::state::EventStreamState;
@@ -11,9 +11,11 @@ pub fn maximize_window(
     edges_maximizing: bool,
 ) -> anyhow::Result<()> {
     if edges_maximizing {
-        let _ = socket.send(Request::Action(Action::MaximizeWindowToEdges {
-            id: Some(window_id),
-        }));
+        socket
+            .send(Request::Action(Action::MaximizeWindowToEdges {
+                id: Some(window_id),
+            }))?
+            .map_err(anyhow::Error::msg)?;
         info!("Maximized window to edges {window_id}");
     } else {
         // We need this information to restore focus state after maximizing @window_id
@@ -26,9 +28,15 @@ pub fn maximize_window(
             return Ok(());
         };
 
-        let _ = socket.send(Request::Action(Action::FocusWindow { id: window_id }));
-        let _ = socket.send(Request::Action(Action::MaximizeColumn {}));
-        let _ = socket.send(Request::Action(Action::FocusWindow { id: focused_id }));
+        socket
+            .send(Request::Action(Action::FocusWindow { id: window_id }))?
+            .map_err(anyhow::Error::msg)?;
+        socket
+            .send(Request::Action(Action::MaximizeColumn {}))?
+            .map_err(anyhow::Error::msg)?;
+        socket
+            .send(Request::Action(Action::FocusWindow { id: focused_id }))?
+            .map_err(anyhow::Error::msg)?;
         info!("Maximized window {window_id}");
     }
     Ok(())
