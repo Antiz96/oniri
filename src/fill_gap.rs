@@ -5,17 +5,21 @@ use log::info;
 use niri_ipc::state::EventStreamState;
 use niri_ipc::{Action, Request, socket::Socket};
 
-pub fn is_leftmost_column(state: &EventStreamState, window_id: u64) -> bool {
-    let window = state.windows.windows.get(&window_id).expect("Window ID not found in state");
-    let (column, _) = window.layout.pos_in_scrolling_layout.expect("Window has no position in scrolling layout");
+pub fn is_leftmost(state: &EventStreamState, window_id: u64) -> bool {
+    let window = state
+        .windows
+        .windows
+        .get(&window_id)
+        .expect("Window ID not found in state");
+    let (column, _) = window
+        .layout
+        .pos_in_scrolling_layout
+        .expect("Window has no position in scrolling layout");
 
     column == 1
 }
 
-pub fn fill_gap(
-    socket: &mut Socket,
-    remaining_windows: usize,
-) -> anyhow::Result<()> {
+pub fn fill_gap(socket: &mut Socket, remaining_windows: usize) -> anyhow::Result<()> {
     if remaining_windows <= 1 {
         return Ok(());
     }

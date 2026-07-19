@@ -107,6 +107,7 @@ fn main() -> anyhow::Result<()> {
         info!("Running in edges-maximizing mode: Maximize windows to edges");
     }
 
+    // Run in "move-on-close" mode if the -M / --move-on-close arg is passed
     let move_on_close = args.move_on_close;
     if move_on_close {
         info!("Running in move-on-close mode: Moving the viewport on close to fill remaining gap");
@@ -142,9 +143,10 @@ fn main() -> anyhow::Result<()> {
     // Loop over events
     while let Ok(event) = read_event() {
         // Check if the closing window sits in the leftmost column, before state.apply()
-        // below removes it from the state and this information becomes unreachable.
+        // below removes it from the state and this information becomes unreachable (used for the
+        // move-on-close mode).
         let closed_window_was_leftmost =
-            matches!(&event, Event::WindowClosed { id } if fill_gap::is_leftmost_column(&state, *id));
+            matches!(&event, Event::WindowClosed { id } if fill_gap::is_leftmost(&state, *id));
 
         // Update state
         // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
@@ -301,18 +303,13 @@ fn main() -> anyhow::Result<()> {
                 // Update the workspace vector
                 windows.retain(|&wid| wid != id);
 
-                // If the -M / --move-on-close arg is passed and the closed window wasn't
-                // in the leftmost column, force niri to rescroll the viewport so no
-                // gap is left where the closed window used to be.
+                // If running in "move-on-close" mode, nudge the focus to close any leftover gap (if
+                // needed)
                 if move_on_close && !closed_window_was_leftmost {
-                    fill_gap(
-                        &mut action_socket,
-                        windows.len(),
-                    )?;
+                    fill_gap(&mut action_socket, windows.len())?;
                 }
 
-
-                // Skip if the -F / --first-only arg is passed
+                // Skip if running in "first only" mode
                 if first_only {
                     continue;
                 }
