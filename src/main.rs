@@ -109,9 +109,7 @@ fn main() -> anyhow::Result<()> {
 
     let move_on_close = args.move_on_close;
     if move_on_close {
-        info!(
-            "Running in move-on-close mode: Moving the viewport on window close to fill remaining gap"
-        );
+        info!("Running in move-on-close mode: Moving the viewport on close to fill remaining gap");
     }
 
     // Set pixel tolerances for window/output size comparison
@@ -143,6 +141,11 @@ fn main() -> anyhow::Result<()> {
 
     // Loop over events
     while let Ok(event) = read_event() {
+        // Check if the closing window sits in the leftmost column, before state.apply()
+        // below removes it from the state and this information becomes unreachable.
+        let closed_window_was_leftmost =
+            matches!(&event, Event::WindowClosed { id } if fill_gap::is_leftmost_column(&state, *id));
+
         // Update state
         // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
         state.apply(event.clone());
@@ -298,9 +301,15 @@ fn main() -> anyhow::Result<()> {
                 // Update the workspace vector
                 windows.retain(|&wid| wid != id);
 
-                // If the -M / --move-on-close arg is passed, force niri to rescroll
-                // the viewport so no gap is left where the closed window used to be.
-                fill_gap(&mut action_socket, move_on_close, windows.len())?;
+                // If the -M / --move-on-close arg is passed and the closed window wasn't
+                // in the leftmost column, force niri to rescroll the viewport so no
+                // gap is left where the closed window used to be.
+                fill_gap(
+                    &mut action_socket,
+                    move_on_close,
+                    closed_window_was_leftmost,
+                    windows.len(),
+                )?;
 
                 // Skip if the -F / --first-only arg is passed
                 if first_only {
