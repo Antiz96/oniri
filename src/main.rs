@@ -11,9 +11,11 @@ use std::collections::HashMap;
 use std::io::ErrorKind;
 use std::process;
 
+use crate::fill_gap::fill_gap;
 use crate::maximize_window::maximize_window;
 use crate::size_compare::is_maximized;
 
+mod fill_gap;
 mod help;
 mod lockfile;
 mod maximize_window;
@@ -36,6 +38,9 @@ struct Args {
 
     #[arg(short = 'E', long)]
     edges_maximizing: bool,
+
+    #[arg(short = 'M', long)]
+    move_on_close: bool,
 
     #[arg(short = 'H', long, default_value_t = 150)]
     height_tolerance: i32,
@@ -100,6 +105,13 @@ fn main() -> anyhow::Result<()> {
     let edges_maximizing = args.edges_maximizing;
     if edges_maximizing {
         info!("Running in edges-maximizing mode: Maximize windows to edges");
+    }
+
+    let move_on_close = args.move_on_close;
+    if move_on_close {
+        info!(
+            "Running in move-on-close mode: Moving the viewport on window close to fill remaining gap"
+        );
     }
 
     // Set pixel tolerances for window/output size comparison
@@ -285,6 +297,10 @@ fn main() -> anyhow::Result<()> {
 
                 // Update the workspace vector
                 windows.retain(|&wid| wid != id);
+
+                // If the -M / --move-on-close arg is passed, force niri to rescroll
+                // the viewport so no gap is left where the closed window used to be.
+                fill_gap(&mut action_socket, move_on_close, windows.len())?;
 
                 // Skip if the -F / --first-only arg is passed
                 if first_only {

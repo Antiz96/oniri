@@ -16,6 +16,7 @@ pub fn show_help() {
         "  -T, --tiling-layout     Unmaximize the first window when opening a second one, like in a tiling compositor"
     );
     println!("  -E, --edges-maximizing  Maximize windows to edges");
+    println!("  -M, --move-on-close     Move viewport on window close to fill remaining gap");
     println!(
         "  -H, --height-tolerance  Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (defaults to 150)" // https://github.com/Antiz96/oniri/issues/3
     );
