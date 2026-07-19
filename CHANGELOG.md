@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.1](https://github.com/Antiz96/oniri/releases/tag/v1.3.1) - 2026-07-19
+
+### Fixes
+
+- Fix window and column check with the -R / --reclaim-space option ([#95](https://github.com/Antiz96/oniri/pull/95)) - ([e33604e](https://github.com/Antiz96/oniri/commit/e33604e68f0103b478c2090b0b27ec8fb4cbd4ea)) by @Antiz96
+
 ## [v1.3.0](https://github.com/Antiz96/oniri/releases/tag/v1.3.0) - 2026-07-19
 
 ### Features
