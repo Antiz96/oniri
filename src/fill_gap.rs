@@ -14,16 +14,15 @@ pub fn is_leftmost_column(state: &EventStreamState, window_id: u64) -> bool {
 
 pub fn fill_gap(
     socket: &mut Socket,
-    move_on_close: bool,
-    was_leftmost: bool,
     remaining_windows: usize,
 ) -> anyhow::Result<()> {
-    if !move_on_close || was_leftmost || remaining_windows <= 1 {
+    if remaining_windows <= 1 {
         return Ok(());
     }
 
     let _ = socket.send(Request::Action(Action::FocusColumnLeft {}));
     let _ = socket.send(Request::Action(Action::FocusColumnRight {}));
+
     info!("Nudged focus to fill gap left by closed window");
 
     Ok(())

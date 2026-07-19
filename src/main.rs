@@ -304,12 +304,13 @@ fn main() -> anyhow::Result<()> {
                 // If the -M / --move-on-close arg is passed and the closed window wasn't
                 // in the leftmost column, force niri to rescroll the viewport so no
                 // gap is left where the closed window used to be.
-                fill_gap(
-                    &mut action_socket,
-                    move_on_close,
-                    closed_window_was_leftmost,
-                    windows.len(),
-                )?;
+                if move_on_close && !closed_window_was_leftmost {
+                    fill_gap(
+                        &mut action_socket,
+                        windows.len(),
+                    )?;
+                }
+
 
                 // Skip if the -F / --first-only arg is passed
                 if first_only {
