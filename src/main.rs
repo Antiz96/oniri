@@ -11,18 +11,14 @@ use std::collections::HashMap;
 use std::io::ErrorKind;
 use std::process;
 
-use crate::maximize_window::maximize_window;
-use crate::screen_space::nudge_focus;
-use crate::size_compare::is_maximized;
-
 mod help;
 mod lockfile;
-mod maximize_window;
 mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
 mod screen_space;
 mod size_compare; // https://github.com/Antiz96/oniri/issues/3
 mod socket_connections;
 mod version;
+mod window;
 mod windows_map;
 
 // Argument parser
@@ -198,8 +194,9 @@ fn main() -> anyhow::Result<()> {
                 match windows.len() {
                     1 => {
                         let first_window = windows[0];
-                        if !is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
-                            maximize_window(
+                        if !size_compare::is_maximized(&state, &outputs, first_window, tol_h, tol_w)
+                        {
+                            window::maximize_window(
                                 &mut action_socket,
                                 &state,
                                 first_window,
@@ -211,8 +208,9 @@ fn main() -> anyhow::Result<()> {
                     // If running in tiling layout mode, un-maximize the first window when a second one is opened
                     2 if tiling_layout => {
                         let first_window = windows[0];
-                        if is_maximized(&state, &outputs, first_window, tol_h, tol_w) {
-                            maximize_window(
+                        if size_compare::is_maximized(&state, &outputs, first_window, tol_h, tol_w)
+                        {
+                            window::maximize_window(
                                 &mut action_socket,
                                 &state,
                                 first_window,
@@ -261,8 +259,14 @@ fn main() -> anyhow::Result<()> {
                                 .get(&old_ws)
                                 .is_none_or(|old_windows| old_windows.is_empty())
                         {
-                            if is_maximized(&state, &outputs, last_window, tol_h, tol_w) {
-                                maximize_window(
+                            if size_compare::is_maximized(
+                                &state,
+                                &outputs,
+                                last_window,
+                                tol_h,
+                                tol_w,
+                            ) {
+                                window::maximize_window(
                                     &mut action_socket,
                                     &state,
                                     last_window,
@@ -278,8 +282,10 @@ fn main() -> anyhow::Result<()> {
                         {
                             let remaining = old_windows[0];
 
-                            if !is_maximized(&state, &outputs, remaining, tol_h, tol_w) {
-                                maximize_window(
+                            if !size_compare::is_maximized(
+                                &state, &outputs, remaining, tol_h, tol_w,
+                            ) {
+                                window::maximize_window(
                                     &mut action_socket,
                                     &state,
                                     remaining,
@@ -308,7 +314,7 @@ fn main() -> anyhow::Result<()> {
                 // If running in "fill-screen-space" mode, nudge the focus to close any empty space
                 // left by closed windows (if needed)
                 if reclaim_space && !closed_window_was_leftmost && windows.len() > 1 {
-                    nudge_focus(&mut action_socket)?;
+                    screen_space::nudge_focus(&mut action_socket)?;
                 }
 
                 // Skip if running in "first only" mode
@@ -322,8 +328,8 @@ fn main() -> anyhow::Result<()> {
                 }
 
                 let id = windows[0];
-                if !is_maximized(&state, &outputs, id, tol_h, tol_w) {
-                    maximize_window(&mut action_socket, &state, id, edges_maximizing)?;
+                if !size_compare::is_maximized(&state, &outputs, id, tol_h, tol_w) {
+                    window::maximize_window(&mut action_socket, &state, id, edges_maximizing)?;
                 }
             }
             // Ignore other events
