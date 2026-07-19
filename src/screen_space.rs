@@ -1,5 +1,5 @@
-//! Nudge focus left/right after a window closes, forcing niri to rescroll
-//! the viewport and eliminate any leftover gap on the edge of the screen.
+//! Nudge focus left/right after a window closes, forcing niri to rescroll the viewport
+//! eliminate any leftover gap on the edge of the screen to fill available screen space.
 
 use log::info;
 use niri_ipc::state::EventStreamState;
@@ -19,7 +19,7 @@ pub fn is_leftmost(state: &EventStreamState, window_id: u64) -> bool {
     column == 1
 }
 
-pub fn fill_gap(socket: &mut Socket, remaining_windows: usize) -> anyhow::Result<()> {
+pub fn nudge_focus(socket: &mut Socket, remaining_windows: usize) -> anyhow::Result<()> {
     if remaining_windows <= 1 {
         return Ok(());
     }

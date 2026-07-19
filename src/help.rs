@@ -10,21 +10,21 @@ pub fn show_help() {
     println!();
     println!("OPTIONS:");
     println!(
-        "  -F, --first-only        Only maximize the first opened window, do not act on the last remaining one"
+        "  -F, --first-only         Only maximize the first opened window, do not act on the last remaining one"
     );
     println!(
-        "  -T, --tiling-layout     Unmaximize the first window when opening a second one, like in a tiling compositor"
+        "  -T, --tiling-layout      Unmaximize the first window when opening a second one, like in a tiling compositor"
     );
-    println!("  -E, --edges-maximizing  Maximize windows to edges");
-    println!("  -M, --move-on-close     Move viewport on window close to fill remaining gap");
+    println!("  -E, --edges-maximizing   Maximize windows to edges");
+    println!("  -S, --fill-screen-space  Fill empty screen space left by closed windows");
     println!(
-        "  -H, --height-tolerance  Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (defaults to 150)" // https://github.com/Antiz96/oniri/issues/3
+        "  -H, --height-tolerance   Set the height size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (defaults to 150)" // https://github.com/Antiz96/oniri/issues/3
     );
     println!(
-        "  -W, --width-tolerance   Set the width size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (defaults to 150)" // https://github.com/Antiz96/oniri/issues/3
+        "  -W, --width-tolerance    Set the width size tolerance (in pixels) when comparing the window size to the output size to determine if the window is maximized or not (defaults to 150)" // https://github.com/Antiz96/oniri/issues/3
     );
-    println!("  -h, --help              Display this help message");
-    println!("  -V, --version           Display version information");
+    println!("  -h, --help               Display this help message");
+    println!("  -V, --version            Display version information");
     println!();
     println!("For more information, see the oniri(1) man page.");
 }

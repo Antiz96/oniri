@@ -11,11 +11,11 @@ use std::collections::HashMap;
 use std::io::ErrorKind;
 use std::process;
 
-use crate::fill_gap::fill_gap;
+use crate::screen_space::nudge_focus;
 use crate::maximize_window::maximize_window;
 use crate::size_compare::is_maximized;
 
-mod fill_gap;
+mod screen_space;
 mod help;
 mod lockfile;
 mod maximize_window;
@@ -39,8 +39,8 @@ struct Args {
     #[arg(short = 'E', long)]
     edges_maximizing: bool,
 
-    #[arg(short = 'M', long)]
-    move_on_close: bool,
+    #[arg(short = 'S', long)]
+    fill_screen_space: bool,
 
     #[arg(short = 'H', long, default_value_t = 150)]
     height_tolerance: i32,
@@ -107,10 +107,10 @@ fn main() -> anyhow::Result<()> {
         info!("Running in edges-maximizing mode: Maximize windows to edges");
     }
 
-    // Run in "move-on-close" mode if the -M / --move-on-close arg is passed
-    let move_on_close = args.move_on_close;
-    if move_on_close {
-        info!("Running in move-on-close mode: Moving the viewport on close to fill remaining gap");
+    // Run in "fill-screen-space" mode if the -S / --fill-screen-space arg is passed
+    let fill_screen_space = args.fill_screen_space;
+    if fill_screen_space {
+        info!("Running in fill-screen-space mode: Fill empty screen space left by closed windows with remaining windows");
     }
 
     // Set pixel tolerances for window/output size comparison
@@ -144,9 +144,9 @@ fn main() -> anyhow::Result<()> {
     while let Ok(event) = read_event() {
         // Check if the closing window sits in the leftmost column, before state.apply()
         // below removes it from the state and this information becomes unreachable (used for the
-        // move-on-close mode).
+        // fill-screen-space mode).
         let closed_window_was_leftmost =
-            matches!(&event, Event::WindowClosed { id } if fill_gap::is_leftmost(&state, *id));
+            matches!(&event, Event::WindowClosed { id } if screen_space::is_leftmost(&state, *id));
 
         // Update state
         // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
@@ -303,10 +303,10 @@ fn main() -> anyhow::Result<()> {
                 // Update the workspace vector
                 windows.retain(|&wid| wid != id);
 
-                // If running in "move-on-close" mode, nudge the focus to close any leftover gap (if
-                // needed)
-                if move_on_close && !closed_window_was_leftmost {
-                    fill_gap(&mut action_socket, windows.len())?;
+                // If running in "fill-screen-space" mode, nudge the focus to close any empty space
+                // left by closed windows (if needed)
+                if fill_screen_space && !closed_window_was_leftmost {
+                    nudge_focus(&mut action_socket, windows.len())?;
                 }
 
                 // Skip if running in "first only" mode
