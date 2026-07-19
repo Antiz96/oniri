@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.0](https://github.com/Antiz96/oniri/releases/tag/v1.3.0) - 2026-07-19
+
+### Features
+
+- Add `-R / --reclaim-space` to reclaim empty screen space left by closed windows ([#93](https://github.com/Antiz96/oniri/pull/93)) - ([81581c4](https://github.com/Antiz96/oniri/commit/81581c4645899505b851255293ebe3a62ab33f24)) by @zxc-rv
+
+### Miscellaneous
+
+- *(CI)* Add built man page to cleanup stage ([#91](https://github.com/Antiz96/oniri/pull/91)) - ([5ee14cf](https://github.com/Antiz96/oniri/commit/5ee14cf37b0d559d4caf1f1d4608eb41da93bf08)) by @Antiz96
+- *(deps)* Update Rust crate anyhow to 1.0.104 ([#92](https://github.com/Antiz96/oniri/pull/92)) - ([68f53ec](https://github.com/Antiz96/oniri/commit/68f53ec839ac67992bbb1b46cd79eaac5e483163)) by @renovate[bot]
+- Global refactor ([#94](https://github.com/Antiz96/oniri/pull/94)) - ([87cc53f](https://github.com/Antiz96/oniri/commit/87cc53fa379d2952023118a57b3a145045302162)) by @Antiz96
+
 ## [v1.2.6](https://github.com/Antiz96/oniri/releases/tag/v1.2.6) - 2026-07-16
 
 ### Documentation
