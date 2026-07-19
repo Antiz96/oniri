@@ -11,15 +11,15 @@ use std::collections::HashMap;
 use std::io::ErrorKind;
 use std::process;
 
-use crate::screen_space::nudge_focus;
 use crate::maximize_window::maximize_window;
+use crate::screen_space::nudge_focus;
 use crate::size_compare::is_maximized;
 
-mod screen_space;
 mod help;
 mod lockfile;
 mod maximize_window;
 mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
+mod screen_space;
 mod size_compare; // https://github.com/Antiz96/oniri/issues/3
 mod socket_connections;
 mod version;
@@ -110,7 +110,9 @@ fn main() -> anyhow::Result<()> {
     // Run in "fill-screen-space" mode if the -S / --fill-screen-space arg is passed
     let fill_screen_space = args.fill_screen_space;
     if fill_screen_space {
-        info!("Running in fill-screen-space mode: Fill empty screen space left by closed windows with remaining windows");
+        info!(
+            "Running in fill-screen-space mode: Fill empty screen space left by closed windows with remaining windows"
+        );
     }
 
     // Set pixel tolerances for window/output size comparison
