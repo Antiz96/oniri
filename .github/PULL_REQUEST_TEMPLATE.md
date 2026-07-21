@@ -1,4 +1,4 @@
-<!-- Please, read the contributing guidelines before opening a pull request: https://github.com/Antiz96/arch-update/blob/main/CONTRIBUTING.md -->
+<!-- Please, read the contributing guidelines before opening a pull request: https://github.com/Antiz96/oniri/blob/main/CONTRIBUTING.md -->
 
 ### Description
 
