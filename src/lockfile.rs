@@ -9,7 +9,7 @@ use std::io::ErrorKind;
 pub fn acquire_lockfile() -> anyhow::Result<File> {
     // Create oniri cachedir (if it doesn't exist)
     let cachedir = dirs::cache_dir()
-        .context("Could not determine the cache directory")?
+        .context("Failed to determine the cache directory")?
         .join("oniri");
 
     fs::create_dir_all(&cachedir).with_context(|| {
