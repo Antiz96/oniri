@@ -1,10 +1,12 @@
 //! Create a workspace/window(s) map and initialize it
-
+use anyhow::Context;
 use niri_ipc::{Request, Response, socket::Socket};
 use std::collections::HashMap;
 
 pub fn init_windows_map(action_socket: &mut Socket) -> anyhow::Result<HashMap<u64, Vec<u64>>> {
-    let response = action_socket.send(Request::Windows)?;
+    let response = action_socket
+        .send(Request::Windows)
+        .context("Failed to get windows list")?;
 
     let Ok(Response::Windows(windows)) = response else {
         return Ok(HashMap::new());

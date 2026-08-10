@@ -3,10 +3,10 @@
 pub fn show_help() {
     println!("oniri - A tool that automatically maximizes the only window of a niri workspace");
     println!();
-    println!("USAGE:");
-    println!("  Just start oniri from your niri config: spawn-at-startup \"oniri\"");
-    println!();
-    println!("See also the list of options that can be set (or passed from the CLI) below.");
+    println!("Start oniri from your niri config:");
+    println!("`spawn-at-startup \"oniri\"`");
+    println!("or");
+    println!("`spawn-sh-at-startup \"oniri <options>\"`");
     println!();
     println!("OPTIONS:");
     println!(

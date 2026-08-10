@@ -40,6 +40,18 @@ Oniri is a tool that automatically maximizes the *on*ly window of a *niri* works
 *-V, --version*
 	Display version information.
 
+# EXIT STATUS
+
+*0* Ok.
+
+*1* Failed to create or acquire the lockfile.
+
+*2* Failed to initialize niri IPC socket connections.
+
+*3* Failed to initialize the output(s) map.
+
+*4* Failed to initialize the window(s) / workspace(s) map.
+
 # SEE ALSO
 
 https://niri-wm.github.io/niri

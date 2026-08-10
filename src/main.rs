@@ -8,7 +8,6 @@ use clap::Parser;
 use log::{debug, error, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
 use std::collections::HashMap;
-use std::io::ErrorKind;
 use std::process;
 
 mod help;
@@ -21,11 +20,10 @@ mod version;
 mod window;
 mod windows_map;
 
-// Argument parser
+// Arguments definition
 #[derive(Parser)]
 #[command(disable_help_flag = true, disable_version_flag = true)]
 struct Args {
-    // Options / flags
     #[arg(short = 'F', long)]
     first_only: bool,
 
@@ -51,35 +49,30 @@ struct Args {
     version: bool,
 }
 
-fn main() -> anyhow::Result<()> {
-    // Initialize logger
-    env_logger::init();
-
+fn main() {
     // Parse arguments
     let args = Args::parse();
 
     // Show help message if the -h / --help arg is passed
     if args.help {
         help::show_help();
-        return Ok(());
+        return;
     }
 
     // Show name and version if the -V / --version arg is passed
     if args.version {
         version::show_version();
-        return Ok(());
+        return;
     }
+
+    // Initialize logger
+    env_logger::init();
 
     // Create (if needed) and acquire lockfile
     // Exit if there's already an instance running
     // or if there was an issue creating or acquiring the lockfile (e.g. permission issue)
-    let _lock = lockfile::acquire_lockfile().unwrap_or_else(|error| {
-        if error.kind() == ErrorKind::AlreadyExists {
-            error!("Another instance of oniri is already running");
-        } else {
-            error!("Failed to acquire lockfile: {error}");
-        }
-
+    lockfile::acquire_lockfile().unwrap_or_else(|error| {
+        error!("{error:?}");
         process::exit(1);
     });
 
@@ -118,15 +111,26 @@ fn main() -> anyhow::Result<()> {
     info!("Using tolerances: height={tol_h}, width={tol_w}");
 
     // Initialize connections to niri IPC socket, start the event stream and gather events
-    let (event_socket, mut action_socket) = socket_connections::init_socket_connections()?;
+    let (event_socket, mut action_socket) = socket_connections::init_socket_connections()
+        .unwrap_or_else(|error| {
+            error!("{error:?}");
+            process::exit(2);
+        });
 
     // Gather state and create an outputs map
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let mut state = EventStreamState::default();
-    let outputs = outputs_map::init_outputs_map(&mut action_socket)?;
+    let outputs = outputs_map::init_outputs_map(&mut action_socket).unwrap_or_else(|error| {
+        error!("{error:?}");
+        process::exit(3);
+    });
 
     // Create a workspace/window(s) map and initialize it
-    let mut workspace_windows = windows_map::init_windows_map(&mut action_socket)?;
+    let mut workspace_windows =
+        windows_map::init_windows_map(&mut action_socket).unwrap_or_else(|error| {
+            error!("{error:?}");
+            process::exit(4);
+        });
 
     // Track windows that have moved workspaces until their tile size is properly recalculated
     // in the "WindowLayoutsChanged" event
@@ -201,7 +205,10 @@ fn main() -> anyhow::Result<()> {
                                 &state,
                                 first_window,
                                 edges_maximizing,
-                            )?;
+                            )
+                            .unwrap_or_else(|error| {
+                                error!("{error:?}");
+                            });
                         }
                     }
 
@@ -215,7 +222,10 @@ fn main() -> anyhow::Result<()> {
                                 &state,
                                 first_window,
                                 edges_maximizing,
-                            )?;
+                            )
+                            .unwrap_or_else(|error| {
+                                error!("{error:?}");
+                            });
                         }
                     }
                     _ => {}
@@ -271,7 +281,10 @@ fn main() -> anyhow::Result<()> {
                                     &state,
                                     last_window,
                                     edges_maximizing,
-                                )?;
+                                )
+                                .unwrap_or_else(|error| {
+                                    error!("{error:?}");
+                                });
                             }
                         }
                         // If there's one window left in the previous workspace, maximize it
@@ -290,7 +303,10 @@ fn main() -> anyhow::Result<()> {
                                     &state,
                                     remaining,
                                     edges_maximizing,
-                                )?;
+                                )
+                                .unwrap_or_else(|error| {
+                                    error!("{error:?}");
+                                });
                             }
                         }
                     }
@@ -314,7 +330,9 @@ fn main() -> anyhow::Result<()> {
                 // If running in "fill-screen-space" mode, nudge the focus to close any empty space
                 // left by closed windows (if needed)
                 if reclaim_space && !closed_window_was_leftmost && windows.len() > 1 {
-                    screen_space::nudge_focus(&mut action_socket)?;
+                    screen_space::nudge_focus(&mut action_socket).unwrap_or_else(|error| {
+                        error!("{error:?}");
+                    });
                 }
 
                 // Skip if running in "first only" mode
@@ -329,12 +347,14 @@ fn main() -> anyhow::Result<()> {
 
                 let id = windows[0];
                 if !size_compare::is_maximized(&state, &outputs, id, tol_h, tol_w) {
-                    window::maximize_window(&mut action_socket, &state, id, edges_maximizing)?;
+                    window::maximize_window(&mut action_socket, &state, id, edges_maximizing)
+                        .unwrap_or_else(|error| {
+                            error!("{error:?}");
+                        });
                 }
             }
             // Ignore other events
             _ => {}
         }
     }
-    Ok(())
 }

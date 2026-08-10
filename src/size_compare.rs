@@ -15,12 +15,9 @@ pub fn is_maximized(
     tol_w: i32,
     tol_h: i32,
 ) -> bool {
-    let window = match state.windows.windows.get(&window_id) {
-        Some(w) => w,
-        None => {
-            warn!("Window {window_id} not found in state");
-            return false;
-        }
+    let Some(window) = state.windows.windows.get(&window_id) else {
+        warn!("Window {window_id} not found in state");
+        return false;
     };
 
     if window.is_floating {
@@ -28,31 +25,25 @@ pub fn is_maximized(
         return false;
     }
 
-    let workspace = match window
+    let Some(workspace) = window
         .workspace_id
         .and_then(|ws_id| state.workspaces.workspaces.get(&ws_id))
-    {
-        Some(ws) => ws,
-        None => {
-            warn!("Workspace for window {window_id} not found");
-            return false;
-        }
+    else {
+        warn!("Workspace for window {window_id} not found");
+        return false;
     };
 
-    let logical = match workspace
+    let Some(logical) = workspace
         .output
         .as_ref()
         .and_then(|name| outputs.get(name))
-        .and_then(|o| o.logical.as_ref())
-    {
-        Some(l) => l,
-        None => {
-            warn!(
-                "Output for workspace {} not found or has no logical size",
-                workspace.id
-            );
-            return false;
-        }
+        .and_then(|output| output.logical.as_ref())
+    else {
+        warn!(
+            "Output for workspace {} not found or has no logical size",
+            workspace.id
+        );
+        return false;
     };
 
     let out_w = logical.width as i32;
