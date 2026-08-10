@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.2](https://github.com/Antiz96/oniri/releases/tag/v1.3.2) - 2026-08-10
+
+### Styling
+
+- Typo fix in PR template ([#98](https://github.com/Antiz96/oniri/pull/98)) - ([0082467](https://github.com/Antiz96/oniri/commit/0082467b2185b9eebc133f48aab08169c449fe89)) by @Antiz96
+
+### Miscellaneous
+
+- *(deps)* Lock file maintenance ([#104](https://github.com/Antiz96/oniri/pull/104)) - ([261cc83](https://github.com/Antiz96/oniri/commit/261cc83f043970955b972c6539f2dab5a23665de)) by @renovate[bot]
+- *(deps)* Update Rust crate clap to 4.6.6 ([#103](https://github.com/Antiz96/oniri/pull/103)) - ([8762716](https://github.com/Antiz96/oniri/commit/8762716d83eddb22f9e53f1e140f78b9fe5f0273)) by @renovate[bot]
+- *(deps)* Lock file maintenance ([#101](https://github.com/Antiz96/oniri/pull/101)) - ([30a9493](https://github.com/Antiz96/oniri/commit/30a949368edb2eb45e36556c890b75cfdf4c9f21)) by @renovate[bot]
+- *(deps)* Update Rust crate clap to 4.6.5 ([#100](https://github.com/Antiz96/oniri/pull/100)) - ([fc8b670](https://github.com/Antiz96/oniri/commit/fc8b670527864a4701d7a4960ba8daf8570fd99c)) by @renovate[bot]
+- *(deps)* Lock file maintenance ([#99](https://github.com/Antiz96/oniri/pull/99)) - ([19eec48](https://github.com/Antiz96/oniri/commit/19eec481d9a9cc8ff9c3989c46d7eeaa33d3e768)) by @renovate[bot]
+- *(deps)* Update Rust crate clap to 4.6.3 ([#97](https://github.com/Antiz96/oniri/pull/97)) - ([1ee71de](https://github.com/Antiz96/oniri/commit/1ee71deca2bcf2f93f42deee58bc44dca067abb4)) by @renovate[bot]
+- *(deps)* Lock file maintenance ([#96](https://github.com/Antiz96/oniri/pull/96)) - ([24c6aef](https://github.com/Antiz96/oniri/commit/24c6aefcfc21b5cb681898ad39c9fb701520fa27)) by @renovate[bot]
+- Improve error message wording ([#106](https://github.com/Antiz96/oniri/pull/106)) - ([ffb5aa9](https://github.com/Antiz96/oniri/commit/ffb5aa9063d5172998d5ae0f3266aa8100ac18be)) by @Antiz96
+- General code refinement ([#105](https://github.com/Antiz96/oniri/pull/105)) - ([a0223e0](https://github.com/Antiz96/oniri/commit/a0223e0a50ef734478bde63c2d81430ee7261a48)) by @Antiz96
+- Update help message ([#102](https://github.com/Antiz96/oniri/pull/102)) - ([07f3ccb](https://github.com/Antiz96/oniri/commit/07f3ccbdba131924f6ce7fb304105cc6463dcd94)) by @Antiz96
+
 ## [v1.3.1](https://github.com/Antiz96/oniri/releases/tag/v1.3.1) - 2026-07-19
 
 ### Fixes
