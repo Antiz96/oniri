@@ -1,6 +1,7 @@
 //! Nudge focus left/right after a window closes, forcing niri to rescroll the viewport
 //! eliminate any leftover gap on the edge of the screen to fill available screen space.
 
+use anyhow::Context;
 use log::info;
 use niri_ipc::state::EventStreamState;
 use niri_ipc::{Action, Request, socket::Socket};
@@ -19,11 +20,16 @@ pub fn is_leftmost(state: &EventStreamState, window_id: u64) -> bool {
 
 pub fn nudge_focus(socket: &mut Socket) -> anyhow::Result<()> {
     socket
-        .send(Request::Action(Action::FocusColumnLeft {}))?
-        .map_err(anyhow::Error::msg)?;
+        .send(Request::Action(Action::FocusColumnLeft {}))
+        .context("Failed to send focus-left action")?
+        .map_err(anyhow::Error::msg)
+        .context("Failed to nudge focus to the left")?;
+
     socket
-        .send(Request::Action(Action::FocusColumnRight {}))?
-        .map_err(anyhow::Error::msg)?;
+        .send(Request::Action(Action::FocusColumnRight {}))
+        .context("Failed to send focus-right action")?
+        .map_err(anyhow::Error::msg)
+        .context("Failed to nudge focus to the right")?;
 
     info!("Nudged focus to fill gap left by closed window");
 
