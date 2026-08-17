@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.3](https://github.com/Antiz96/oniri/releases/tag/v1.3.3) - 2026-08-17
+
+### Fixes
+
+- Properly retain lockfile ([#108](https://github.com/Antiz96/oniri/pull/108)) - ([9692c99](https://github.com/Antiz96/oniri/commit/9692c99aedeea73caa4641d8e625b0517f012156)) by @Antiz96
+
+### Miscellaneous
+
+- *(deps)* Lock file maintenance ([#107](https://github.com/Antiz96/oniri/pull/107)) - ([a98d251](https://github.com/Antiz96/oniri/commit/a98d251978251e3202e654ccc56a7cc66279f317)) by @renovate[bot]
+
 ## [v1.3.2](https://github.com/Antiz96/oniri/releases/tag/v1.3.2) - 2026-08-10
 
 ### Styling
