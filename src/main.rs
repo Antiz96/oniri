@@ -71,7 +71,7 @@ fn main() {
     // Create (if needed) and acquire lockfile
     // Exit if there's already an instance running
     // or if there was an issue creating or acquiring the lockfile (e.g. permission issue)
-    lockfile::acquire_lockfile().unwrap_or_else(|error| {
+    let _lockfile = lockfile::acquire_lockfile().unwrap_or_else(|error| {
         error!("{error:?}");
         process::exit(1);
     });
