@@ -289,24 +289,23 @@ fn main() {
                             && workspace_windows
                                 .get(&old_ws)
                                 .is_none_or(|old_windows| old_windows.is_empty())
-                        {
-                            if size_compare::is_maximized(
+                            && size_compare::is_maximized(
                                 &state,
                                 &outputs,
                                 last_window,
                                 tol_h,
                                 tol_w,
-                            ) {
-                                window::maximize_window(
-                                    &mut action_socket,
-                                    &state,
-                                    last_window,
-                                    edges_maximizing,
-                                )
-                                .unwrap_or_else(|error| {
-                                    error!("{error:?}");
-                                });
-                            }
+                            )
+                        {
+                            window::maximize_window(
+                                &mut action_socket,
+                                &state,
+                                last_window,
+                                edges_maximizing,
+                            )
+                            .unwrap_or_else(|error| {
+                                error!("{error:?}");
+                            });
                         }
                     }
                 }
