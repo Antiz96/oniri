@@ -28,6 +28,14 @@ pub fn maximize_window(
             .windows
             .values()
             .find_map(|window| window.is_focused.then_some(window.id))
+            .or_else(|| {
+                state
+                    .workspaces
+                    .workspaces
+                    .values()
+                    .find(|workspace| workspace.is_focused)
+                    .and_then(|workspace| workspace.active_window_id)
+            })
         else {
             return Ok(());
         };

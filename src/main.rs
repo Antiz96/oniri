@@ -235,6 +235,27 @@ fn main() {
                 if let Some(old_ws) = previous_ws
                     && old_ws != ws
                 {
+                    // If there's one window left in the previous workspace, maximize it
+                    // (unless we're running in "first-only" mode).
+                    if !first_only
+                        && let Some(old_windows) = workspace_windows.get(&old_ws)
+                        && old_windows.len() == 1
+                    {
+                        let remaining = old_windows[0];
+
+                        if !size_compare::is_maximized(&state, &outputs, remaining, tol_h, tol_w) {
+                            window::maximize_window(
+                                &mut action_socket,
+                                &state,
+                                remaining,
+                                edges_maximizing,
+                            )
+                            .unwrap_or_else(|error| {
+                                error!("{error:?}");
+                            });
+                        }
+                    }
+
                     // Track windows that have moved workspaces until their tile size is properly recalculated
                     // in the "WindowLayoutsChanged" event
                     // This avoids comparing a window's old layout size against its new workspace output's resolution
@@ -280,28 +301,6 @@ fn main() {
                                     &mut action_socket,
                                     &state,
                                     last_window,
-                                    edges_maximizing,
-                                )
-                                .unwrap_or_else(|error| {
-                                    error!("{error:?}");
-                                });
-                            }
-                        }
-                        // If there's one window left in the previous workspace, maximize it
-                        // (unless we're running in "first-only" mode).
-                        else if !first_only
-                            && let Some(old_windows) = workspace_windows.get(&old_ws)
-                            && old_windows.len() == 1
-                        {
-                            let remaining = old_windows[0];
-
-                            if !size_compare::is_maximized(
-                                &state, &outputs, remaining, tol_h, tol_w,
-                            ) {
-                                window::maximize_window(
-                                    &mut action_socket,
-                                    &state,
-                                    remaining,
                                     edges_maximizing,
                                 )
                                 .unwrap_or_else(|error| {
