@@ -13,10 +13,12 @@ assignees: Antiz96
 
 <!-- Please, provide the following information
 The niri version can be retrieved by running `niri --version`
-The oniri version can be retrieved by running `oniri --version` -->
+The oniri version can be retrieved by running `oniri --version`
+The oniri argument(s) is the list of option flag(s) you use, e.g. `--tiling-layout --reclaim-space` -->
 
 - niri version:
 - oniri version:
+- oniri argument(s):
 
 ### Description of the bug
 
