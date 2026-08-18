@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.4](https://github.com/Antiz96/oniri/releases/tag/v1.3.4) - 2026-08-18
+
+### Fixes
+
+- Handle event ordering in Niri's overview ([#110](https://github.com/Antiz96/oniri/pull/110)) - ([3a93c08](https://github.com/Antiz96/oniri/commit/3a93c084360bf2b1006143281907a3318693a2f9)) by @ChickenIQ
+
+### Miscellaneous
+
+- Update bug report issue template ([#111](https://github.com/Antiz96/oniri/pull/111)) - ([335d182](https://github.com/Antiz96/oniri/commit/335d182b4feaa43c19e808480e2b59960f80d081)) by @Antiz96
+
 ## [v1.3.3](https://github.com/Antiz96/oniri/releases/tag/v1.3.3) - 2026-08-17
 
 ### Fixes
