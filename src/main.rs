@@ -13,7 +13,7 @@ use std::process;
 mod help;
 mod lockfile;
 mod outputs_map; // https://github.com/Antiz96/oniri/issues/3
-mod screen_space;
+mod reclaim_space;
 mod size_compare; // https://github.com/Antiz96/oniri/issues/3
 mod socket_connections;
 mod version;
@@ -142,12 +142,6 @@ fn main() {
 
     // Loop over events
     while let Ok(event) = read_event() {
-        // Check if the closing window sits in the leftmost column, before state.apply()
-        // below removes it from the state and this information becomes unreachable (used for the
-        // reclaim-space mode).
-        let closed_window_was_leftmost =
-            matches!(&event, Event::WindowClosed { id } if screen_space::is_leftmost(&state, *id));
-
         // Update state
         // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
         state.apply(event.clone());
@@ -324,11 +318,30 @@ fn main() {
                 windows.retain(|&wid| wid != id);
 
                 // If running in "reclaim-space" mode, nudge the focus to close any empty space
-                // left by closed windows (if needed)
-                if reclaim_space && !closed_window_was_leftmost && windows.len() > 1 {
-                    screen_space::nudge_focus(&mut action_socket).unwrap_or_else(|error| {
-                        error!("{error:?}");
-                    });
+                // left by the closed windows (if needed)
+                if reclaim_space && windows.len() > 1 {
+                    // Get the ID of the newly focused window
+                    let Some(focused_id) = state
+                        .windows
+                        .windows
+                        .values()
+                        .find_map(|window| window.is_focused.then_some(window.id))
+                    // Logging this scenario in case it ever happens but, given we execute this only
+                    // if we have more than a single window, this should technically be impossible
+                    //
+                    // An `.expect()` could be safely used here technically but, in the eventuality where
+                    // the state is somehow inconsistent, this isn't worth a panic in my opinion
+                    else {
+                        error!("No focused window found after closing window");
+                        continue;
+                    };
+
+                    // If it is last in the viewport, nudge focus left / right to re-center it
+                    if reclaim_space::is_last(&state, focused_id) {
+                        reclaim_space::nudge_focus(&mut action_socket).unwrap_or_else(|error| {
+                            error!("{error:?}");
+                        });
+                    }
                 }
 
                 // Skip if running in "first only" mode
