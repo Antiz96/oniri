@@ -99,9 +99,7 @@ fn main() {
     // Run in "reclaim-space" mode if the -R / --reclaim-space arg is passed
     let reclaim_space = args.reclaim_space;
     if reclaim_space {
-        info!(
-            "Running in reclaim-space mode: Reclaim empty screen space left by closed windows"
-        );
+        info!("Running in reclaim-space mode: Reclaim empty screen space left by closed windows");
     }
 
     // Set pixel tolerances for window/output size comparison
