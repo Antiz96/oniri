@@ -96,12 +96,10 @@ fn main() {
         info!("Running in edges-maximizing mode: Maximize windows to edges");
     }
 
-    // Run in "fill-screen-space" mode if the -S / --fill-screen-space arg is passed
+    // Run in "reclaim-space" mode if the -R / --reclaim-space arg is passed
     let reclaim_space = args.reclaim_space;
     if reclaim_space {
-        info!(
-            "Running in fill-screen-space mode: Fill empty screen space left by closed windows with remaining windows"
-        );
+        info!("Running in reclaim-space mode: Reclaim empty screen space left by closed windows");
     }
 
     // Set pixel tolerances for window/output size comparison
@@ -146,7 +144,7 @@ fn main() {
     while let Ok(event) = read_event() {
         // Check if the closing window sits in the leftmost column, before state.apply()
         // below removes it from the state and this information becomes unreachable (used for the
-        // fill-screen-space mode).
+        // reclaim-space mode).
         let closed_window_was_leftmost =
             matches!(&event, Event::WindowClosed { id } if screen_space::is_leftmost(&state, *id));
 
@@ -325,7 +323,7 @@ fn main() {
                 // Update the workspace vector
                 windows.retain(|&wid| wid != id);
 
-                // If running in "fill-screen-space" mode, nudge the focus to close any empty space
+                // If running in "reclaim-space" mode, nudge the focus to close any empty space
                 // left by closed windows (if needed)
                 if reclaim_space && !closed_window_was_leftmost && windows.len() > 1 {
                     screen_space::nudge_focus(&mut action_socket).unwrap_or_else(|error| {
