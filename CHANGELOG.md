@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.5](https://github.com/Antiz96/oniri/releases/tag/v1.3.5) - 2026-08-30
+
+### Fixes
+
+- Make the reclaim-space mode logic more robust ([#114](https://github.com/Antiz96/oniri/pull/114)) - ([1f1d01f](https://github.com/Antiz96/oniri/commit/1f1d01f944dafa4da4b68e4e7a8dbce764b57f48)) by @Antiz96
+- Update the reclaim-space description in comments and logging ([#113](https://github.com/Antiz96/oniri/pull/113)) - ([db927dd](https://github.com/Antiz96/oniri/commit/db927dd2ddb09de926c2c2a0e6dadcb4417e28c7)) by @Antiz96
+
+### Miscellaneous
+
+- *(deps)* Update Rust crate log to 0.4.34 ([#112](https://github.com/Antiz96/oniri/pull/112)) - ([3e7dcdb](https://github.com/Antiz96/oniri/commit/3e7dcdb3034a9743351b452fd07448a4c0d707ba)) by @renovate[bot]
+
 ## [v1.3.4](https://github.com/Antiz96/oniri/releases/tag/v1.3.4) - 2026-08-18
 
 ### Fixes
