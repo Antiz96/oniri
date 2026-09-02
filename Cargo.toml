@@ -1,7 +1,7 @@
 [package]
 name = "oniri"
 version = "1.3.5"
-authors = ["Robin Candau <robincandau@protonmail.com>"]
+authors = ["Robin Candau <robincandau@mailbox.org>"]
 edition = "2024"
 description = "A tool that automatically maximizes the only window of a niri workspace"
 license = "GPL-3.0-or-later"
