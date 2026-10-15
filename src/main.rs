@@ -141,7 +141,9 @@ fn main() {
     let mut read_event = event_socket.read_events();
 
     // Loop over events
-    while let Ok(event) = read_event() {
+    while let Ok(event) = read_event().inspect_err(|error| {
+        error!("Failed to read Niri IPC event: {error:?}");
+    }) {
         // Update state
         // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
         state.apply(event.clone());
