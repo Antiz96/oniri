@@ -5,6 +5,7 @@
 - [Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Version compatibility chart](#version-compatibility-chart)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
 - [License](#license)
@@ -27,8 +28,11 @@ With `oniri` started in "tiling layout" mode in your niri configuration file (`s
 
 See `oniri --help` and the [oniri(1) man page](https://raw.githubusercontent.com/Antiz96/oniri/refs/heads/main/doc/man/oniri.1.scd) for additional options and features.
 
-**Note:** Due to current limitations of the niri IPC, "buggy" behaviors (e.g. window not being correctly maximized) *may* be expected in specific setups / edgy cases. Those limitations should *hopefully* be addressed on the niri IPC side at some point, allowing to fix those eventual "buggy" behaviors once and for all (see <https://github.com/Antiz96/oniri/issues/3> for more details).  
-In the mean time, things *should* still work just fine for most "classic" setups though!
+**Notes:**
+
+- Due to the niri IPC crate backwards compatibility policy, it is advised to use a version of `oniri` built with the version of the niri IPC crate that matches the version of niri running on your system (in order to ensure proper compatibility). Refer to the version compatibility chart [here](#version-compatibility-chart).
+
+- Due to current limitations of the niri IPC, unexpected behavior (e.g. window not being correctly maximized) *may eventually* happen on specific setups / edge cases (see <https://github.com/Antiz96/oniri/issues/3> for more details and workaround). `Oniri` should still work just fine out of the box on most setups though!
 
 ## Installation
 
@@ -85,6 +89,17 @@ spawn-at-startup "oniri"
 
 See `oniri --help` or the [oniri(1) man page](https://raw.githubusercontent.com/Antiz96/oniri/refs/heads/main/doc/man/oniri.1.scd) for a list of options & arguments that can be passed.  
 Note that passing options / arguments requires to use 'spawn**-sh-**at-startup' in the niri configuration file.
+
+## Version compatibility chart
+
+The niri IPC crate (which `oniri` relies on) is not API-stable in terms of the Rust semver but follows the niri version instead (as documented [here](https://docs.rs/crate/niri-ipc/latest/source/README.md)). This means that a version of `oniri` built with a specific version of the niri IPC crate is not guaranteed to work properly with a different version of niri (including development / unstable builds).
+
+As such, it is advised to use a version of `oniri` built with the same version of the niri IPC crate than the version of niri running on your system, in order to ensure proper compatibility:
+
+| Oniri version | Niri version |
+| ------------- | ------------ |
+| v1.0.0 to v1.1.0 | v25.11 |
+| v1.1.1 and later | v26.04 |
 
 ## Documentation
 
