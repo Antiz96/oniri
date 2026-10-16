@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.7](https://github.com/Antiz96/oniri/releases/tag/v1.3.7) - 2026-10-16
+
+### Fixes
+
+- *(niri-ipc)* Add logging for niri-ipc errors ([#129](https://github.com/Antiz96/oniri/pull/129)) - ([0db7b95](https://github.com/Antiz96/oniri/commit/0db7b9576d6f01115700b99af91aa25791d57d34)) by @Antiz96
+
+### Documentation
+
+- *(niri-ipc)* Document niri IPC backwards compatibility policy and add an oniri / niri version compatibility chart ([#130](https://github.com/Antiz96/oniri/pull/130)) - ([24047cc](https://github.com/Antiz96/oniri/commit/24047cc3babda8b4ce4a5f0eb4f4eed144992195)) by @Antiz96
+
+### Miscellaneous
+
+- *(CONTRIBUTING)* Add an AI Policy ([#127](https://github.com/Antiz96/oniri/pull/127)) - ([c9027b7](https://github.com/Antiz96/oniri/commit/c9027b764085f6a8612047e91b7f5d293e4ef150)) by @Antiz96
+- *(deps)* Lock file maintenance ([#126](https://github.com/Antiz96/oniri/pull/126)) - ([618022b](https://github.com/Antiz96/oniri/commit/618022bcdd69b64fa3312f1035fda66d183258df)) by @renovate[bot]
+- *(flake)* Add support for aarch64-linux ([#125](https://github.com/Antiz96/oniri/pull/125)) - ([61baf8b](https://github.com/Antiz96/oniri/commit/61baf8b80d223a9edf15903e2f09b7575b6e5e09)) by @picharsiu
+
 ## [v1.3.6](https://github.com/Antiz96/oniri/releases/tag/v1.3.6) - 2026-10-05
 
 ### Miscellaneous

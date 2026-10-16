@@ -1,5 +1,5 @@
 [container]
-image = "docker.io/archlinux/archlinux@sha256:1f56be0674957b8aed6efd49a033f66960c6dbf38c3c71141282d6260460cd06"
+image = "docker.io/archlinux/archlinux@sha256:9a795bf1385c5ecde776c2d8355d7e290350b49a24f85fe20f392c1e25b18eb3"
 
 [[package]]
 name = "compiler-rt"
@@ -10,12 +10,28 @@ sha256 = "4519a7bfe224af5e4c1dbd2fb39dd03fe6159cccf528fee3a0b4900f90d8e015"
 signature = "iHUEABYKAB0WIQQhkbiUMbrAqLlt6T0kR0DRfH/Q7AUCaqlZFAAKCRAkR0DRfH/Q7NHzAQCe+ZWgvcl6gYYLuc9WFjTclHtkTQIKdvWC7psDZDU8HAEAuegHHLJIwCFTMk9g7ZxD+ZKm9qtxqJMZIvUWEsjSYAw="
 
 [[package]]
+name = "curl"
+version = "8.23.0-1"
+system = "archlinux"
+url = "https://archive.archlinux.org/packages/c/curl/curl-8.23.0-1-x86_64.pkg.tar.zst"
+sha256 = "ed3e4e252073137ee6b1267f3476a13680ff6b3dbdc7ddc6a8d1497fa60cd6d0"
+signature = "iHUEABYKAB0WIQQhkbiUMbrAqLlt6T0kR0DRfH/Q7AUCas9ArAAKCRAkR0DRfH/Q7ELTAP4wZtQGaStTYizggomyVkcotvnpiPMxGX519/1ADqrwMgD/Wv/aadwGUp706T8jh0TPV/nsxsP2jg/k9B8Cvr2UJgs="
+
+[[package]]
 name = "gcc"
 version = "16.2.1+r23+gd564253eb6c8-1"
 system = "archlinux"
 url = "https://archive.archlinux.org/packages/g/gcc/gcc-16.2.1+r23+gd564253eb6c8-1-x86_64.pkg.tar.zst"
 sha256 = "1d79371ccf3138e3c172dd83b51560687b65ab824c1ad7e9cb41b7857ed9c55f"
 signature = "iNUEABYKAH0WIQQFx3danouXdAf+COadTFqhVCbaCgUCanpCXF8UgAAAAAAuAChpc3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MDVDNzc3NUE5RThCOTc3NDA3RkUwOEU2OUQ0QzVBQTE1NDI2REEwQQAKCRCdTFqhVCbaCpgpAQDUHBVh5V/jhxkcwSgPWW9fvMuN+8/fK+wO8pNijiKPWgD/YBH5rJFKJMvNJEnGxtFrZYSOx5rz4/GnX6hR59nYHQg="
+
+[[package]]
+name = "libarchive"
+version = "3.8.10-1"
+system = "archlinux"
+url = "https://archive.archlinux.org/packages/l/libarchive/libarchive-3.8.10-1-x86_64.pkg.tar.zst"
+sha256 = "9142262bb26509f8c1eae3854c3f151074c8e4be5d07778e2abcae6101caa854"
+signature = "iHUEABYKAB0WIQQEKYl95fO9rFN6MGltQr3RFuAGjwUCas+KkwAKCRBtQr3RFuAGj4PnAQCGcBIU4/gTAW5X4PlU5hRfgfhREay6pxmwrj2JLA3a4gD/Sl0enB5BtsTuqs8EtJnV+xrg6i9P8ZCe0EbSs6duiQs="
 
 [[package]]
 name = "libedit"
@@ -80,6 +96,14 @@ system = "archlinux"
 url = "https://archive.archlinux.org/packages/m/musl/musl-1.2.6-2-x86_64.pkg.tar.zst"
 sha256 = "476173e159e6eafb918bbeb804e322b51d2ad8cdd64ffb577e180d8ebfb3942c"
 signature = "iQIzBAABCgAdFiEExdKm4O0tEcZrn6KjBjE5EQV91agFAmqgKpkACgkQBjE5EQV91aicAA/9ETAKz8dtFX7OpsmZGlCypujrQuohtA0Q0UXXWJT0/u9qtOzB1B3rI96a8jsQn3M5atvVv3THb4cTfSTAv6T9eCRxFYdLvr4gjgr+GKzBUdUlV0zI207AQAMVDqqT1IEWIp0AtdFSV1AckqSzJzn9VjNU+FkRVabo2oo2VjmCnjFTAuP+Vi2Ir3XVy+drj7Bp+ptkmG1YB9g3SwPzqm1k4h6ca7sZCbjFaRFuMPrqmK03rIEIGcy3AuvUFU5UsA04ipPLiCAfKQ5Ou4fj7wJez4S41dcKV1Kub17PNMfMlInEipvB6HqU/dJGfBDUEWSKkpGwZW1F+y7F5TFeH4D8YggP4IiGB7PMYjwRBYx67WAQgvg+QqPUoRuUv+kSlU0Ud5eroHh/7IdcN9N/Ay1jxTN/120Tn4QSSHmIUxgQRkxpPz+hEAW9Fu68nP7eRAdpOoFGWOjXqXPl+FRBnWe/Pary5C1Mbb0/QSfX95fe7xNTVyZto+0XLSd4H6d1kHd2GH86vCvTt2xktJx7FYOdRCugbPthmRa9HhpdC+ch8BJAHknuWEDJOTku/jHXr4P1s+5xIfm5ua/4bEbizvDkRArTcRuctnkML3uRLKhsq7UR3NhoZR3sjTLoLFjG6dP2meSMyvcVV/LoY1eI3fGxD6X6c2UNRPep1S9XQ2zRJAc="
+
+[[package]]
+name = "pacman"
+version = "7.1.0.r9.g54d9411-3"
+system = "archlinux"
+url = "https://archive.archlinux.org/packages/p/pacman/pacman-7.1.0.r9.g54d9411-3-x86_64.pkg.tar.zst"
+sha256 = "bad000f7b482c7f5e6c8e6951d918ce8a9207c0f9c0786ab2b49fe75e935de28"
+signature = "iHUEABYKAB0WIQQEKYl95fO9rFN6MGltQr3RFuAGjwUCatCOuAAKCRBtQr3RFuAGj5LxAPsGP9fkb5KIV9Z33E5eoz37TgtfHGeFoRQ377+yr2TLGAD/Tx99e1Xl1EAnPv7J9P5LW1up/51wte1qMH1qQWWmZgM="
 
 [[package]]
 name = "rust"
