@@ -143,6 +143,7 @@ fn main() {
     // Loop over events
     while let Ok(event) = read_event().inspect_err(|error| {
         error!("Failed to read Niri IPC event: {error:?}");
+        process::exit(5);
     }) {
         // Update state
         // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
