@@ -52,6 +52,8 @@ Oniri is a tool that automatically maximizes the *on*ly window of a *niri* works
 
 *4* Failed to initialize the window(s) / workspace(s) map.
 
+*5* Failed to read events from the niri IPC.
+
 # SEE ALSO
 
 https://niri-wm.github.io/niri
