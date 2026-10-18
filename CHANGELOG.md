@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.8](https://github.com/Antiz96/oniri/releases/tag/v1.3.8) - 2026-10-18
+
+### Fixes
+
+- *(niri-ipc)* Exit in error when failing to read events ([#131](https://github.com/Antiz96/oniri/pull/131)) - ([f067dfd](https://github.com/Antiz96/oniri/commit/f067dfd720dbd1b3022611a9c034bb3730b019f0)) by @Antiz96
+
 ## [v1.3.7](https://github.com/Antiz96/oniri/releases/tag/v1.3.7) - 2026-10-16
 
 ### Fixes
