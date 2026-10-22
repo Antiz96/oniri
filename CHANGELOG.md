@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.9](https://github.com/Antiz96/oniri/releases/tag/v1.3.9) - 2026-10-22
+
+### Fixes
+
+- Handle windows becoming floating ([#134](https://github.com/Antiz96/oniri/pull/134)) - ([93d4935](https://github.com/Antiz96/oniri/commit/93d4935b839c65c89d1160921b09a7fa8b46634b)) by @d-enk
+
+### Miscellaneous
+
+- *(deps)* Lock file maintenance ([#132](https://github.com/Antiz96/oniri/pull/132)) - ([f672ae1](https://github.com/Antiz96/oniri/commit/f672ae1be777e580c66a8a57b8175c0e13864902)) by @renovate[bot]
+
 ## [v1.3.8](https://github.com/Antiz96/oniri/releases/tag/v1.3.8) - 2026-10-18
 
 ### Fixes
