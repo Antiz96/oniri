@@ -153,17 +153,7 @@ fn main() {
         match event {
             // Window being opened
             Event::WindowOpenedOrChanged { window } => {
-                // Skip floating windows (they cannot/should not be maximized)
-                if window.is_floating {
-                    continue;
-                }
-
-                debug!("Trigger Event: Window Opened Or Changed");
-
                 let id = window.id;
-                let Some(ws) = window.workspace_id else {
-                    continue;
-                };
 
                 // Workaround IPC limitation by checking if the window that triggered the event is
                 // in the same workspace.
@@ -176,6 +166,50 @@ fn main() {
                 let previous_ws = workspace_windows
                     .iter()
                     .find_map(|(&tracked_ws, windows)| windows.contains(&id).then_some(tracked_ws));
+
+                // Floating windows cannot/should not be maximized.
+                // If the window was tracked (i.e. it became floating), stop tracking it and
+                // maximize the window remaining in its previous workspace (if it's the only one left)
+                if window.is_floating {
+                    let Some(old_ws) = previous_ws else {
+                        continue;
+                    };
+
+                    // Update the workspace/window(s) map
+                    for windows in workspace_windows.values_mut() {
+                        windows.retain(|&wid| wid != id);
+                    }
+
+                    if let Some(old_windows) = workspace_windows.get(&old_ws)
+                        && !first_only
+                        && old_windows.len() == 1
+                        && !size_compare::is_maximized(
+                            &state,
+                            &outputs,
+                            old_windows[0],
+                            tol_h,
+                            tol_w,
+                        )
+                    {
+                        window::maximize_window(
+                            &mut action_socket,
+                            &state,
+                            old_windows[0],
+                            edges_maximizing,
+                        )
+                        .unwrap_or_else(|error| {
+                            error!("{error:?}");
+                        });
+                    }
+
+                    continue;
+                }
+
+                debug!("Trigger Event: Window Opened Or Changed");
+
+                let Some(ws) = window.workspace_id else {
+                    continue;
+                };
 
                 if previous_ws == Some(ws) {
                     continue;
