@@ -153,6 +153,8 @@ fn main() {
         match event {
             // Window being opened
             Event::WindowOpenedOrChanged { window } => {
+                debug!("Trigger Event: Window Opened Or Changed");
+
                 let id = window.id;
 
                 // Workaround IPC limitation by checking if the window that triggered the event is
@@ -168,8 +170,8 @@ fn main() {
                     .find_map(|(&tracked_ws, windows)| windows.contains(&id).then_some(tracked_ws));
 
                 // Floating windows cannot/should not be maximized.
-                // If the window was tracked (i.e. it became floating), stop tracking it and
-                // maximize the window remaining in its previous workspace (if it's the only one left)
+                // If the window was tracked (i.e. it became floating), remove it from the map
+                // and maximize the window remaining (if it's the only one left)
                 if window.is_floating {
                     let Some(old_ws) = previous_ws else {
                         continue;
@@ -204,8 +206,6 @@ fn main() {
 
                     continue;
                 }
-
-                debug!("Trigger Event: Window Opened Or Changed");
 
                 let Some(ws) = window.workspace_id else {
                     continue;
