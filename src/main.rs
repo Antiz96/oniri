@@ -7,7 +7,7 @@
 use clap::Parser;
 use log::{debug, error, info};
 use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::process;
 
 mod help;
@@ -137,6 +137,11 @@ fn main() {
     // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
     let mut moved_windows_map = HashMap::<u64, u64>::new();
 
+    // Track windows that were shrunk by oniri itself (i.e. un-maximized in tiling-layout mode)
+    // A window is only ever re-maximized if it is in this set,
+    // so windows manually resized by the user are never touched by oniri afterwards
+    let mut shrunk_windows = HashSet::<u64>::new();
+
     // Read events gathered from the IPC socket
     let mut read_event = event_socket.read_events();
 
@@ -182,9 +187,14 @@ fn main() {
                         windows.retain(|&wid| wid != id);
                     }
 
+                    // The window became floating, so stop tracking it as shrunk by oniri
+                    shrunk_windows.remove(&id);
+
+                    // Only re-maximize windows previously shrunk by oniri (see shrunk_windows)
                     if let Some(old_windows) = workspace_windows.get(&old_ws)
                         && !first_only
                         && old_windows.len() == 1
+                        && shrunk_windows.contains(&old_windows[0])
                         && !size_compare::is_maximized(
                             &state,
                             &outputs,
@@ -199,6 +209,10 @@ fn main() {
                             old_windows[0],
                             edges_maximizing,
                         )
+                        .inspect(|_| {
+                            // The window was re-maximized by oniri, so it isn't shrunk anymore
+                            shrunk_windows.remove(&old_windows[0]);
+                        })
                         .unwrap_or_else(|error| {
                             error!("{error:?}");
                         });
@@ -235,6 +249,10 @@ fn main() {
                                 first_window,
                                 edges_maximizing,
                             )
+                            .inspect(|_| {
+                                // The window was maximized by oniri, so it isn't shrunk anymore
+                                shrunk_windows.remove(&first_window);
+                            })
                             .unwrap_or_else(|error| {
                                 error!("{error:?}");
                             });
@@ -252,6 +270,11 @@ fn main() {
                                 first_window,
                                 edges_maximizing,
                             )
+                            .inspect(|_| {
+                                // The window has been shrunk by oniri itself,
+                                // see the shrunk_windows declaration for the rationale
+                                shrunk_windows.insert(first_window);
+                            })
                             .unwrap_or_else(|error| {
                                 error!("{error:?}");
                             });
@@ -266,19 +289,28 @@ fn main() {
                 {
                     // If there's one window left in the previous workspace, maximize it
                     // (unless we're running in "first-only" mode).
+                    // Only re-maximize windows previously shrunk by oniri (see shrunk_windows)
                     if !first_only
                         && let Some(old_windows) = workspace_windows.get(&old_ws)
                         && old_windows.len() == 1
                     {
                         let remaining = old_windows[0];
 
-                        if !size_compare::is_maximized(&state, &outputs, remaining, tol_h, tol_w) {
+                        if shrunk_windows.contains(&remaining)
+                            && !size_compare::is_maximized(
+                                &state, &outputs, remaining, tol_h, tol_w,
+                            )
+                        {
                             window::maximize_window(
                                 &mut action_socket,
                                 &state,
                                 remaining,
                                 edges_maximizing,
                             )
+                            .inspect(|_| {
+                                // The window was re-maximized by oniri, so it isn't shrunk anymore
+                                shrunk_windows.remove(&remaining);
+                            })
                             .unwrap_or_else(|error| {
                                 error!("{error:?}");
                             });
@@ -332,6 +364,11 @@ fn main() {
                                 last_window,
                                 edges_maximizing,
                             )
+                            .inspect(|_| {
+                                // The window has been shrunk by oniri itself,
+                                // see the shrunk_windows declaration for the rationale
+                                shrunk_windows.insert(last_window);
+                            })
                             .unwrap_or_else(|error| {
                                 error!("{error:?}");
                             });
@@ -353,6 +390,9 @@ fn main() {
 
                 // Update the workspace vector
                 windows.retain(|&wid| wid != id);
+
+                // The window is closed, stop tracking it as shrunk by oniri
+                shrunk_windows.remove(&id);
 
                 // If running in "reclaim-space" mode, nudge the focus to close any empty space
                 // left by the closed windows (if needed)
@@ -392,8 +432,15 @@ fn main() {
                 }
 
                 let id = windows[0];
-                if !size_compare::is_maximized(&state, &outputs, id, tol_h, tol_w) {
+                // Only re-maximize windows previously shrunk by oniri (see shrunk_windows)
+                if shrunk_windows.contains(&id)
+                    && !size_compare::is_maximized(&state, &outputs, id, tol_h, tol_w)
+                {
                     window::maximize_window(&mut action_socket, &state, id, edges_maximizing)
+                        .inspect(|_| {
+                            // The window was re-maximized by oniri, so it isn't shrunk anymore
+                            shrunk_windows.remove(&id);
+                        })
                         .unwrap_or_else(|error| {
                             error!("{error:?}");
                         });
