@@ -1,13 +1,5 @@
 [container]
-image = "docker.io/archlinux/archlinux@sha256:33586c0ae3def39b47d1fe0caa5b695cbbd4e6b49ce730983a8b49a23ad95934"
-
-[[package]]
-name = "ca-certificates-mozilla"
-version = "3.132-1"
-system = "archlinux"
-url = "https://archive.archlinux.org/packages/c/ca-certificates-mozilla/ca-certificates-mozilla-3.132-1-x86_64.pkg.tar.zst"
-sha256 = "d2305ed8c1426e018ad611cb6e7fa387c3cac0f2e7040401dae2f1f78e0867ab"
-signature = "iHUEABYKAB0WIQSDvIiJNRtd67toQW64rAhgDxCM3wUCatkxZwAKCRC4rAhgDxCM34+uAQC69NopRA5EZIl0SopCvuU8Frnias67aTiZtS843lg8DwEAvstNWhD/S6vu/ZDADLUyFORWz13RbolQJdNXcwpcAgA="
+image = "docker.io/archlinux/archlinux@sha256:c012199d5d54760078f77b62bf2b7ed15334c873e27cc9d45b13d1e8f6e1ee5c"
 
 [[package]]
 name = "compiler-rt"

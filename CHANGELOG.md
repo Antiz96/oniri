@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.10](https://github.com/Antiz96/oniri/releases/tag/v1.3.10) - 2026-10-25
+
+### Fixes
+
+- Store lockfile in runtime dir ([#137](https://github.com/Antiz96/oniri/pull/137)) - ([3cdf612](https://github.com/Antiz96/oniri/commit/3cdf6120c29e4e08b46fd8fb055f57436abab89b)) by @Antiz96
+
 ## [v1.3.9](https://github.com/Antiz96/oniri/releases/tag/v1.3.9) - 2026-10-22
 
 ### Fixes
