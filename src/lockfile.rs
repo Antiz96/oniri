@@ -7,19 +7,19 @@ use std::fs::{self, File, OpenOptions};
 use std::io::ErrorKind;
 
 pub fn acquire_lockfile() -> anyhow::Result<File> {
-    // Create oniri cachedir (if it doesn't exist)
-    let cachedir = dirs::cache_dir()
-        .context("Failed to determine the cache directory")?
+    let run_dir = dirs::runtime_dir()
+        .or_else(dirs::cache_dir)
+        .context("Failed to determine runtime directory")?
         .join("oniri");
 
-    fs::create_dir_all(&cachedir).with_context(|| {
+    fs::create_dir_all(&run_dir).with_context(|| {
         format!(
-            "Failed to create the {} cache directory",
-            cachedir.display()
+            "Failed to create the {} runtime directory",
+            run_dir.display()
         )
     })?;
 
-    let lockfile_path = cachedir.join("oniri.lock");
+    let lockfile_path = run_dir.join("oniri.lock");
 
     let lockfile = OpenOptions::new()
         .create(true)
